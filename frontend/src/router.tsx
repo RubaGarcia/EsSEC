@@ -9,8 +9,10 @@ import ProyectsGeneralView from './views/Proyects/ProjectsGeneralView'
 import ContactView from './views/ContactView'
 import ProductServiceView from './views/Services/ProductServiceView'
 import ManteinanceServiceView from './views/Services/ManteinanceServiceView'
-import JobsView from './views/JobsView'
+import JobsView from './views/Jobs/JobsView'
 import ProjectDetailView from './views/Proyects/ProjectDetailView'
+import JobDetailView from './views/Jobs/JobDetailView'
+import DKServiceView from './views/Services/DKServiceView'
 
 export default function Router() {
   return (
@@ -32,11 +34,13 @@ export default function Router() {
             <Route path="/services/improvement-plans" element={<div>improvement-plans</div>} />
 
             <Route path="/contact" element={<ContactView/>} />
-            <Route path="/digital-kit" element={<div>digital-kit</div>} />
+            <Route path="/digital-kit" element={<DKServiceView/>} />
             {/* TODO:Hacer custom también, debería de ser rapido */}
 
             <Route path="/jobs" element={<JobsView/>} />
             {/* TODO:hacer pagina de cada job en detalle */}
+
+            <Route path="/jobs/job" element={<JobDetailView/>} />
 
             </Route>
         </Routes>

@@ -30,62 +30,13 @@ export default function ProyectDetailView() {
                   <span className="mx-3  text-blue-600 font-sans">Auditoría</span>
                 </div>
 
-                <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
-                  <svg
-                    className="w-5 h-5 mx-3"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-
-                  <span className="mx-3">From US glasses dealers</span>
+                <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200 font-bold">
+                  Satisfacción: 
+                  <span className="mx-3  text-blue-600 font-sans">Muy alta</span>
                 </div>
 
-                <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
-                  <svg
-                    className="w-5 h-5 mx-3"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-
-                  <span className="mx-3">Payment Security</span>
-                </div>
-
-                <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
-                  <svg
-                    className="w-5 h-5 mx-3"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-
-                  <span className="mx-3">Fast shipping (+ Express)</span>
-                </div>
+                
+                
               </div>
             </div>
           </div>

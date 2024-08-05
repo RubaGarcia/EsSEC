@@ -180,27 +180,6 @@ export default function ServicesView() {
 
 
 
-
-{/* TODO:Ver que queda mejor, yo creo que mejor es la de arriba dado que es compacto, y asi se permite el mayor numero cosas en el otro lado */}
-
-      <section className="bg-white dark:bg-gray-900">
-        <div className="container px-6 py-10 mx-auto">
-          <h1 className="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
-            Que servicios ofrecemos
-          </h1>
-          {/* category, title, description, link 
-          TODO: Se puede hacer con una llamada a API
-          */}
-          <ServiceSmall
-            category={"auditorias"}
-            title="Auditorías por expertos"
-            description="Las mas mejores del mundo mundial"
-            link="/services/auditories"
-          />
-
-
-        </div>
-      </section>
     </>
   );
 }
