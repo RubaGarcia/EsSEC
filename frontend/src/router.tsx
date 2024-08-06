@@ -13,6 +13,7 @@ import JobsView from './views/Jobs/JobsView'
 import ProjectDetailView from './views/Proyects/ProjectDetailView'
 import JobDetailView from './views/Jobs/JobDetailView'
 import DKServiceView from './views/Services/DKServiceView'
+import ImprovementPlansView from './views/Services/ImprovementPlansView'
 
 export default function Router() {
   return (
@@ -31,14 +32,12 @@ export default function Router() {
             <Route path="/services/auditories" element={<AuditoryServiceView/>} />
             <Route path="/services/product" element={<ProductServiceView/>} />
             <Route path="/services/manteinance" element={<ManteinanceServiceView/>} />
-            <Route path="/services/improvement-plans" element={<div>improvement-plans</div>} />
+            <Route path="/services/improvement-plans" element={<ImprovementPlansView/>} />
 
             <Route path="/contact" element={<ContactView/>} />
             <Route path="/digital-kit" element={<DKServiceView/>} />
-            {/* TODO:Hacer custom también, debería de ser rapido */}
 
             <Route path="/jobs" element={<JobsView/>} />
-            {/* TODO:hacer pagina de cada job en detalle */}
 
             <Route path="/jobs/job" element={<JobDetailView/>} />
 
