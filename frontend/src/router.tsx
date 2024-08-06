@@ -23,8 +23,8 @@ export default function Router() {
             <Route path="/" element={<MainView/>} />
             <Route path="/resources" element={<ResourcesView/>} />
             <Route path="/projects" element={<ProyectsGeneralView/>} />
-            {/* TODO:Hacer una pag por cada proyecto */}
-            {/* TODO:Hacer una pagina de proyecto con todo como componentes, habrá que hacerla sin reutilizar nada*/}
+
+            
             <Route path="/projects/project" element={<ProjectDetailView/>} />
 
             
