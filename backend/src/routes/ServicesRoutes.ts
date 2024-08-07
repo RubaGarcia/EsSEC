@@ -1,30 +1,21 @@
 import { Router } from "express";
 
+import { ServicesController } from "../Controllers/ServicesController"
+
 
 
 const router = Router()
 
 
-router.get('/', (req, res) => {
-    res.send('Services General');
-});
+router.get('/', ServicesController.index);
 
-router.get('/auditories', (req, res) => {
-    res.send('Auditories');
-});
+router.get('/auditories', ServicesController.auditories);
 
-router.get('/products', (req, res) => {
-    res.send('Products');
-});
+router.get('/products', ServicesController.products);
 
-router.get('/manteinance', (req, res) => {
-    res.send('Manteinance');
-});
+router.get('/manteinance', ServicesController.manteinance);
 
-router.get('/improvement-plans', (req, res) => {
-    res.send('Improvement Plans');
-});
-
+router.get('/improvement-plans', ServicesController.improvementPlans);
 
 
 

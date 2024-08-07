@@ -1,22 +1,26 @@
 import { Router } from "express";
+import { JobsController } from "../Controllers/JobsController";
+import { body, param } from "express-validator";
+import { handleInputErrors } from "../middleware/validation";
 
+const router = Router();
 
+router.get("/", JobsController.getGeneral);
 
-const router = Router()
+router.get(
+  "/:JobId",
+  param("JobId").notEmpty().withMessage("JobId is required"),
+  handleInputErrors,
+  JobsController.getJob,
+);
 
-router.get('/', (req, res) => {
-    res.send('Job General')
-})
+router.post(
+  "/:JobId",
+  param("JobId").notEmpty().withMessage("JobId is required"),
+  body("email").isEmail().withMessage("Email is not valid"),
+  body("pdf").isURL().withMessage("PDF is not valid"),//FIXME: Check if this is the correct validation
+  handleInputErrors,
+  JobsController.obtainEmail,
+);
 
-router.get('/:JobId', (req, res) => {
-    res.send('Job with id ' + req.params.JobId)
-})
-
-
-router.post('/:jobId', (req, res) => {
-    //toma de parmetros por body el email y el CV
-    res.send('Job with id ' + req.params.jobId + ' updated')
-})
-
-
-export default router
+export default router;

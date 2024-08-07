@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { HomeController } from "../Controllers/HomeController";
 
 
 
@@ -7,9 +8,7 @@ const router = Router()
 
 router.get('/', 
     //TODO:Return data
-    (req, res) => {
-        res.send('get home')
-    })
+    HomeController.getGeneral)
 
 
 export default router

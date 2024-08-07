@@ -1,13 +1,11 @@
 import { Router } from "express";
+import { ResourcesController } from "../Controllers/ResourcesController";
 
 
 
 const router = Router()
 
 
-router.get('/',(req, res) => {
-    res.send('get resources')
-})
-
+router.get('/',ResourcesController.getGeneral)
 
 export default router

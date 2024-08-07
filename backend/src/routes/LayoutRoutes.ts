@@ -1,19 +1,21 @@
 import { Router } from "express";
+import { body } from "express-validator";
+import { handleInputErrors } from "../middleware/validation";
+import { LayoutController } from "../Controllers/LayoutController";
 
 const router = Router();
 
 router.get(
   "/",
   //TODO:Return data
-  (req, res) => {
-    res.send("get Layout(Header+Footer)");
-  },
+  LayoutController.getGeneral
 );
 
 router.post("/",
     //TODO:Add middleware  (Body:email)
-    (req, res) => {
-  res.send("Add notifications");
-});
+    body('email').isEmail().withMessage('Email is not valid'),
+    handleInputErrors,
+    LayoutController.postLayout
+  );
 
 export default router;
