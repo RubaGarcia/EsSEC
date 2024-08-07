@@ -7,7 +7,7 @@ export default function Header() {
     >
       <div className="container px-6 py-3 mx-auto md:flex">
         <div className="flex items-center justify-between">
-          <a href="#">
+          <a href="/">
             <img
               className="w-auto h-6 sm:h-7"
               src="https://merakiui.com/images/full-logo.svg"
