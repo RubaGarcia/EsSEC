@@ -20,7 +20,7 @@ export default function Router() {
     <BrowserRouter>
         <Routes>
             <Route element={<AppLayout />}>
-            <Route path="/" element={<MainView/>} />
+            <Route path="/home" element={<MainView/>} />
             <Route path="/resources" element={<ResourcesView/>} />
             <Route path="/projects" element={<ProyectsGeneralView/>} />
 
