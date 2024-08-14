@@ -5,7 +5,14 @@ import { getEntries } from "../contentful/contentfulAPI";
 
 export class JobsController{
     static getGeneral = async (req: Request, res: Response) => {
-        res.send('Job General');
+        try {
+            const entries = await getEntries("landingPage");
+            // const fields = entries.map((entry) => entry.fields)
+            const aux = entries.find((entry) => entry.fields.internalTitle === "jobs")
+            res.json(aux);
+          } catch (error) {
+            res.status(500).json({ error: error.message });
+          }
     };
 
     static getJob = async (req: Request, res: Response) => {
@@ -13,8 +20,9 @@ export class JobsController{
         try {
             const entries = await getEntries("job");
             // const fields = entries.map((entry) => entry.fields)
-            const aux = entries.find((entry) => entry.fields.internalTitle === "landingPage1")
-            res.json(entries);
+            //TODO:filter by the id element of the job, if the id is true return the job
+            const job = entries.find((entry) => entry.sys.id === req.params.JobId);
+            res.json(job.fields);
           } catch (error) {
             res.status(500).json({ error: error.message });
           }

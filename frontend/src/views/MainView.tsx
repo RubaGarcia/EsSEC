@@ -1,10 +1,40 @@
+import { useQuery } from "@tanstack/react-query";
 import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
+import { getPage } from "../api/HomeAPI";
 
 export default function MainView() {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["HomePage"],
+    queryFn: getPage,
+  });
+
+  console.log(data, isError, isLoading);
+
+  const elements = data?.fields.sections;
+
+  const characteristics = elements?.find(
+    (element: any) => element.fields.internalTitle === "characteristics",
+  );
+
+  const aux = characteristics?.fields.textBlurb.content[0].content;
+
+  const extractTexts = (content: any[]): string[] => {
+    let texts: string[] = [];
+    content.forEach((node: any) => {
+      if (node.nodeType === "text" && node.value) {
+        texts.push(node.value);
+      } else if (node.content) {
+        texts = texts.concat(extractTexts(node.content));
+      }
+    });
+    return texts;
+  };
+
+  const texts = aux ? extractTexts(aux) : [];
+
   return (
-    <> 
-      
+    <>
       <div className="container flex flex-col px-6 py-10 mx-auto space-y-6 lg:h-[32rem] lg:py-16 lg:flex-row lg:items-center">
         <div className="w-full lg:w-1/2">
           <div className="lg:max-w-lg">
@@ -12,81 +42,43 @@ export default function MainView() {
               Easiest way to create your website
             </h1>
 
-            <div className="mt-8 space-y-5">
-              <p className="flex items-center -mx-2 text-gray-700 dark:text-gray-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-2 text-blue-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            {texts.map((text: string, index: number) => (
+              <div className="mt-8 space-y-5" key={index}>
+                <p className="flex items-center -mx-2 text-gray-700 dark:text-gray-200">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 mx-2 text-blue-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span className="mx-2">{text}</span>
+                </p>
+              </div>
+            ))}
+
+            <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
+              <form className="flex flex-col lg:flex-row">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="flex-1 h-10 px-4 py-2 m-1 text-gray-700 placeholder-gray-400 bg-transparent border-none appearance-none dark:text-gray-200 focus:outline-none focus:placeholder-transparent focus:ring-0"
+                />
+                <button
+                  type="button"
+                  className="h-10 px-4 py-2 m-1 text-white transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-
-                <span className="mx-2">Clean and Simple Layout</span>
-              </p>
-
-              <p className="flex items-center -mx-2 text-gray-700 dark:text-gray-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-2 text-blue-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-
-                <span className="mx-2">Just Copy Paste Codeing</span>
-              </p>
-
-              <p className="flex items-center -mx-2 text-gray-700 dark:text-gray-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-2 text-blue-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-
-                <span className="mx-2">Easy to Use</span>
-              </p>
+                  Contact Us
+                </button>
+              </form>
             </div>
-          </div>
-
-          <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
-            <form className="flex flex-col lg:flex-row">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 h-10 px-4 py-2 m-1 text-gray-700 placeholder-gray-400 bg-transparent border-none appearance-none dark:text-gray-200 focus:outline-none focus:placeholder-transparent focus:ring-0"
-              />
-
-              <button
-                type="button"
-                className="h-10 px-4 py-2 m-1 text-white transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400"
-              >
-                Contact Us
-              </button>
-            </form>
           </div>
         </div>
 

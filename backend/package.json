@@ -11,8 +11,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/cors": "^2.8.17",
     "colors": "^1.4.0",
-    "contentful": "^10.13.2",
+    "contentful": "^10.3.7",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
