@@ -1,4 +1,4 @@
-import { client } from "../config/contentfulClient";
+import { deliveryClient as client } from "../config/contentfulClient";
 
 // Obtener un espacio
 export async function getSpace() {
