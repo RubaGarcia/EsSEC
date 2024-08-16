@@ -9,59 +9,47 @@ export const deliveryClient = createDeliveryClient({
 });
 
 // Cliente para gestionar contenido (Content Management API)
-// export const managementClient: ClientAPI = contentfulManagement.createClient({
-//   accessToken: "CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4", // Cambia esto por tu API key de Content Management
-// });
-
-// Cliente para gestionar contenido (Content Management API)
 export const managementClient: ClientAPI = createClient({
   accessToken: "CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4",
 });
 
 function generateID(): string {
-  return 'xxxxyxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
+  return "xxxxyxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
   });
 }
 
-
-async function AvailableEntryId() {
+//TODO: función para configurar los nombres internos, se la puede cambiar(estaba pensada para ids)
+export async function AvailableEntryId() {
   const space = await managementClient.getSpace("k9voop8uf94b");
   const environment = await space.getEnvironment("master");
   const entries = await environment.getEntries();
 
   let idFound = false;
-  let id = '';
+  let id = "";
 
-  // Seguimos generando un ID hasta que encontremos uno no usado
   while (!idFound) {
     id = generateID();
-    idFound = true; // Suponemos que el ID es válido hasta demostrar lo contrario
+    idFound = true;
 
-    // Usamos un bucle for...of para verificar si el ID ya existe
     for (const entry of entries.items) {
       if (entry.sys.id === id) {
-        idFound = false; // Si el ID existe, marcamos que no lo hemos encontrado aún
+        idFound = false;
         break;
       }
     }
   }
 
-  return id; // Retornamos un ID que no esté en uso
+  return id;
 }
-
-
-
-// Función para crear una nueva entrada en Contentful
+//FIXME: función de pruebas
 export async function createEntry() {
   try {
-
     const id = await AvailableEntryId();
     console.log("ID generado:", id);
     // AvailableEntryId();
-
-    
 
     // Obtener el espacio (aquí debes usar el cliente de Content Management API)
     const space = await managementClient.getSpace("k9voop8uf94b");
@@ -73,17 +61,17 @@ export async function createEntry() {
     const entry = await environment.createEntry("footer", {
       fields: {
         internalTitle: {
-          "en-US": "My Footer", // Título interno del footer
+          "en-US": "My Footer",
         },
         copyright: {
-          "en-US": "Copyright 2024 © All rights reserved", // Mensaje de copyright
+          "en-US": "Copyright 2024 © All rights reserved",
         },
         newlesterCartridge: {
           "en-US": {
             sys: {
               type: "Link",
               linkType: "Entry",
-              id: "2gsunsNsDDTpdGMkvv7EFD", // ID de la entrada vinculada
+              id: "2gsunsNsDDTpdGMkvv7EFD", // ID de la entrada de tipo 'newlesterCartridge'
             },
           },
         },
@@ -100,9 +88,6 @@ export async function createEntry() {
     console.error(error);
   }
 }
-
-
-
 
 export async function createPersonEntry({
   internalName,
@@ -122,22 +107,20 @@ export async function createPersonEntry({
   reviewEntryId?: string;
 }) {
   try {
-    // Obtener el espacio y entorno
     console.log("managementClient", managementClient);
     const space = await managementClient.getSpace("k9voop8uf94b");
     const environment = await space.getEnvironment("master");
 
-    // Crear una nueva entrada de tipo 'person'
-    const entry = await environment.createEntry('person', {
+    const entry = await environment.createEntry("person", {
       fields: {
         internalName: {
-          "en-US": internalName, // Nombre interno obligatorio
+          "en-US": internalName,
         },
         name: {
-          "en-US": fullName || "PlaceHolderName", // Nombre completo (opcional)
+          "en-US": fullName || "PlaceHolderName",
         },
         email: {
-          "en-US": email || "", // Email (opcional)
+          "en-US": email || "",
         },
         cv: cvAssetId
           ? {
@@ -145,7 +128,7 @@ export async function createPersonEntry({
                 sys: {
                   type: "Link",
                   linkType: "Asset",
-                  id: cvAssetId, // ID del asset del CV si se proporciona
+                  id: cvAssetId, //ID del asset, HAY QUE HACERLOS DE ABAJO A ARRIBA
                 },
               },
             }
@@ -156,7 +139,7 @@ export async function createPersonEntry({
                 sys: {
                   type: "Link",
                   linkType: "Entry",
-                  id: jobEntryId, // ID de la entrada del trabajo
+                  id: jobEntryId,
                 },
               },
             }
@@ -167,7 +150,7 @@ export async function createPersonEntry({
                 sys: {
                   type: "Link",
                   linkType: "Entry",
-                  id: imageEntryId, // ID de la entrada de la imagen
+                  id: imageEntryId,
                 },
               },
             }
@@ -178,7 +161,7 @@ export async function createPersonEntry({
                 sys: {
                   type: "Link",
                   linkType: "Entry",
-                  id: reviewEntryId, // ID de la entrada de la review
+                  id: reviewEntryId,
                 },
               },
             }
@@ -188,33 +171,11 @@ export async function createPersonEntry({
 
     console.log("Person entry created:", entry.sys.id);
 
-    // Publicar la entrada después de crearla
     const publishedEntry = await entry.publish();
     console.log("Person entry published:", publishedEntry.sys.id);
-    
-    // return publishedEntry.sys.id; // Retorna el ID de la entrada creada y publicada
+
+    return publishedEntry.sys.id;
   } catch (error) {
     console.error("Error creating person entry:", error);
   }
 }
-
-// Ejemplo de uso de la función para crear una persona
-// createPersonEntry({
-//   internalName: "John Doe Internal",
-//   fullName: "John Doe",
-//   email: "johndoe@example.com",
-//   cvAssetId: "cvAssetId123", // Opcional
-//   jobEntryId: "jobEntryId123", // Opcional
-//   imageEntryId: "imageEntryId123", // Opcional
-//   reviewEntryId: "reviewEntryId123", // Opcional
-// });
-
-
-
-
-
-
-
-
-
-

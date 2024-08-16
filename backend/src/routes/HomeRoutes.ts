@@ -31,7 +31,7 @@ router.post("/create",
 
  async (req, res) => {
   try {
-      await createPersonEntry({
+      const id = await createPersonEntry({
         internalName: "John Doe 4",
         fullName: "John Doe",
         email: "johndoe@example.com",
@@ -40,7 +40,7 @@ router.post("/create",
         // imageEntryId: "imageEntryId123", // Opcional
         // reviewEntryId: "reviewEntryId123", // Opcional
       })
-      res.send("Entry created")
+      res.send("Persona creada: "+id)
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
