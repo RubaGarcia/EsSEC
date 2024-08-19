@@ -4,10 +4,7 @@ import { getEntries } from "../contentful/contentfulAPI";
 export class ServicesController {
     static index= async (req: Request, res: Response)=> {
         try {
-            const entries = await getEntries("landingPage");
-            // const fields = entries.map((entry) => entry.fields)
-            const aux = entries.find((entry) => entry.fields.internalTitle === "ServicesPage")
-            res.json(aux);
+            res.json(await getEntries("landingPage","ServicesPage"));
           } catch (error) {
             res.status(500).json({ error: error.message });
           }
@@ -15,18 +12,36 @@ export class ServicesController {
     }
 
     static auditories= async (req: Request, res: Response)=> {
-        res.send('Auditories');
+        try {
+            res.json(await getEntries("landingPage", "auditories"));
+          } catch (error) {
+            res.status(500).json({ error: error.message });
+          }
+
     }
 
     static products= async (req: Request, res: Response)=> {
-        res.send('Products');
+        try {
+            res.json(await getEntries("landingPage", "productWebPage"));
+          } catch (error) {
+            res.status(500).json({ error: error.message });
+          }
+
     }
 
     static manteinance= async (req: Request, res: Response)=> {
-        res.send('Manteinance');
+        try {
+            res.json(await getEntries("landingPage", "manteinance"));
+          } catch (error) {
+            res.status(500).json({ error: error.message });
+          }
     }
 
     static improvementPlans= async (req: Request, res: Response)=> {
-        res.send('Improvement Plans');
+        try {
+            res.json(await getEntries("landingPage", "improvementPlans"));
+          } catch (error) {
+            res.status(500).json({ error: error.message });
+          }
     }
 }
