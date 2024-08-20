@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
+import { AvailableName, createPersonEntry } from "../config/contentfulClient";
 
 
 export class LayoutController {
@@ -23,7 +24,27 @@ export class LayoutController {
     };
 
     static postLayout = async (req: Request, res: Response) => {
-        res.send('Layout Post');
+        
+        
+            try {
+                
+                const id = await createPersonEntry({
+                //   internalName: "John Doe 5",,
+                  email: req.body.email,
+                  // cvAssetId: "cvAssetId123", // Opcional
+                  // jobEntryId: "jobEntryId123", // Opcional
+                  // imageEntryId: "imageEntryId123", // Opcional
+                  // reviewEntryId: "reviewEntryId123", // Opcional
+                })
+                res.send("Persona creada: "+id)
+            } catch (error) {
+              res.status(500).json({ error: error.message });
+            }
+          
+
+        // res.send('Layout Post');
     };
+    
+
     
 }
