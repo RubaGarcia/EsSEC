@@ -17,6 +17,7 @@ export async function getEntries(contentType: string, internalTitle?: string) {
   try {
     const entries = await client.getEntries({
       content_type: contentType,
+      include:10
     });
     let aux;
     internalTitle ? aux=entries.items.find((entry) => entry.fields.internalTitle === internalTitle): aux=entries.items;
