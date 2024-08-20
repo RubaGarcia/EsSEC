@@ -6,13 +6,22 @@ export async function getSpace() {
   console.log(space);
 }
 
-// Obtener entradas de una vista (content type)
-export async function getEntries(contentType: string) {
+/**
+ * Obtener las entradas de una vista, puede tomar como parametro opcional el internalTitle
+ * de la misma para devolver directamente la vista adecuada
+ * @param contentType El content-type 
+ * @param internalTitle El internalTitle de la vista
+ * @returns 
+ */
+export async function getEntries(contentType: string, internalTitle?: string) {
   try {
     const entries = await client.getEntries({
       content_type: contentType,
+      include:10
     });
-    return entries.items;
+    let aux;
+    internalTitle ? aux=entries.items.find((entry) => entry.fields.internalTitle === internalTitle): aux=entries.items;
+    return aux;
   } catch (error) {
     console.error("Error fetching entries:", error);
     throw error

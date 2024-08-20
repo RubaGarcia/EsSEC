@@ -3,32 +3,21 @@ import { getEntries } from "../contentful/contentfulAPI";
 
 export class ProjectsController {
   static getProjects = async (req: Request, res: Response) => {
-    // res.send('Projects General');
     try {
-      const entries = await getEntries("landingPage");
-      // const fields = entries.map((entry) => entry.fields)
-      const aux = entries.find(
-        (entry) => entry.fields.internalTitle === "ProjectsPage",
-      );
-
-      res.json(aux);
+      res.json(await getEntries("landingPage","ProjectsPage"));
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   };
 
   static getProjectById = async (req: Request, res: Response) => {
-    // res.send('Project with id ' + req.params.projectId);
+
     try {
-      const entries = await getEntries("landingPage");
+      const aux = await getEntries("landingPage", "ProjectsPage");
       // const fields = entries.map((entry) => entry.fields)
       // const aux = entries.find((entry) => entry.fields.internalTitle === "ProjectsPage")
       // const project = entries.find((entry) => entry.fields.sections.fields.Items.id === req.params.ProjectId);
       // res.json(project.fields);
-
-      const aux = entries.find(
-        (entry) => entry.fields.internalTitle === "ProjectsPage",
-      );
 
       if (!aux) {
         return res.status(404).json({ error: "ProjectsPage not found" });

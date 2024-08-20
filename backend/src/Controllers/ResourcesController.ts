@@ -5,10 +5,7 @@ export class ResourcesController {
 
     static getGeneral = async (req: Request, res: Response)=> {
         try {
-            const entries = await getEntries("landingPage");
-            // const fields = entries.map((entry) => entry.fields)
-            const aux = entries.find((entry) => entry.fields.internalTitle === "ResourcesPage")
-            res.json(aux);
+            res.json(await getEntries("landingPage","ResourcesPage"));
           } catch (error) {
             res.status(500).json({ error: error.message });
           }
