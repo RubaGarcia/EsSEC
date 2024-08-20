@@ -1,6 +1,8 @@
 import { createClient as createDeliveryClient } from "contentful";
 import contentfulManagement, { ClientAPI } from "contentful-management";
 import { createClient } from "contentful-management";
+import colors from "colors";
+import fs from "fs";
 
 // Cliente para leer contenido (Content Delivery API)
 export const deliveryClient = createDeliveryClient({
@@ -22,33 +24,51 @@ function generateID(): string {
 }
 
 //TODO: función para configurar los nombres internos, se la puede cambiar(estaba pensada para ids)
-export async function AvailableEntryId() {
+export async function AvailableName() {
   const space = await managementClient.getSpace("k9voop8uf94b");
   const environment = await space.getEnvironment("master");
   const entries = await environment.getEntries();
 
-  let idFound = false;
-  let id = "";
+  let nameFound = false;
+  let name = "";
 
-  while (!idFound) {
-    id = generateID();
-    idFound = true;
+  while (!nameFound) {
+    name = generateID();
+    nameFound = true;
 
     for (const entry of entries.items) {
-      if (entry.sys.id === id) {
-        idFound = false;
+      if (entry.fields.internalName === name) {
+        nameFound = false;
         break;
       }
     }
   }
-
-  return id;
+  console.log("Name generated:", name);
+  return name;
 }
+
+async function existingEmail(email: string) {
+  const space = await managementClient.getSpace("k9voop8uf94b");
+  const environment = await space.getEnvironment("master");
+  const entries = await environment.getEntries();
+
+  for (const entry of entries.items) {
+    if (entry.fields.email !== undefined) {
+      console.log("entry.fields.email", entry.fields.email[1]);
+      if (entry.fields.email["en-US"] === email) {
+        console.log(colors.bgRed("Email already exists"));
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 //FIXME: función de pruebas
 export async function createEntry() {
   try {
-    const id = await AvailableEntryId();
-    console.log("ID generado:", id);
+    // const id = await AvailableEntryId();
+    // console.log("ID generado:", id);
     // AvailableEntryId();
 
     // Obtener el espacio (aquí debes usar el cliente de Content Management API)
@@ -89,6 +109,63 @@ export async function createEntry() {
   }
 }
 
+// Función para crear un Asset
+export async function createAsset({
+  fileName,
+  fileContentType,
+  filePath,
+}: {
+  fileName: string;
+  fileContentType: string;
+  filePath: string;
+}) {
+  try {
+    const space = await managementClient.getSpace("k9voop8uf94b");
+    const environment = await space.getEnvironment("master");
+
+    const fileContent = fs.readFileSync(filePath);
+
+    const upload = await environment.createUpload({
+      file: fileContent,
+    });
+
+    console.log("Archivo subido:", upload.sys.id);
+
+    const asset = await environment.createAsset({
+      fields: {
+        title: {
+          "en-US": fileName,
+        },
+        file: {
+          "en-US": {
+            contentType: fileContentType,
+            fileName: fileName,
+            uploadFrom: {
+              sys: {
+                type: "Link",
+                linkType: "Upload",
+                id: upload.sys.id,
+              },
+            },
+          },
+        },
+        description: {},
+      },
+    });
+
+    console.log("Asset creado:", asset.sys.id);
+
+    const processedAsset = await asset.processForAllLocales();
+    const publishedAsset = await processedAsset.publish();
+    console.log("Asset publicado:", publishedAsset.sys.id);
+
+    return publishedAsset.sys.id;
+  } catch (error) {
+    console.error("Error creando asset:", error);
+    throw new Error("Error al crear el asset");
+  }
+}
+
 export async function createPersonEntry({
   internalName,
   fullName,
@@ -98,8 +175,8 @@ export async function createPersonEntry({
   imageEntryId,
   reviewEntryId,
 }: {
-  internalName: string;
-  fullName: string;
+  internalName?: string;
+  fullName?: string;
   email: string;
   cvAssetId?: string;
   jobEntryId?: string;
@@ -111,16 +188,20 @@ export async function createPersonEntry({
     const space = await managementClient.getSpace("k9voop8uf94b");
     const environment = await space.getEnvironment("master");
 
+    if (await existingEmail(email)) {
+      throw new Error("Email already exists");
+    }
+
     const entry = await environment.createEntry("person", {
       fields: {
         internalName: {
-          "en-US": internalName,
+          "en-US": internalName || (await AvailableName()),
         },
         name: {
           "en-US": fullName || "PlaceHolderName",
         },
         email: {
-          "en-US": email || "",
+          "en-US": email,
         },
         cv: cvAssetId
           ? {
@@ -128,7 +209,7 @@ export async function createPersonEntry({
                 sys: {
                   type: "Link",
                   linkType: "Asset",
-                  id: cvAssetId, //ID del asset, HAY QUE HACERLOS DE ABAJO A ARRIBA
+                  id: cvAssetId,
                 },
               },
             }
@@ -177,5 +258,6 @@ export async function createPersonEntry({
     return publishedEntry.sys.id;
   } catch (error) {
     console.error("Error creating person entry:", error);
+    throw error;
   }
 }
