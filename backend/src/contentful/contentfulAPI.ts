@@ -19,7 +19,7 @@ export async function getEntries(contentType: string, internalTitle?: string) {
       content_type: contentType,
     });
     let aux;
-    internalTitle ? aux=entries.items.find((entry) => entry.fields.internalTitle === "ServicesPage"): aux=entries.items;
+    internalTitle ? aux=entries.items.find((entry) => entry.fields.internalTitle === internalTitle): aux=entries.items;
     return aux;
   } catch (error) {
     console.error("Error fetching entries:", error);

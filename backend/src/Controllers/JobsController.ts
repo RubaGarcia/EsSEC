@@ -6,10 +6,7 @@ import { getEntries } from "../contentful/contentfulAPI";
 export class JobsController{
     static getGeneral = async (req: Request, res: Response) => {
         try {
-            const entries = await getEntries("landingPage");
-            // const fields = entries.map((entry) => entry.fields)
-            const aux = entries.find((entry) => entry.fields.internalTitle === "jobs")
-            res.json(aux);
+            res.json(await getEntries("landingPage","jobs"));
           } catch (error) {
             res.status(500).json({ error: error.message });
           }

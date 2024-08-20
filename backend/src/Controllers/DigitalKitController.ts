@@ -5,10 +5,7 @@ export class DigitalKitController {
 
     static getGeneral=async(req: Request, res: Response) => {
         try {
-            const entries = await getEntries("landingPage");
-            // const fields = entries.map((entry) => entry.fields)
-            const aux = entries.find((entry) => entry.fields.internalTitle === "DigitalKit")
-            res.json(aux);
+            res.json(await getEntries("landingPage", "DigitalKit"));
           } catch (error) {
             res.status(500).json({ error: error.message });
           }
