@@ -89,7 +89,7 @@ export interface ApiRequest {
     id: string;
   }
   
-  interface Entry<T> {
+  export interface Entry<T> {
     metadata: {
       tags: Array<any>;
     };

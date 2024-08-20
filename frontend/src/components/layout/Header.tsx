@@ -1,5 +1,8 @@
+import catchElements from "../../helpers/elementRetainer"
 
 export default function Header() {
+  const headerInfo= catchElements().headerObject;
+  // console.log(JSON.stringify(headerInfo))
   return (
     <nav
       x-data="{ isOpen: false }"
@@ -63,19 +66,19 @@ export default function Header() {
               href="#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              Home
+              {headerInfo?.fields.navigation.fields.items[0].fields.label}
             </a>
             <a
               href="#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              About
+              {headerInfo?.fields.navigation.fields.items[1].fields.label}
             </a>
             <a
               href="#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              Contact
+              {headerInfo?.fields.navigation.fields.items[2].fields.label}
             </a>
           </div>
 
