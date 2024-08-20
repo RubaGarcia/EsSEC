@@ -1,7 +1,7 @@
-import catchElements from "../../helpers/elementRetainer"
+// import catchElements from "../../helpers/elementRetainer"
 
 export default function Footer() {
-  const footerInfo= catchElements().footerObject; // No se le da funcionalidad porque queremos un footer fijo
+  // const footerInfo= catchElements().footerObject; // No se le da funcionalidad porque queremos un footer fijo
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">

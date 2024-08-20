@@ -12,15 +12,13 @@ export default function catchElements(){
     
   let localHeader= sessionStorage.getItem('Header');
   let localFooter= sessionStorage.getItem('Footer');
-  // console.log('Local header is ' + localHeader);
-  // console.log('Local Footer is ' + localFooter);
+
 
   if( localHeader === null || localFooter === null){
     const { data, error, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
       queryKey: ["elements"],
       queryFn: getElements,
     })
-    // console.log(data, error, isLoading)
     if (isLoading) return {
       loaded: isLoading,
       scriptError: error,
@@ -29,24 +27,18 @@ export default function catchElements(){
     }
 
     const response = data;
-    // console.log('data recieved\n'+ response)
     
     headerObject= response!.fields.header;
     footerObject= response!.fields.footer;
     
-    const headerString= sessionStorage.setItem('Header', JSON.stringify(headerObject));
-    const footerString= sessionStorage.setItem('Footer', JSON.stringify(footerObject));
-
-    // console.log(headerString)
-    // console.log(footerString)
-    // console.log('The data is the following:\n'+ JSON.stringify(data));
+    sessionStorage.setItem('Header', JSON.stringify(headerObject));
+    sessionStorage.setItem('Footer', JSON.stringify(footerObject));
     
 
   } else{
     headerObject=JSON.parse(localHeader);
     footerObject=JSON.parse(localFooter);
     loaded=true;
-    //console.log('Datos de footer y header recogidos de la sesion')
   }
   return {
     loaded: loaded,
