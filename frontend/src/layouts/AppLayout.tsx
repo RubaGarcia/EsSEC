@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
-import { getElements } from "../api/LayoutAPI";
-import { useMutation, useQuery } from "@tanstack/react-query";
+
+
 
 
 
@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 export default function AppLayout() {
 
 
+<<<<<<< HEAD
   // let localHeader= sessionStorage.getItem('Header');
   // let localFooter= sessionStorage.getItem('Footer');
   // console.log(localHeader)
@@ -37,6 +38,8 @@ export default function AppLayout() {
 
 
   
+=======
+>>>>>>> 664512b65c13970550148c1c9545a2283ba3b29b
   return (
     <>
       <Header />
