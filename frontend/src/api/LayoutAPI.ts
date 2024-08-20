@@ -4,8 +4,8 @@ import { isAxiosError } from "axios";
 
 export async function getElements(){
     try {
-        const response = await api.get('/');
-        console.log(response.data);
+        const response = await api.get('/home');
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error)&& error.response) {
