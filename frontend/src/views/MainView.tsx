@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
+import { PersonFieldsReview } from "../types";
 
 export default function MainView() {
   const { data, isError, isLoading } = useQuery({
@@ -34,6 +35,47 @@ export default function MainView() {
   };
 
   const texts = aux ? extractTexts(aux) : [];
+
+  interface JsonData {
+    fields?: {
+      sections?: Array<{
+        fields?: {
+          items?: Array<{
+            fields?: {
+              type?: string;
+            };
+          }>;
+        };
+      }>;
+    };
+  }
+  
+  function PortfolioFields(data: JsonData): string[] {
+    const types: string[] = [];
+  
+    // Verifica si la estructura existe
+    if (
+      data.fields?.sections &&
+      data.fields.sections.length > 1 &&
+      data.fields.sections[1].fields?.items
+    ) {
+      const items = data.fields.sections[1].fields.items;
+      
+      // Recorre cada elemento en items y extrae el campo 'type'
+      for (const item of items) {
+        const type = item.fields?.type;
+        if (type) {
+          types.push(type);
+        }
+      }
+    }
+  
+    return types;
+  }
+
+  console.log(PortfolioFields(data));
+
+ const reviewer:PersonFieldsReview = data?.fields.sections[2].fields.items[0];
 
   return (
     <>
@@ -92,8 +134,15 @@ export default function MainView() {
           />
         </div>
       </div>
-      <PortfolioDisplay />
-      <ReviewSlider />
+      <PortfolioDisplay 
+        fields={PortfolioFields(data)} 
+        elements={data?.fields.sections[1].fields.items}
+      />
+      <ReviewSlider 
+        reviewer={reviewer}
+      />
     </>
   );
 }
+
+
