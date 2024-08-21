@@ -1,5 +1,5 @@
 import { createClient as createDeliveryClient } from "contentful";
-import contentfulManagement, { ClientAPI } from "contentful-management";
+import { ClientAPI } from "contentful-management";
 import { createClient } from "contentful-management";
 import colors from "colors";
 import fs from "fs";
@@ -260,4 +260,9 @@ export async function createPersonEntry({
     console.error("Error creating person entry:", error);
     throw error;
   }
+}
+
+export async function retrieveAsset(asset_id:string){
+  const asset = deliveryClient.getAsset(asset_id)
+  .then((asset) => console.log(asset.fields.file.url))
 }
