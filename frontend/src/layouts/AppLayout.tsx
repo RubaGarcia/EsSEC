@@ -10,7 +10,6 @@ import Header from "../components/layout/Header";
 export default function AppLayout() {
 
 
-<<<<<<< HEAD
   // let localHeader= sessionStorage.getItem('Header');
   // let localFooter= sessionStorage.getItem('Footer');
   // console.log(localHeader)
@@ -38,8 +37,6 @@ export default function AppLayout() {
 
 
   
-=======
->>>>>>> 664512b65c13970550148c1c9545a2283ba3b29b
   return (
     <>
       <Header />

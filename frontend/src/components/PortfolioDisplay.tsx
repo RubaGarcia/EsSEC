@@ -10,13 +10,13 @@ export default function PortfolioDisplay({
   fields,
   elements,
 }: PortfolioDisplayProps) {
-  // Usamos useState para gestionar el tipo seleccionado
+
   const [typeShowing, setTypeShowing] = useState<string>(fields[0]);
 
   function portFolioElements(
     type: string,
   ): Omit<PortfolioFieldElement, "body">[] {
-    // Filtramos y mapeamos los elementos para el tipo seleccionado
+
     let list = elements
       .filter((element) => element.fields.type === type)
       .map((element) => {
@@ -31,17 +31,15 @@ export default function PortfolioDisplay({
     return list;
   }
 
-  // useMemo para memoizar la lista filtrada
   const list = useMemo(() => portFolioElements(typeShowing), [typeShowing]);
 
-  // Manejador de click para cambiar el tipo mostrado
   function handleClick(
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     type: string,
   ): void {
     e.preventDefault();
     // console.log(type);
-    setTypeShowing(type); // Actualiza el estado del tipo mostrado
+    setTypeShowing(type); 
   }
 
   // console.log(list);
@@ -65,7 +63,7 @@ export default function PortfolioDisplay({
                   <a
                     key={type}
                     className="block text-gray-500 dark:text-blue-600 hover:underline"
-                    onClick={(e) => handleClick(e, type)} // Cambiamos el tipo mostrado al hacer clic
+                    onClick={(e) => handleClick(e, type)} 
                   >
                     {type}
                   </a>

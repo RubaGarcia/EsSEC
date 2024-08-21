@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
-import { PersonFieldsReview } from "../types";
+import { PersonFieldsReview, PersonReview } from "../types";
 
 export default function MainView() {
   const { data, isError, isLoading } = useQuery({
@@ -75,7 +75,11 @@ export default function MainView() {
 
   console.log(PortfolioFields(data));
 
- const reviewer:PersonFieldsReview = data?.fields.sections[2].fields.items[0];
+ const reviewer:PersonReview = data?.fields.sections[2].fields.items[0];
+
+  let listReview = data?.fields.sections[2].fields.items;
+  listReview.push(reviewer);
+  console.log(listReview);
 
   return (
     <>
@@ -138,8 +142,9 @@ export default function MainView() {
         fields={PortfolioFields(data)} 
         elements={data?.fields.sections[1].fields.items}
       />
+      {console.log('*********',reviewer)}
       <ReviewSlider 
-        reviewer={reviewer}
+        reviewer={listReview}
       />
     </>
   );
