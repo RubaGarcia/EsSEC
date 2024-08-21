@@ -1,5 +1,8 @@
+import catchElements from "../../helpers/elementRetainer"
 
 export default function Header() {
+  const headerInfo= catchElements().headerObject;
+  // console.log(JSON.stringify(headerInfo))
   return (
     <nav
       x-data="{ isOpen: false }"
@@ -29,11 +32,11 @@ export default function Header() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M4 8h16M4 16h16"
                 />
               </svg>
@@ -45,11 +48,11 @@ export default function Header() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
@@ -63,19 +66,19 @@ export default function Header() {
               href="#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              Home
+              {headerInfo?.fields.navigation.fields.items[0].fields.label}
             </a>
             <a
               href="#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              About
+              {headerInfo?.fields.navigation.fields.items[1].fields.label}
             </a>
             <a
               href="#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              Contact
+              {headerInfo?.fields.navigation.fields.items[2].fields.label}
             </a>
           </div>
 
@@ -89,9 +92,9 @@ export default function Header() {
                 <path
                   d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></path>
               </svg>
             </span>
