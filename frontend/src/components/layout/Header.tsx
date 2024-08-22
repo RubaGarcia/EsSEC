@@ -1,15 +1,36 @@
-import {catchElements} from "../../helpers/elementRetainer"
+import { useQuery } from "@tanstack/react-query";
+import type { ApiRequest, FooterFields, HeaderFields, Entry } from "../../types";
+import { getElements } from "../../api/LayoutAPI";
 
 export default function Header() {
-  // FIXME: navlist puede quedar vacío porque el elemento asignado no es esperado correctamente 
-  // const headerInfo= catchElements().headerObject;
-  // let finished=false;
-  // let headerInfo;
-  // while(!finished){
-  //   const {loaded,scriptError,headerObject,footerObject,error}= catchElements();
-  //   finished=loaded;
-  //   headerInfo= headerObject;
-  // }
+  
+  let headerObject: Entry<HeaderFields>;
+  let footerObject: Entry<FooterFields>; 
+    
+  let localHeader= sessionStorage.getItem('Header');
+  let localFooter= sessionStorage.getItem('Footer');
+
+
+  if( localHeader === null || localFooter === null){
+    const { data, error, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
+      queryKey: ["elements"],
+      queryFn: getElements,
+    })
+
+    if (isLoading) return <p>Loading...</p>
+
+    headerObject= data!.fields.header;
+    // footerObject= data!.fields.footer;
+    
+    sessionStorage.setItem('Header', JSON.stringify(headerObject));
+    // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
+    
+
+  } else{
+    headerObject=JSON.parse(localHeader);
+    // footerObject=JSON.parse(localFooter);
+  }
+
   
   //console.log(JSON.stringify(headerInfo));
   //const navList= headerInfo?.fields.navigation.fields.items;
