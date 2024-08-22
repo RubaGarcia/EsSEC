@@ -24,7 +24,7 @@ export default function Router() {
           <Route path="/resources" element={<ResourcesView />} />
           <Route path="/projects" element={<ProyectsGeneralView />} />
 
-          <Route path="/projects/project" element={<ProjectDetailView />} />
+          <Route path="/projects/:projectId" element={<ProjectDetailView />} />
 
           <Route path="/services" element={<ServicesView />} />
           <Route

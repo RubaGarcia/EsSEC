@@ -20,7 +20,7 @@ router.get(
 
 router.get("/spaces", async (req, res) => {
   try {
-    const entries = await getEntries("person");
+    const entries = await getEntries("valueProposition");
     res.json(entries.map((entry) => entry.fields));
   } catch (error) {
     res.status(500).json({ error: error.message });

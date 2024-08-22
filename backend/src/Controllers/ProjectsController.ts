@@ -19,26 +19,23 @@ export class ProjectsController {
       // const project = entries.find((entry) => entry.fields.sections.fields.Items.id === req.params.ProjectId);
       // res.json(project.fields);
 
+      // console.log(aux);
+
+
       if (!aux) {
         return res.status(404).json({ error: "ProjectsPage not found" });
       }
 
       // Aseguramos que aux.fields.sections es un array
-      const sections = aux.fields.sections as Array<{
-        fields: {
-            Items: Array<{
-                sys: {
-                    id: string;
-                };
-            }>;
-        };
-    }>;
+      const sections = aux.fields.sections[0].fields.items
 
+      // console.log(req.params.projectId);
+
+      // console.log(sections);
     // Iteramos sobre las secciones para encontrar el ID del proyecto
-    const project = sections.find((section) => 
-        section.fields.Items.some((item) => item.sys.id === req.params.projectId)
-    );
-
+    const project = sections.find((section) => section.sys.id === req.params.projectId)
+    
+      // console.log(project);
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }

@@ -142,7 +142,7 @@ export default function MainView() {
         fields={PortfolioFields(data)} 
         elements={data?.fields.sections[1].fields.items}
       />
-      {console.log('*********',reviewer)}
+      {/* {console.log('*********',reviewer)} */}
       <ReviewSlider 
         reviewer={listReview}
       />
