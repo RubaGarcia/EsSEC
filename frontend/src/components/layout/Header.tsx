@@ -32,8 +32,9 @@ export default function Header() {
   }
 
   
-  //console.log(JSON.stringify(headerInfo));
-  //const navList= headerInfo?.fields.navigation.fields.items;
+  console.log(JSON.stringify(headerObject));
+  const navList= headerObject.fields.navigation.fields.items;
+
   return (
     <nav
       x-data="{ isOpen: false }"
@@ -95,22 +96,22 @@ export default function Header() {
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
             
             <a
-              href=/*{navList![0].fields.url} */"#"
+              href={navList[0].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {/* {navList[0].fields.label} */}Home
+              {navList[0].fields.label}
             </a>
             <a
-              href=/* {navList![1].fields.url} */"#"
+              href={navList[1].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {/* {navList[1].fields.label} */}About
+              {navList[1].fields.label}
             </a>
             <a
-              href=/* {navList![2].fields.url} */"#"
+              href={navList[2].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {/* {navList[2].fields.label} */}Contact
+              {navList[2].fields.label}
             </a>
           </div>
 
