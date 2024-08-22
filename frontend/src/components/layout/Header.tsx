@@ -1,8 +1,18 @@
-import catchElements from "../../helpers/elementRetainer"
+import {catchElements} from "../../helpers/elementRetainer"
 
 export default function Header() {
-  const headerInfo= catchElements().headerObject;
-  // console.log(JSON.stringify(headerInfo))
+  // FIXME: navlist puede quedar vacío porque el elemento asignado no es esperado correctamente 
+  // const headerInfo= catchElements().headerObject;
+  // let finished=false;
+  // let headerInfo;
+  // while(!finished){
+  //   const {loaded,scriptError,headerObject,footerObject,error}= catchElements();
+  //   finished=loaded;
+  //   headerInfo= headerObject;
+  // }
+  
+  //console.log(JSON.stringify(headerInfo));
+  //const navList= headerInfo?.fields.navigation.fields.items;
   return (
     <nav
       x-data="{ isOpen: false }"
@@ -62,23 +72,24 @@ export default function Header() {
 
         <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
+            
             <a
-              href="#"
+              href=/*{navList![0].fields.url} */"#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {headerInfo?.fields.navigation.fields.items[0].fields.label}
+              {/* {navList[0].fields.label} */}Home
             </a>
             <a
-              href="#"
+              href=/* {navList![1].fields.url} */"#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {headerInfo?.fields.navigation.fields.items[1].fields.label}
+              {/* {navList[1].fields.label} */}About
             </a>
             <a
-              href="#"
+              href=/* {navList![2].fields.url} */"#"
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {headerInfo?.fields.navigation.fields.items[2].fields.label}
+              {/* {navList[2].fields.label} */}Contact
             </a>
           </div>
 

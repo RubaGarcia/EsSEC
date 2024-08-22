@@ -89,7 +89,7 @@ interface Link<T> {
   id: string;
 }
 
-interface Entry<T> {
+export interface Entry<T> {
   metadata: {
     tags: Array<any>;
   };
@@ -148,6 +148,7 @@ interface NavigationFields {
 interface NavigationItemFields {
   internalTitle: string;
   label: string;
+  url?: string
 }
 
 interface Space {}
