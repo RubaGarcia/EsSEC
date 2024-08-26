@@ -25,7 +25,7 @@ export default function JobDetailView() {
   console.log(data);
 
   function handleFileSelection(selectedFiles: File[]) {
-    setFiles(selectedFiles); // Guardamos los archivos seleccionados
+    setFiles(selectedFiles);
   }
 
   const { mutate } = useMutation({
@@ -53,28 +53,10 @@ export default function JobDetailView() {
 
     mutate({ formData, jobId: "job" });
 
-    // console.log("Email:", email);
-    // console.log("Files:", files);
-    // console.log("FormData:", formData);
-
-    // try {
-    //   const response = await fetch("https://mi-backend.com/upload", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-
-    //   if (response.ok) {
-    //     alert("Email y archivos subidos con éxito");
-    //   } else {
-    //     alert("Error al subir el email y archivos");
-    //   }
-    // } catch (error) {
-    //   console.error("Error al enviar los datos:", error);
-    //   alert("Ocurrió un error al enviar los datos");
-    // }
+   
   }
 
-  const paragraphs = text.split("\n").filter((p) => p.trim() !== "");
+  // const paragraphs = text.split("\n").filter((p) => p.trim() !== "");
 
   return (
     <>

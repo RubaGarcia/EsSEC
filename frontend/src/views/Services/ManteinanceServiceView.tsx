@@ -20,7 +20,7 @@ export default function ManteinanceServiceView() {
   };
 
 
-  let testimonials:PersonFieldsReview[] = []
+  const testimonials:PersonFieldsReview[] = []
 
   const reviews = data.fields.sections[1].fields.items
 

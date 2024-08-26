@@ -79,7 +79,7 @@ export default function MainView() {
 
  const reviewer:PersonReview = data?.fields.sections[2].fields.items[0];
 
-  let listReview = data?.fields.sections[2].fields.items;
+  const listReview = data?.fields.sections[2].fields.items;
   
   listReview.push(reviewer);
   //console.log(listReview);

@@ -29,7 +29,7 @@ export default function Hero({ hero }: HeroProps) {
             </p>
           )}
 
-          <div className="flex flex-col mt-6 space-y-3 lg:space-y-0 lg:flex-row">
+          {/* <div className="flex flex-col mt-6 space-y-3 lg:space-y-0 lg:flex-row">
             <a
               href="#"
               className="block px-5 py-2 text-sm font-medium tracking-wider text-center text-white transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700"
@@ -42,7 +42,7 @@ export default function Hero({ hero }: HeroProps) {
             >
               Learn More
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 

@@ -8,10 +8,10 @@ export function catchElements(){
   let headerObject: Entry<HeaderFields> | null = null;
   let footerObject: Entry<FooterFields> | null = null;
   let loaded: boolean = false; 
-  let scriptError: null | Error= null;
+  const scriptError: null | Error= null;
     
-  let localHeader= sessionStorage.getItem('Header');
-  let localFooter= sessionStorage.getItem('Footer');
+  const localHeader= sessionStorage.getItem('Header');
+  const localFooter= sessionStorage.getItem('Footer');
 
 
   if( localHeader === null || localFooter === null){

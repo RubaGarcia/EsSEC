@@ -14,7 +14,7 @@ export default function ServicesView() {
 
   //   console.log(data.fields.sections[0].fields.items)
   if (isLoading || isError) return <p>Loading...</p>;
-  let elements: servicePreviewFields[] = [];
+  const elements: servicePreviewFields[] = [];
   data.fields.sections[0].fields.items.forEach((item: servicePreview) => {
     // console.log(item.fields.title);
     const element: servicePreviewFields = {
@@ -60,9 +60,9 @@ export default function ServicesView() {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </span>

@@ -9,24 +9,21 @@ type TestimonialProps = {
 export default function TestimonialComplete({
   personReviews,
 }: TestimonialProps) {
-  const [currentIndex, setCurrentIndex] = useState(0); // Estado para el índice actual del carrusel
-  const itemsPerPage = 3; // Número de reseñas que se mostrarán por página
+  const [currentIndex, setCurrentIndex] = useState(0); 
+  const itemsPerPage = 3; 
 
-  // Función para manejar el desplazamiento a la izquierda
   const handlePrevClick = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? personReviews.length - itemsPerPage : prevIndex - itemsPerPage
+      prevIndex === 0 ? personReviews.length - itemsPerPage : prevIndex - 1
     );
   };
 
-  // Función para manejar el desplazamiento a la derecha
   const handleNextClick = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex + itemsPerPage >= personReviews.length ? 0 : prevIndex + itemsPerPage
+      prevIndex + itemsPerPage >= personReviews.length ? 0 : prevIndex + 1
     );
   };
 
-  // Calcular las reseñas a mostrar según el índice actual
   const currentReviews = personReviews.slice(
     currentIndex,
     currentIndex + itemsPerPage

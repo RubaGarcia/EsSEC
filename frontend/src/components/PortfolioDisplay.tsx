@@ -17,7 +17,7 @@ export default function PortfolioDisplay({
     type: string,
   ): Omit<PortfolioFieldElement, "body">[] {
 
-    let list = elements
+    const list = elements
       .filter((element) => element.fields.type === type)
       .map((element) => {
         return {
