@@ -2,25 +2,30 @@ import { useQuery } from "@tanstack/react-query";
 import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
-import { PersonFieldsReview, PersonReview } from "../types";
+import {PersonFields, ValueProposition, Cartridge } from "../types";
+import type { ApiRequest, Entry, Blurb } from "../types";
 
 export default function MainView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data/* ,error */, isLoading } :  {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
     queryKey: ["HomePage"],
     queryFn: getPage,
   });
 
   if (isLoading) return <p>Loading...</p>
 
-  console.log(data, isError, isLoading);
-
   const elements = data?.fields.sections;
+ 
+    const characteristics = elements?.find(
+      (element : Entry<Cartridge> | Entry<Blurb> ) => element.fields.internalTitle === "characteristics",
+    );
+    console.log(JSON.stringify(characteristics))
+  
 
-  const characteristics = elements?.find(
-    (element: any) => element.fields.internalTitle === "characteristics",
-  );
+      const aux = characteristics as Entry<Blurb>
+    
 
-  const aux = characteristics?.fields.textBlurb.content[0].content;
+  
+  
 
   const extractTexts = (content: any[]): string[] => {
     let texts: string[] = [];
@@ -34,32 +39,33 @@ export default function MainView() {
     return texts;
   };
 
-  const texts = aux ? extractTexts(aux) : [];
-
-  interface JsonData {
+  const texts = aux ? extractTexts(aux.fields.list) : [];
+/*    interface JsonData {
     fields?: {
       sections?: Array<{
         fields?: {
           items?: Array<{
+            sys?: sys
             fields?: {
               type?: string;
+              name?: string;
+              icon?: any
             };
-          }>;
+          } | Blurb>;
+          
         };
       }>;
     };
-  }
+  } */
+
+  const valuePropList: Entry<Cartridge>= data?.fields.sections[1] as Entry<Cartridge>
+ 
   
-  function PortfolioFields(data: JsonData): string[] {
+  function PortfolioFields(): string[] {
     const types: string[] = [];
-  
-    // Verifica si la estructura existe
-    if (
-      data.fields?.sections &&
-      data.fields.sections.length > 1 &&
-      data.fields.sections[1].fields?.items
-    ) {
-      const items = data.fields.sections[1].fields.items;
+
+
+      const items : Entry<ValueProposition>[] = valuePropList.fields.items as Entry<ValueProposition>[];
       
       // Recorre cada elemento en items y extrae el campo 'type'
       for (const item of items) {
@@ -68,20 +74,34 @@ export default function MainView() {
           types.push(type);
         }
       }
-    }
   
     return types;
   }
 
   
 
-  //console.log(PortfolioFields(data));
+  const personList: Entry<Cartridge>= data?.fields.sections[2]  as Entry<Cartridge>
 
- const reviewer:PersonReview = data?.fields.sections[2].fields.items[0];
+  const reviewer: Entry<PersonFields> = personList.fields.items[0] as Entry<PersonFields> ;
 
-  let listReview = data?.fields.sections[2].fields.items;
+
+  let listReview: Entry <PersonFields>[] = personList.fields?.items as Entry<PersonFields>[];
+  const hero: Entry<Cartridge>= data?.fields.sections[0] as Entry<Cartridge>;
+  const heroValueProp: Entry<ValueProposition>= hero?.fields.items[0] as  Entry<ValueProposition>;
+  const heroImgUrl= heroValueProp.fields.icon?.fields.asset.fields.file.url;
+  //console.log(data)
+
+  //let portFolioElements  = []; // inicializado como array vacío
+
+
+  const portFolioElements  : Entry<ValueProposition>[] = valuePropList.fields?.items as Entry<ValueProposition>[] ?? [];
+
+
+  reviewer && listReview?.push(reviewer);
+
+
   
-  listReview.push(reviewer);
+  
   //console.log(listReview);
 
   return (
@@ -116,7 +136,10 @@ export default function MainView() {
             ))}
 
             <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
-              <form className="flex flex-col lg:flex-row">
+              <form 
+              className="flex flex-col lg:flex-row"
+              //onSubmit=
+              >
                 <input
                   type="email"
                   placeholder="Enter your email address"
@@ -136,16 +159,18 @@ export default function MainView() {
         <div className="flex items-center justify-center w-full h-96 lg:w-1/2">
           <img
             className="object-cover w-full h-full mx-auto rounded-md lg:max-w-2xl"
-            src=/*FIXME: Necesario método que verifique la estructura {data.fields.sections[0].items[0].icon.asset.id} */"https://images.unsplash.com/photo-1543269664-7eef42226a21?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+            src={heroImgUrl}//"https://images.unsplash.com/photo-1543269664-7eef42226a21?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
             alt="glasses photo"
           />
         </div>
       </div>
+      
       <PortfolioDisplay 
-        fields={PortfolioFields(data)} 
-        elements={data?.fields.sections[1].fields.items}
+        fields={PortfolioFields()} 
+        elements={portFolioElements ? portFolioElements : []}
       />
-      {console.log('*********',reviewer)}
+
+
       <ReviewSlider 
         reviewer={listReview}
       />

@@ -1,6 +1,5 @@
 import { createClient as createDeliveryClient } from "contentful";
-import { ClientAPI } from "contentful-management";
-import { createClient } from "contentful-management";
+import { ClientAPI, createClient  } from "contentful-management";
 import colors from "colors";
 import fs from "fs";
 

@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import type { ApiRequest, FooterFields, HeaderFields, Entry } from "../../types";
+import type { ApiRequest, HeaderFields, Entry } from "../../types";
 import { getElements } from "../../api/LayoutAPI";
 
 export default function Header() {
   
   let headerObject: Entry<HeaderFields>;
-  let footerObject: Entry<FooterFields>; 
+  // let footerObject: Entry<FooterFields>; 
     
   let localHeader= sessionStorage.getItem('Header');
   let localFooter= sessionStorage.getItem('Footer');
 
 
   if( localHeader === null || localFooter === null){
-    const { data, error, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
+    const { data, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
       queryKey: ["elements"],
       queryFn: getElements,
     })
@@ -31,9 +31,8 @@ export default function Header() {
     // footerObject=JSON.parse(localFooter);
   }
 
-  
-  console.log(JSON.stringify(headerObject));
   const navList= headerObject.fields.navigation.fields.items;
+  
 
   return (
     <nav
@@ -45,7 +44,7 @@ export default function Header() {
           <a href="/">
             <img
               className="w-auto h-6 sm:h-7"
-              src="https://merakiui.com/images/full-logo.svg"
+              src={headerObject.fields.logo.fields.file.url}
               alt=""
             />
           </a>
