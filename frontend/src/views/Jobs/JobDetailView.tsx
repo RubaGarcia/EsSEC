@@ -1,32 +1,43 @@
 import React, { useState } from "react";
 import FileDrop from "../../components/Jobs/FileDrop";
-import { useMutation } from "@tanstack/react-query";
-import { applyJob } from "../../api/JobsAPI";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { applyJob, getJobById } from "../../api/JobsAPI";
+import { useParams } from "react-router-dom";
+import { renderRichText } from "../../helpers/RichTextProcessor";
 
 export default function JobDetailView() {
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
 
   const text =
     "Lorem ipsum odor amet, consectetuer adipiscing elit. Diam quam elit mattis dignissim placerat gravida lacus adipiscing. Fusce auctor massa ultricies ullamcorper nascetur dictum aliquam. Interdum tortor ex euismod interdum per arcu netus. Diam vel magna laoreet varius suscipit nisl commodo sodales. Habitasse ullamcorper nostra pretium, accumsan habitant ex. Congue elit mus tempus praesent natoque aliquet velit ex. Sit commodo mattis augue eget per. Hendrerit nisl vestibulum sapien aptent facilisi. Litora fringilla nisi dolor praesent felis at feugiat. Vitae magnis augue senectus eros lacus pellentesque sem gravida. Auctor natoque tortor risus pharetra praesent ad commodo parturient. Mollis ut nisi turpis sagittis erat augue. Enim efficitur aliquet placerat, bibendum turpis lacinia aliquam. Praesent ullamcorper dictum elit semper diam maximus nam nibh. Aeget porttitor rutrum porta curabitur ad faucibus penatibus natoque. Curabitur quam congue non quam et dui."; // Texto abreviado para el ejemplo
 
+  const params = useParams();
+  const jobId = params.jobId!;
+  console.log(jobId);
+
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["JobDetailPage", jobId],
+    queryFn: () => getJobById({ JobId: jobId }),
+    retry: 10,
+  });
+
+  console.log(data);
+
   function handleFileSelection(selectedFiles: File[]) {
     setFiles(selectedFiles); // Guardamos los archivos seleccionados
   }
 
-
-const {mutate} = useMutation({
-  mutationFn: applyJob,
-  onError: (error) => {
-    console.error("Error al enviar los datos:", error);
-    alert("Ocurrió un error al enviar los datos");
-  },
-  onSuccess: () => {
-    alert("Email y archivos subidos con éxito");
-  }
-})
-
-
+  const { mutate } = useMutation({
+    mutationFn: applyJob,
+    onError: (error) => {
+      console.error("Error al enviar los datos:", error);
+      alert("Ocurrió un error al enviar los datos");
+    },
+    onSuccess: () => {
+      alert("Email y archivos subidos con éxito");
+    },
+  });
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,13 +53,9 @@ const {mutate} = useMutation({
 
     mutate({ formData, jobId: "job" });
 
-
-
-
     // console.log("Email:", email);
     // console.log("Files:", files);
     // console.log("FormData:", formData);
-    
 
     // try {
     //   const response = await fetch("https://mi-backend.com/upload", {
@@ -96,17 +103,23 @@ const {mutate} = useMutation({
           </div>
           <div className="flex justify-between items-center">
             <h1 className="text-white text-4xl font-bold">
-              Senior Security Analyst
+              {data?.name || "Cargando..."}
               <span className="flex text-blue-600 text-2xl font-bold space-y-10">
-                321.654$
+                {data?.salary || "Cargando..."}$
               </span>
             </h1>
           </div>
 
           <div className="text-white">
-            {paragraphs.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+            {data?.description ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: renderRichText(data.description),
+                }}
+              />
+            ) : (
+              <p>Cargando descripción...</p>
+            )}
           </div>
 
           <section className="flex flex-col max-w-4xl mx-auto bg-white rounded-lg shadow-lg dark:bg-gray-800 md:flex-row md:h-80">
@@ -127,7 +140,11 @@ const {mutate} = useMutation({
             </div>
 
             <div className="flex items-center justify-center pb-6 md:py-0 md:w-1/2 ">
-              <form className="w-full px-6" onSubmit={handleSubmit} encType="multipart/form-data">
+              <form
+                className="w-full px-6"
+                onSubmit={handleSubmit}
+                encType="multipart/form-data"
+              >
                 <label
                   htmlFor="email"
                   className="block text-sm text-gray-500 dark:text-gray-300"
@@ -146,7 +163,9 @@ const {mutate} = useMutation({
                 </div>
 
                 <div className="mt-4">
-                  <h1 className="text-xl font-bold mb-4 text-gray-100">Subir archivos</h1>
+                  <h1 className="text-xl font-bold mb-4 text-gray-100">
+                    Subir archivos
+                  </h1>
                   <FileDrop onFilesSelected={handleFileSelection} />
                 </div>
 

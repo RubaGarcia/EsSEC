@@ -91,18 +91,28 @@ type ServiceAPIType = {
     formData: FormData;
 }
 
-export async function postEmailDigitalKit(formData:FormData){
+export async function postEmailDigitalKit(formData: FormData) {
     try {
         const url = '/services/digital-kit';
-        const {data} = await api.post(url, formData);
-        // console.log(data);
-        return data
+
+        // Verifica el contenido del FormData
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        const response = await api.post(url, formData);
+        console.log(response.data); // Verifica la respuesta
+        return response.data;
 
     } catch (error) {
         if (isAxiosError(error) && error.response) {
+            console.error('Error en la solicitud:', error.response.data.message);
             throw new Error(error.response.data.message);
-        } 
+        }
+        console.error('Error inesperado:', error);
+        throw error;
     }
 }
+
 
 

@@ -46,7 +46,7 @@ export default function Router() {
 
           <Route path="/jobs" element={<JobsView />} />
 
-          <Route path="/jobs/job" element={<JobDetailView />} />
+          <Route path="/jobs/:jobId" element={<JobDetailView />} />
         </Route>
       </Routes>
     </BrowserRouter>

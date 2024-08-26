@@ -22,8 +22,8 @@ router.get('/improvement-plans', ServicesController.improvementPlans);
 router.get('/digital-kit',ServicesController.getDigitalKit)
 
 router.post('/digital-kit', 
-    body('email').isEmail().withMessage('Email is not valid'),
-    handleInputErrors,
+    // body('email').isEmail().withMessage('Email is not valid'),
+    // handleInputErrors,
     ServicesController.postDigitalKit
 )
 

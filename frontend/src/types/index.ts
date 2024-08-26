@@ -213,9 +213,10 @@ export type Job = {
 export type JobFields = {
   internal: boolean;
   name: string;
+  salary?: number;
   description: RichText;
-  employees: Person[];
-  applicants: Person[];
+  employees?: Person[];
+  applicants?: Person[];
 };
 
 export type Review = {
@@ -281,4 +282,19 @@ export type PropertiesCardType = {
   body:RichText,
   headline:string,
   title:string
+}
+
+
+export type contactPersonElement = {
+  sys: sys;
+  fields: contactPersonFields;
+}
+
+export type contactPersonFields = {
+  image?: string;
+  name: string;
+  team?: string;
+  email?: string;
+  job: Job;
+  // role: string;
 }

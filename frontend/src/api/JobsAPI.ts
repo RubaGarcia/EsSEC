@@ -37,9 +37,9 @@ export async function getJobs() {
 
 
 
-export async function getJobById({ProjectId}: {ProjectId: string}){
+export async function getJobById({JobId}: {JobId: string}){
     try {
-        const response = await api.get(`/projects/${ProjectId}`);
+        const response = await api.get(`/jobs/${JobId}`);
         console.log(response.data);
         return response.data;
     } catch (error) {

@@ -38,6 +38,11 @@ export default function Hero({ hero }: HeroProps) {
     const formData = new FormData();
     formData.append("email", email);
 
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+  }
+
+
     mutate(formData);
   }
 
