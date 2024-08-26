@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "../../api/ProjectsAPI";
 import { useParams } from "react-router-dom";
-import { LoadingSpinner } from "../../components/spinner/LoadingSpinner";
-import RichText from "../../components/RichText";
-import { render } from "react-dom";
 import {renderRichText} from "../../helpers/RichTextProcessor";
 export default function ProyectDetailView() {
   
@@ -28,23 +25,6 @@ export default function ProyectDetailView() {
       return <div>Error loading project details.</div>;
     }
   
-    // interface RichTextNode {
-    //   nodeType: string;
-    //   data: Record<string, any>;
-    //   content?: RichTextNode[];
-    //   value?: string;
-    //   marks?: Array<{ type: string }>;
-    // }
-    
-    // interface RichTextJSON {
-    //   internalTitle: string;
-    //   title: string;
-    //   headline: string;
-    //   body: RichTextNode;
-    //   icon: any; // Simplificado para el ejemplo
-    //   type: string;
-    // }
-
     
 
 

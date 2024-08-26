@@ -41,8 +41,8 @@ export default function Router() {
             element={<ImprovementPlansView />}
           />
 
+          <Route path="/services/digital-kit" element={<DKServiceView />} />
           <Route path="/contact" element={<ContactView />} />
-          <Route path="/digital-kit" element={<DKServiceView />} />
 
           <Route path="/jobs" element={<JobsView />} />
 

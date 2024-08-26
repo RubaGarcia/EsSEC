@@ -232,11 +232,11 @@ export type PersonReview = {
   fields: PersonFieldsReview;
 };
 export type PersonFieldsReview = {
-  image: string; //TODO implementar ImagesAPI
+  image?: string; //TODO implementar ImagesAPI
   name: string;
-  email: string;
+  email?: string;
   review: Review;
-  job: Job;
+  job?: Job;
 };
 
 export type ResourceElement = {
@@ -253,3 +253,32 @@ export type ResourceFields = {
   date: string;
   url: string;
 };
+
+
+export type servicePreview = {
+  sys: sys;
+  fields: servicePreviewFields;
+}
+
+export type servicePreviewFields = {
+  title: string;
+  ctaText: string;
+  internalTitle: string;
+  url: string;
+  date?: string;
+}
+
+
+export type heroElement={
+  body?:RichText
+  headline?:string
+  icon?:string
+  title:string
+}
+
+
+export type PropertiesCardType = {
+  body:RichText,
+  headline:string,
+  title:string
+}

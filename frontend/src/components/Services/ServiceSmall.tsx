@@ -2,62 +2,60 @@ import React from "react";
 
 
 type ServiceSmallProps = {
-    category: string;
     title: string;
     description: string;
     link:string
 }
 
-export default function ServiceSmall({category, title, description, link}: ServiceSmallProps) {
+export default function ServiceSmall({title, description, link}: ServiceSmallProps) {
 
 
 
   return (
-    <div className="mt-8 lg:-mx-6 lg:flex lg:items-center">
-      <img
-        className="object-cover w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 lg:h-96"
-        src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-        alt=""
-      />
+    <div className="space-y-3">
+              <span className="inline-block p-3 text-blue-500 bg-blue-100 rounded-full dark:text-white dark:bg-blue-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  />
+                </svg>
+              </span>
 
-      <div className="mt-6 lg:w-1/2 lg:mt-0 lg:mx-6 ">
-        <p className="text-sm text-blue-500 uppercase">{category}</p>
+              <h1 className="text-xl font-semibold text-gray-700 capitalize dark:text-white">
+                {title}
+              </h1>
 
-        <a
-          href="#"
-          className="block mt-4 text-2xl font-semibold text-gray-800 hover:underline dark:text-white"
-        >
-          {title}
-        </a>
+              <p className="text-gray-500 dark:text-gray-300">
+                {description}
+              </p>
 
-        <p className="mt-3 text-sm text-gray-500 dark:text-gray-300 md:text-sm">
-          {description}
-        </p>
-
-        <a
-          href={`${link}`}
-          className="inline-block mt-2 text-blue-500 underline hover:text-blue-400"
-        >
-          Read more
-        </a>
-
-        {/* <div className="flex items-center mt-6">
-          <img
-            className="object-cover object-center w-10 h-10 rounded-full"
-            src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt=""
-          />
-
-          <div className="mx-4">
-            <h1 className="text-sm text-gray-700 dark:text-gray-200">
-              Amelia. Anderson
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Lead Developer
-            </p>
-          </div>
-        </div> */}
-      </div>
-    </div>
+              <a
+                href={`/services/${link}`}
+                className="inline-flex items-center -mx-1 text-sm text-blue-500 capitalize transition-colors duration-300 transform dark:text-blue-400 hover:underline hover:text-blue-600 dark:hover:text-blue-500"
+              >
+                <span className="mx-1">read more</span>
+                <svg
+                  className="w-4 h-4 mx-1 rtl:-scale-x-100"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            </div>
   );
 }
