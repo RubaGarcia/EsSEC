@@ -99,6 +99,11 @@ export default function MainView() {
 
   reviewer && listReview?.push(reviewer);
 
+  /*TODO: function subscribePerson() {
+
+    return
+  } */
+
 
   
   
@@ -138,7 +143,7 @@ export default function MainView() {
             <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
               <form 
               className="flex flex-col lg:flex-row"
-              //onSubmit=
+              //TODO: onSubmit={}
               >
                 <input
                   type="email"
