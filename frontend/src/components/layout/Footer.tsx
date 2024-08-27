@@ -1,49 +1,85 @@
-
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
-import { getElements } from "../../api/LayoutAPI";
-import React, { useState } from 'react';
-import axios from "axios";
+import { getElements, postEmail } from "../../api/LayoutAPI";
+import React, { useState } from "react";
+// import axios from "axios";
 
 export default function Footer() {
-
-
-
   let footerObject: Entry<FooterFields>;
-  const [email, setEmail] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
 
-  let localHeader = sessionStorage.getItem('Header');
-  let localFooter = sessionStorage.getItem('Footer');
-
+  let localHeader = sessionStorage.getItem("Header");
+  let localFooter = sessionStorage.getItem("Footer");
 
   if (localHeader === null || localFooter === null) {
-    const { data, isLoading }: { data: undefined | ApiRequest, error: null | Error, isLoading: boolean } = useQuery({
+    const {
+      data,
+      isLoading,
+    }: {
+      data: undefined | ApiRequest;
+      error: null | Error;
+      isLoading: boolean;
+    } = useQuery({
       queryKey: ["elements"],
       queryFn: getElements,
-    })
+    });
 
-    if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <p>Loading...</p>;
 
     footerObject = data!.fields.footer;
     // footerObject= data!.fields.footer;
 
     //sessionStorage.setItem('Header', JSON.stringify(headerObject));
-    sessionStorage.setItem('Footer', JSON.stringify(footerObject));
-
-
+    sessionStorage.setItem("Footer", JSON.stringify(footerObject));
   } else {
     //HeaderObject = JSON.parse(localHeader);
-    footerObject=JSON.parse(localFooter);
+    footerObject = JSON.parse(localFooter);
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    
-  };
+  const [email, setEmail] = useState<string>("");
 
+  const { mutate } = useMutation({
+    mutationFn: postEmail,
+    onError: (error) => {
+      console.error("Error al enviar los datos:", error);
+      alert(
+        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde.",
+      );
+    },
+    onSuccess: () => {
+      alert("Email enviado con éxito. Gracias por unirte a nosotros.");
+    },
+  });
 
-  console.log(footerObject)
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
+    if (!email) {
+      alert("Por favor ingresa tu email.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      alert("Por favor ingresa un email válido.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("email", email);
+
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    mutate(formData);
+  }
+
+  function validateEmail(email: string) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  console.log(footerObject);
 
   return (
     <footer className="bg-white dark:bg-gray-900">
@@ -54,19 +90,26 @@ export default function Footer() {
               Subscribe our newsletter to get update.
             </h1>
 
-            <div className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row">
-              <input
+            <form
+              className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row"
               onSubmit={handleSubmit}
-                id="email"
-                type="text"
+            >
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-                placeholder="Email Address"
+                // placeholder="Email Address"
               />
 
-              <button className="w-full px-6 py-2.5 text-sm font-medium tracking-wider text-white transition-colors duration-300 transform md:w-auto md:mx-4 focus:outline-none bg-gray-800 rounded-lg hover:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80">
+              <button
+                type="submit"
+                className="w-full px-6 py-2.5 text-sm font-medium tracking-wider text-white transition-colors duration-300 transform md:w-auto md:mx-4 focus:outline-none bg-gray-800 rounded-lg hover:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
+              >
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
 
           <div>
