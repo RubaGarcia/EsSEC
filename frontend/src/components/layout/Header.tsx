@@ -4,39 +4,37 @@ import { getElements } from "../../api/LayoutAPI";
 import { Link } from "react-router-dom";
 
 export default function Header() {
+  let headerObject: Entry<HeaderFields> | null = null;
 
-  let headerObject: Entry<HeaderFields>;
-  // let footerObject: Entry<FooterFields>; 
+  const localHeader = sessionStorage.getItem('header');
 
-  let localHeader = sessionStorage.getItem('Header');
-  let localFooter = sessionStorage.getItem('Footer');
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["elements"],
+    queryFn: getElements,
+  });
 
+  if (isLoading) return <p>Loading...</p>;
 
-  if (localHeader === null || localFooter === null) {
-    const { data, isLoading }: { data: undefined | ApiRequest, error: null | Error, isLoading: boolean } = useQuery({
-      queryKey: ["elements"],
-      queryFn: getElements,
-    })
+  if (error) return <p>Error: {error.message}</p>;
 
-    if (isLoading) return <p>Loading...</p>
+  if (localHeader === null) {
+    if (data && data.fields) {
+      headerObject = data.fields.header;
 
-    headerObject = data!.fields.header;
-    // footerObject= data!.fields.footer;
-
-    sessionStorage.setItem('Header', JSON.stringify(headerObject));
-    // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
-
-
+      sessionStorage.setItem('header', JSON.stringify(headerObject));
+    }
   } else {
     headerObject = JSON.parse(localHeader);
-    // footerObject=JSON.parse(localFooter);
   }
 
-  const navList = headerObject.fields.navigation.fields.items;
+  if (!headerObject || !headerObject.fields) {
+    return <p>Error: Header data is missing.</p>;
+  }
+
+  console.log(headerObject);
 
 
-  
-  
+  const navList = headerObject.fields.navigation?.fields?.items || [];
 
   return (
     <nav
@@ -49,13 +47,13 @@ export default function Header() {
             <img
               className="w-auto h-6 sm:h-7"
               src={headerObject.fields.logo.fields.file.url}
-              alt=""
+              alt="Logo"
             />
           </a>
 
           <div className="flex lg:hidden">
             <button
-              onClick={() => { }}
+              onClick={() => { /* Aquí podrías manejar la apertura/cierre del menú móvil */ }}
               type="button"
               className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
               aria-label="toggle menu"
@@ -97,18 +95,14 @@ export default function Header() {
 
         <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
-            
-
             {navList.map((item, index) => (
               <Link
-              key={index}
-              className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
-              to={`${item.fields.url}`}
-            >
-              {/* {console.log(item.fields.url)} */}
-              {item.fields.label}
-            </Link>
-              
+                key={index}
+                className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
+                to={`${item.fields.url}`}
+              >
+                {item.fields.label}
+              </Link>
             ))}
           </div>
 
@@ -138,5 +132,5 @@ export default function Header() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
