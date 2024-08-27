@@ -2,10 +2,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
 import { getElements } from "../../api/LayoutAPI";
+import React, { useState } from 'react';
+import axios from "axios";
 
 export default function Footer() {
+
+
+
   let footerObject: Entry<FooterFields>;
-  // let footerObject: Entry<FooterFields>; 
+  const [email, setEmail] = useState<string>("");
 
   let localHeader = sessionStorage.getItem('Header');
   let localFooter = sessionStorage.getItem('Footer');
@@ -22,14 +27,33 @@ export default function Footer() {
     footerObject = data!.fields.footer;
     // footerObject= data!.fields.footer;
 
-    sessionStorage.setItem('Header', JSON.stringify(footerObject));
-    // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
+    //sessionStorage.setItem('Header', JSON.stringify(headerObject));
+    sessionStorage.setItem('Footer', JSON.stringify(footerObject));
 
 
   } else {
-    footerObject = JSON.parse(localHeader);
-    // footerObject=JSON.parse(localFooter);
+    //HeaderObject = JSON.parse(localHeader);
+    footerObject=JSON.parse(localFooter);
   }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    try {
+      // API POST request to submit the email
+      const response = await axios.post('/api/submit-email', { email });
+
+      if (response.status === 200) {
+        alert('Subscription successful!');
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting email:', error);
+      alert('Failed to subscribe. Please check your network and try again.');
+    }
+  };
+
+
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
@@ -41,6 +65,7 @@ export default function Footer() {
 
             <div className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row">
               <input
+              onSubmit={handleSubmit}
                 id="email"
                 type="text"
                 className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
