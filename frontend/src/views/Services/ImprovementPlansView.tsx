@@ -1,8 +1,7 @@
-import React from "react";
 import Hero from "../../components/Services/improvement-plans/hero";
 import { useQuery } from "@tanstack/react-query";
 import { getImprovementPlans } from "../../api/ServicesAPI";
-import { heroElement, PropertiesCardType, RichText } from "../../types";
+import { heroElement, PropertiesCardType } from "../../types";
 import PropertiesCard from "../../components/Services/improvement-plans/propertiesCard";
 
 export default function ImprovementPlansView() {

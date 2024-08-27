@@ -21,7 +21,7 @@ export default function ProyectDetailView() {
     //   return <LoadingSpinner />;
     // }
   
-    if (isError || !data) {
+    if (isLoading ||isError || !data) {
       return <div>Error loading project details.</div>;
     }
   

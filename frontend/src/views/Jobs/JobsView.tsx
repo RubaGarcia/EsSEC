@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import { getJobs } from "../../api/JobsAPI";
-import { heroElement, Job, JobFields } from "../../types";
+import { heroElement, Job} from "../../types";
 import Hero from "../../components/Jobs/Hero";
 import JobItem from "../../components/Jobs/JobItem";
 

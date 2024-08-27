@@ -1,5 +1,4 @@
-import { Job, RichText } from "../../types";
-import { renderRichText } from "../../helpers/RichTextProcessor";
+import { Job} from "../../types";
 import { Link } from "react-router-dom";
 
 type JobItemProps = {
@@ -18,7 +17,7 @@ export default function JobItem({ job }: JobItemProps) {
         </p>
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-400">
-        {job.fields.description.substring(0, 300) + "..."}
+        {job.fields.description.toString().substring(0, 300) + "..."}
       </p>
       <Link
         className="px-6 py-2 font-medium tracking-wide text-center text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"

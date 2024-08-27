@@ -1,4 +1,3 @@
-import {catchElements} from "../../helpers/elementRetainer"
 
 export default function Header() {
   // FIXME: navlist puede quedar vacío porque el elemento asignado no es esperado correctamente 

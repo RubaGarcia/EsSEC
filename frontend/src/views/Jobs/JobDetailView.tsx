@@ -9,9 +9,6 @@ export default function JobDetailView() {
   const [email, setEmail] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
 
-  const text =
-    "Lorem ipsum odor amet, consectetuer adipiscing elit. Diam quam elit mattis dignissim placerat gravida lacus adipiscing. Fusce auctor massa ultricies ullamcorper nascetur dictum aliquam. Interdum tortor ex euismod interdum per arcu netus. Diam vel magna laoreet varius suscipit nisl commodo sodales. Habitasse ullamcorper nostra pretium, accumsan habitant ex. Congue elit mus tempus praesent natoque aliquet velit ex. Sit commodo mattis augue eget per. Hendrerit nisl vestibulum sapien aptent facilisi. Litora fringilla nisi dolor praesent felis at feugiat. Vitae magnis augue senectus eros lacus pellentesque sem gravida. Auctor natoque tortor risus pharetra praesent ad commodo parturient. Mollis ut nisi turpis sagittis erat augue. Enim efficitur aliquet placerat, bibendum turpis lacinia aliquam. Praesent ullamcorper dictum elit semper diam maximus nam nibh. Aeget porttitor rutrum porta curabitur ad faucibus penatibus natoque. Curabitur quam congue non quam et dui."; // Texto abreviado para el ejemplo
-
   const params = useParams();
   const jobId = params.jobId!;
   console.log(jobId);
