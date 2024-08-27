@@ -24,7 +24,7 @@ export default function Router() {
           <Route path="/resources" element={<ResourcesView />} />
           <Route path="/projects" element={<ProyectsGeneralView />} />
 
-          <Route path="/projects/project" element={<ProjectDetailView />} />
+          <Route path="/projects/:projectId" element={<ProjectDetailView />} />
 
           <Route path="/services" element={<ServicesView />} />
           <Route
@@ -41,12 +41,12 @@ export default function Router() {
             element={<ImprovementPlansView />}
           />
 
+          <Route path="/services/digital-kit" element={<DKServiceView />} />
           <Route path="/contact" element={<ContactView />} />
-          <Route path="/digital-kit" element={<DKServiceView />} />
 
           <Route path="/jobs" element={<JobsView />} />
 
-          <Route path="/jobs/job" element={<JobDetailView />} />
+          <Route path="/jobs/:jobId" element={<JobDetailView />} />
         </Route>
       </Routes>
     </BrowserRouter>

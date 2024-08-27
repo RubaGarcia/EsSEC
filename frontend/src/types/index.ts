@@ -192,63 +192,125 @@ export type ContentNodeRT = {
 };
 
 export type RichText = {
+  nodeType: string;
   data: Record<string, any>;
-  content: ContentNodeRT[];
+  content?: RichText[];
+  value?: string;
+  marks?: Array<{ type: string }>;
 };
-
 
 export type PortfolioElement = {
   sys: sys;
   fields: PortfolioFieldElement;
 };
 export type PortfolioFieldElement = {
-  body: RichText;
+  internalTitle: string;
+  body?: RichText;
   title: string;
   headline: string;
-  type: string;
+  type?: string;
   icon: string; //TODO implementar ImagesAPI
 };
 
-
-export type Person = {
+export type Person =  {
   sys: sys;
   fields: PersonFields;
-}
+};
 
 export type Job = {
   sys: sys;
   fields: JobFields;
-}
+};
 
 export type JobFields = {
-  internal: boolean
-  name: string
-  description: RichText
-  employees: Person[]
-  applicants: Person[]
-}
+  internal: boolean;
+  name: string;
+  salary?: number;
+  description: RichText;
+  employees?: Person[];
+  applicants?: Person[];
+};
+
 
 export type Review = {
-  sys: sys
-  fields: ReviewFields
-}
+  sys: sys;
+  fields: ReviewFields;
+};
 
 export type ReviewFields = {
-  mainQuote: string
-  reviewText: string
-}
+  mainQuote: string;
+  reviewText: string;
+};
 export type PersonReview = {
   sys?: sys;
   fields: PersonFieldsReview;
-}
+};
 export type PersonFieldsReview = {
-  image: string;//TODO implementar ImagesAPI
+  image?: string; 
   name: string;
-  email: string;
-  review: Review
-  job: Job
+  email?: string;
+  review: Review;
+  job?: Job;
+};
+
+export type ResourceElement = {
+  sys: sys;
+  fields: ResourceFields;
+};
+
+export type ResourceFields = {
+  body: RichText;
+  headline: string;
+  icon: string; //TODO implementar ImagesAPI
+  title: string;
+  type: string;
+  date: string;
+  url: string;
+};
+
+
+export type servicePreview = {
+  sys: sys;
+  fields: servicePreviewFields;
 }
 
+export type servicePreviewFields = {
+  title: string;
+  ctaText: string;
+  internalTitle: string;
+  url: string;
+  date?: string;
+}
+
+
+export type heroElement={
+  body?:RichText
+  headline?:string
+  icon?:string
+  title:string
+}
+
+
+export type PropertiesCardType = {
+  body:RichText,
+  headline:string,
+  title:string
+}
+
+
+export type contactPersonElement = {
+  sys: sys;
+  fields: contactPersonFields;
+}
+
+export type contactPersonFields = {
+  image?: string;
+  name: string;
+  email: string;
+  review:Review;
+  job:Job;
+  team: string;
+}
 export type Blurb = {
   internalTitle: string;
   title: string;
