@@ -38,19 +38,7 @@ export default function Footer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-    try {
-      // API POST request to submit the email
-      const response = await axios.post('/api/submit-email', { email });
-
-      if (response.status === 200) {
-        alert('Subscription successful!');
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error submitting email:', error);
-      alert('Failed to subscribe. Please check your network and try again.');
-    }
+    
   };
 
 
