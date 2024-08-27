@@ -33,7 +33,6 @@ export default function Header() {
 
   const navList= headerObject.fields.navigation.fields.items;
   
-  console.log(navList[0].fields.label)
 
   return (
     <nav
