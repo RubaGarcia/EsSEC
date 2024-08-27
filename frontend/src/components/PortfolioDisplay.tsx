@@ -17,7 +17,7 @@ export default function PortfolioDisplay({
     type: string,
   ): Omit<ValueProposition, "internalTitle" | "body" | "date" | "propertiesList" | "url" | "date">[] {
 
-    let list = elements
+    const list = elements
       .filter((element) => element.fields.type === type)
       .map((element) => {
         return {

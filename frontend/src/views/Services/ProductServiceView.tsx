@@ -22,12 +22,10 @@ export default function ProductServiceView() {
   if (isLoading || isError) return <p>Loading...</p>;
 
   const hero: heroElement = data.fields.sections[0].fields.items[0].fields;
-  // console.log(hero)
 
-  let products: servicePreviewFields[] = [];
+  const products: servicePreviewFields[] = [];
 
   data.fields.sections[1].fields.items.forEach((item: servicePreview) => {
-    // console.log(item.fields)
     const element: servicePreviewFields = {
       title: item.fields.title,
       ctaText: item.fields.ctaText,
@@ -36,12 +34,10 @@ export default function ProductServiceView() {
       date: item.fields.date,
     };
     products.push(element);
-    // products.push(item.fields)
   });
 
-  // console.log(products)
 
-  let PersonReviews: PersonFieldsReview[] = [];
+  const PersonReviews: PersonFieldsReview[] = [];
 
   data.fields.sections[2].fields.items.forEach((item: PersonReview) => {
     const element: PersonFieldsReview = {
@@ -50,23 +46,18 @@ export default function ProductServiceView() {
       image: item.fields.image,
       job: item.fields.job,
     };
-    // console.log(element)
     if (element != null) {
       PersonReviews.push(element);
-      // console.log(element)
+      
     }
-    // products.push(element)
   });
 
-  // console.log(PersonReviews)
 
   return (
     <>
-      {/* <header className="bg-white dark:bg-gray-900"> */}
 
       <Hero hero={hero} />
 
-      {/* </header> */}
 
       <section className="bg-white dark:bg-gray-900">
         <div className="container px-6 py-10 mx-auto">

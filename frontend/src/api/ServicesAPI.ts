@@ -96,7 +96,7 @@ export async function postEmailDigitalKit(formData: FormData) {
         const url = '/services/digital-kit';
 
         // Verifica el contenido del FormData
-        for (let [key, value] of formData.entries()) {
+        for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
 
