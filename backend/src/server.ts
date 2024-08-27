@@ -8,7 +8,6 @@ import ServicesRoutes from './routes/ServicesRoutes';
 import ResourcesRoutes from './routes/ResourcesRoutes';
 import JobRoutes from './routes/JobRoutes';
 import ContactRoutes from './routes/ContactRoutes';
-import DigitalKitRoutes from './routes/DigitalKitRoutes';
 import ProjectRoutes from './routes/ProjectRoutes';
 
 
@@ -26,7 +25,7 @@ app.use('/api/services', ServicesRoutes)
 app.use('/api/resources', ResourcesRoutes)
 app.use('/api/jobs', JobRoutes)
 app.use('/api/contact',ContactRoutes) 
-app.use('/api/digital-kit',DigitalKitRoutes)
+// app.use('/api/digital-kit',DigitalKitRoutes)
 app.use('/api/projects', ProjectRoutes)
 
 

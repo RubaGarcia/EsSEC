@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { PersonFieldsReview, PersonReview } from '../types';
+import { useState } from 'react';
+import { PersonFields, Entry } from '../types';
 
 type ReviewSliderProps = {
-    reviewer: PersonReview[];
+    reviewer: Entry<PersonFields>[];
 }
 
 export default function ReviewSlider({ reviewer }: ReviewSliderProps) {

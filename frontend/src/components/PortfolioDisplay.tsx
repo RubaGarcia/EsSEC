@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { PortfolioElement, PortfolioFieldElement } from "../types";
+import { ValueProposition, Entry } from "../types";
 
 type PortfolioDisplayProps = {
   fields: string[];
-  elements: PortfolioElement[];
+  elements: Entry<ValueProposition>[];
 };
 
 export default function PortfolioDisplay({
@@ -15,9 +15,9 @@ export default function PortfolioDisplay({
 
   function portFolioElements(
     type: string,
-  ): Omit<PortfolioFieldElement, "body">[] {
+  ): Omit<ValueProposition, "internalTitle" | "body" | "date" | "propertiesList" | "url" | "date">[] {
 
-    let list = elements
+    const list = elements
       .filter((element) => element.fields.type === type)
       .map((element) => {
         return {
@@ -74,14 +74,13 @@ export default function PortfolioDisplay({
 
           <div className="flex-1 mt-8 lg:mx-12 lg:mt-0">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-              {list.map((element: Omit<PortfolioFieldElement, "body">) => {
+              {list.map((element: Omit<ValueProposition, "internalTitle" | "body" | "date" | "propertiesList" | "url" | "date"> ) => {
                 return (
                   <div key={element.title}> {/* Añadido key para cada elemento */}
                     <img
                       className="object-cover w-full rounded-lg h-96"
-                      src="https://images.unsplash.com/photo-1621609764180-2ca554a9d6f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
+                      src={element.icon.fields.asset.fields.file.url} //"https://images.unsplash.com/photo-1621609764180-2ca554a9d6f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
                       alt=""
-                      //TODO implementar ImagesAPI
                     />
                     <h2 className="mt-4 text-xl font-semibold text-gray-800 capitalize dark:text-white">
                       {element.title}

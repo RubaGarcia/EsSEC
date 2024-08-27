@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import type { ApiRequest, FooterFields, HeaderFields, Entry } from "../types";
 import { getElements } from "../api/LayoutAPI";
 
-export default function catchElements(){
+export function catchElements(){
 
   
   let headerObject: Entry<HeaderFields> | null = null;
   let footerObject: Entry<FooterFields> | null = null;
   let loaded: boolean = false; 
-  let scriptError: null | Error= null;
+  const scriptError: null | Error= null;
     
-  let localHeader= sessionStorage.getItem('Header');
-  let localFooter= sessionStorage.getItem('Footer');
+  const localHeader= sessionStorage.getItem('Header');
+  const localFooter= sessionStorage.getItem('Footer');
 
 
   if( localHeader === null || localFooter === null){
@@ -19,8 +19,11 @@ export default function catchElements(){
       queryKey: ["elements"],
       queryFn: getElements,
     })
+
+
+
     if (isLoading) return {
-      loaded: isLoading,
+      loaded: !isLoading,
       scriptError: error,
       headerObject: headerObject,
       footerObject: footerObject
@@ -47,3 +50,21 @@ export default function catchElements(){
     footerObject: footerObject
   }
 }
+
+// function waitToCatch(variable:any){
+
+//   const data = catchElements();
+//   function waitFor(data:any):any {
+//     if (data.loaded) {
+//       return data;
+//     }
+//     return new Promise((resolve) => setTimeout(resolve, 100))
+//     .then(() => Promise.resolve(window[variable])) 
+//     .then((res) => waitFor(res))
+//   }
+//   return waitFor(data);
+// }
+
+
+// export default waitToCatch('testVar').then((res:any) => console.log('>>>', res));
+

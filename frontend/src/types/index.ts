@@ -1,3 +1,5 @@
+import { NavigationItem } from "contentful-management";
+
 export interface ApiRequest {
   metadata: {
     tags: Array<{
@@ -11,31 +13,35 @@ export interface ApiRequest {
     slug: string;
     seoMetadata: Entry<SeoMetadataFields>;
     header: Entry<HeaderFields>;
-    sections: Array<Entry<SectionFields>>;
+    sections: Array<Entry<Cartridge> | Entry<Blurb>>;
     footer: Entry<FooterFields>;
   };
 }
 
-interface SectionFields {
+export interface Cartridge {
   internalTitle: string;
-  items: Array<Entry<ValuePropositionFields>>;
+  items: Array<Entry<ValueProposition | Job | NavigationItem | PersonFields >>;
 }
 
-interface ValuePropositionFields {
+export interface ValueProposition {
   internalTitle: string;
   title: string;
   headline: string;
   body: Document;
   icon: Entry<MediaWrapperFields>;
+  type: string;
+  date: Date;
+  url: string;
+  propertiesList: Array<string>;
 }
 
 interface MediaWrapperFields {
   internalTitle: string;
   altText: string;
-  asset: Entry<AssetFields>;
+  asset: Entry<Asset>;
 }
 
-interface AssetFields {
+interface Asset {
   title: string;
   description: string;
   file: AssetFile;
@@ -60,15 +66,21 @@ export interface FooterFields {
   newlesterCartridge: Entry<NewlesterCartridgeFields>;
 }
 
-interface NewlesterCartridgeFields {
+export interface NewlesterCartridgeFields {
   internalTitle: string;
   items: Array<Entry<PersonFields>>;
 }
 
-interface PersonFields {
+export interface PersonFields {
   internalName: string;
   name: string;
   email: string;
+  cv: Entry<Document>;
+  job: Entry<JobFields>;
+  image: Entry<any>;
+  review: Entry<ReviewFields>;
+  team: string;
+  rss: string[];
 }
 
 interface Sys {
@@ -89,7 +101,7 @@ interface Link<T> {
   id: string;
 }
 
-interface Entry<T> {
+export interface Entry<T> {
   metadata: {
     tags: Array<any>;
   };
@@ -97,7 +109,7 @@ interface Entry<T> {
   fields: T;
 }
 
-interface EntryLink<T> extends Link<T> {}
+interface EntryLink<T> extends Link<T> { }
 
 interface SeoMetadataFields {
   internalTitle: string;
@@ -135,7 +147,7 @@ interface ListNode {
 
 export interface HeaderFields {
   internalTitle: string;
-  logo: Entry<AssetFields>;
+  logo: Entry<Asset>;
   logoUrl: string;
   navigation: Entry<NavigationFields>;
 }
@@ -148,12 +160,13 @@ interface NavigationFields {
 interface NavigationItemFields {
   internalTitle: string;
   label: string;
+  url?: string
 }
 
-interface Space {}
-interface Environment {}
-interface ContentType {}
-interface Tag {}
+interface Space { }
+interface Environment { }
+interface ContentType { }
+interface Tag { }
 
 export type sys = {
   contentType: {
@@ -179,59 +192,128 @@ export type ContentNodeRT = {
 };
 
 export type RichText = {
+  nodeType: string;
   data: Record<string, any>;
-  content: ContentNodeRT[];
+  content?: RichText[];
+  value?: string;
+  marks?: Array<{ type: string }>;
 };
-
 
 export type PortfolioElement = {
   sys: sys;
   fields: PortfolioFieldElement;
 };
 export type PortfolioFieldElement = {
-  body: RichText;
+  internalTitle: string;
+  body?: RichText;
   title: string;
   headline: string;
-  type: string;
+  type?: string;
   icon: string; //TODO implementar ImagesAPI
 };
 
-
-export type Person ={
+export type Person =  {
   sys: sys;
   fields: PersonFields;
-}
+};
 
 export type Job = {
-  sys : sys;
+  sys: sys;
   fields: JobFields;
-}
+};
 
 export type JobFields = {
-  internal:boolean
-  name:string
-  description:RichText
-  employees:Person[]
-  applicants:Person[]
-}
+  internal: boolean;
+  name: string;
+  salary?: number;
+  description: RichText;
+  employees?: Person[];
+  applicants?: Person[];
+};
 
-export type Review={
-  sys:sys
-  fields:ReviewFields
-}
 
-export type ReviewFields={
-  mainQuote:string
-  reviewText:string
-}
-export type PersonReview = {
+export type Review = {
   sys: sys;
+  fields: ReviewFields;
+};
+
+export type ReviewFields = {
+  mainQuote: string;
+  reviewText: string;
+};
+export type PersonReview = {
+  sys?: sys;
   fields: PersonFieldsReview;
-}
+};
 export type PersonFieldsReview = {
-  image: string;//TODO implementar ImagesAPI
+  image?: string; 
+  name: string;
+  email?: string;
+  review: Review;
+  job?: Job;
+};
+
+export type ResourceElement = {
+  sys: sys;
+  fields: ResourceFields;
+};
+
+export type ResourceFields = {
+  body: RichText;
+  headline: string;
+  icon: string; //TODO implementar ImagesAPI
+  title: string;
+  type: string;
+  date: string;
+  url: string;
+};
+
+
+export type servicePreview = {
+  sys: sys;
+  fields: servicePreviewFields;
+}
+
+export type servicePreviewFields = {
+  title: string;
+  ctaText: string;
+  internalTitle: string;
+  url: string;
+  date?: string;
+}
+
+
+export type heroElement={
+  body?:RichText
+  headline?:string
+  icon?:string
+  title:string
+}
+
+
+export type PropertiesCardType = {
+  body:RichText,
+  headline:string,
+  title:string
+}
+
+
+export type contactPersonElement = {
+  sys: sys;
+  fields: contactPersonFields;
+}
+
+export type contactPersonFields = {
+  image?: string;
   name: string;
   email: string;
-  review:Review
-  job:Job
+  review:Review;
+  job:Job;
+  team: string;
+}
+export type Blurb = {
+  internalTitle: string;
+  title: string;
+  textBlurb: string;
+  list: string[]
 }

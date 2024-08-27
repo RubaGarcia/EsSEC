@@ -1,8 +1,39 @@
-import catchElements from "../../helpers/elementRetainer"
+import { useQuery } from "@tanstack/react-query";
+import type { ApiRequest, HeaderFields, Entry } from "../../types";
+import { getElements } from "../../api/LayoutAPI";
 
 export default function Header() {
-  const headerInfo= catchElements().headerObject;
-  // console.log(JSON.stringify(headerInfo))
+  
+  let headerObject: Entry<HeaderFields>;
+  // let footerObject: Entry<FooterFields>; 
+    
+  let localHeader= sessionStorage.getItem('Header');
+  let localFooter= sessionStorage.getItem('Footer');
+
+
+  if( localHeader === null || localFooter === null){
+    const { data, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
+      queryKey: ["elements"],
+      queryFn: getElements,
+    })
+
+    if (isLoading) return <p>Loading...</p>
+
+    headerObject= data!.fields.header;
+    // footerObject= data!.fields.footer;
+    
+    sessionStorage.setItem('Header', JSON.stringify(headerObject));
+    // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
+    
+
+  } else{
+    headerObject=JSON.parse(localHeader);
+    // footerObject=JSON.parse(localFooter);
+  }
+
+  const navList= headerObject.fields.navigation.fields.items;
+  
+
   return (
     <nav
       x-data="{ isOpen: false }"
@@ -13,7 +44,7 @@ export default function Header() {
           <a href="/">
             <img
               className="w-auto h-6 sm:h-7"
-              src="https://merakiui.com/images/full-logo.svg"
+              src={headerObject.fields.logo.fields.file.url}
               alt=""
             />
           </a>
@@ -62,23 +93,24 @@ export default function Header() {
 
         <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
+            
             <a
-              href="#"
+              href={navList[0].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {headerInfo?.fields.navigation.fields.items[0].fields.label}
+              {navList[0].fields.label}
             </a>
             <a
-              href="#"
+              href={navList[1].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {headerInfo?.fields.navigation.fields.items[1].fields.label}
+              {navList[1].fields.label}
             </a>
             <a
-              href="#"
+              href={navList[2].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {headerInfo?.fields.navigation.fields.items[2].fields.label}
+              {navList[2].fields.label}
             </a>
           </div>
 

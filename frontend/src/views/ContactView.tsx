@@ -1,7 +1,53 @@
-import React from "react";
+import { useState } from "react";
 import PersonalDisplay from "../components/Personal/PersonalDisplay";
+import { getContact } from "../api/ContactAPI";
+import { useQuery } from "@tanstack/react-query";
+import { contactPersonElement, PersonFields, Entry } from "../types";
 
 export default function ContactView() {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["ContactPage"],
+    queryFn: getContact,
+    retry: 10,
+  });
+
+  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+
+  if (isLoading || isError) {
+    return <div>Loading...</div>;
+  }
+
+  const people: PersonFields[] = [];
+
+  const elements = data?.fields.sections[0].fields.items;
+
+  elements?.forEach((element: Entry<PersonFields>) => {
+    const item: Entry<PersonFields> = {
+      name: element.fields.name,
+      job: element.fields.job,
+      team: element.fields.team,
+      // img: "element.fields.img.fields.file.url",
+      // facebook: element.fields.facebook,
+      // github: element.fields.github,
+      // reddit: element.fields.reddit,
+    };
+    people.push(item);
+  });
+
+  function extractTeam(people: contactPersonFields[]) {
+    const team = people.map((person) => person.team);
+    return Array.from(new Set(team)); 
+  }
+
+  const teams = extractTeam(people);
+
+  function extractPeople(people: contactPersonFields[], team: string | null) {
+    if (!team) return people;
+    return people.filter((person) => person.team === team);
+  }
+
+  const peopleTeams = extractPeople(people, selectedTeam);
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-10 mx-auto">
@@ -17,46 +63,26 @@ export default function ContactView() {
 
         <div className="flex items-center justify-center">
           <div className="flex items-center p-1 border border-blue-600 dark:border-blue-400 rounded-xl">
-            <button className="px-4 py-2 text-sm font-medium text-white capitalize bg-blue-600 md:py-3 rounded-xl md:px-12">
-              design
-            </button>
-            <button className="px-4 py-2 mx-4 text-sm font-medium text-blue-600 capitalize transition-colors duration-300 md:py-3 dark:text-blue-400 dark:hover:text-white focus:outline-none hover:bg-blue-600 hover:text-white rounded-xl md:mx-8 md:px-12">
-              development
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-blue-600 capitalize transition-colors duration-300 md:py-3 dark:text-blue-400 dark:hover:text-white focus:outline-none hover:bg-blue-600 hover:text-white rounded-xl md:px-12">
-              marketing
-            </button>
+            {teams.map((team, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedTeam(team)}
+                className={`px-4 py-2 text-sm font-medium text-white capitalize ${
+                  selectedTeam === team
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-gray-700 hover:bg-gray-800"
+                } transition md:py-3 rounded-xl md:px-12`}
+              >
+                {team}
+              </button>
+            ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-3">
-          <PersonalDisplay
-            img="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            name="Pamela Anderson"
-            job="Lead Developer"
-            reddit={"#"}
-            facebook={"#"}
-            github={"#"}
-          />
-
-          <PersonalDisplay
-            img="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-            name="John Doe"
-            job="Full stack developer"
-            reddit={"#"}
-            facebook={"#"}
-            github={"#"}
-          />
-
-          <PersonalDisplay
-            img="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-            name="John Doe"
-            job="Full stack developer"
-            reddit={"#"}
-            facebook={"#"}
-            github={"#"}
-          />
-          
+          {peopleTeams.map((person, index) => (
+            <PersonalDisplay key={index} person={person} />
+          ))}
         </div>
       </div>
     </section>

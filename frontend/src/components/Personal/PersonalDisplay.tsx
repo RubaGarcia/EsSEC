@@ -1,33 +1,51 @@
+import { contactPersonFields } from "../../types";
 
 type PersonalDisplayProps = {
-    job: string;
-    img: string;
-    name:string
-    reddit:string
-    facebook:string
-    github:string
+    // job: string;
+    // img: string;
+    // name:string
+    // reddit:string
+    // facebook:string
+    // github:string
+    person:contactPersonFields
 }
 
-export default function PersonalDisplay({job, img, name, reddit,facebook, github}: PersonalDisplayProps) {
+export default function PersonalDisplay({person}: PersonalDisplayProps) {
+
+
+  console.log(person)
+
+
+
   return (
     <div className="flex flex-col items-center">
       <img
         className="object-cover w-full rounded-xl aspect-square"
-        src={img}
+        src={"https://duckduckgo.com/?q=person%20stock%20fotos&iax=images&ia=images&iai=https://get.pxhere.com/photo/man-person-people-male-asian-portrait-young-chinese-professional-business-profession-hairstyle-confident-spokesperson-businessperson-white-collar-worker-922334.jpg"}
         alt=""
       />
+      {
+        person.name &&
 
       <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white">
-        {name}
+        {person.name}
       </h1>
+      }
 
+
+      {person.job !== undefined ? 
+      
       <p className="mt-2 text-gray-500 capitalize dark:text-gray-300">
-        {job}
+        {person.job.fields.name}
       </p>
+      : 
+      <p className="mt-2 text-gray-500 capitalize dark:text-gray-300">
+        
+      </p>}
 
       <div className="flex mt-3 -mx-2">
         <a
-          href={reddit}
+          href={"#"}
           className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
           aria-label="Reddit"
         >
@@ -42,7 +60,7 @@ export default function PersonalDisplay({job, img, name, reddit,facebook, github
         </a>
 
         <a
-          href={facebook}
+          href={"#"}
           className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
           aria-label="Facebook"
         >
@@ -57,7 +75,7 @@ export default function PersonalDisplay({job, img, name, reddit,facebook, github
         </a>
 
         <a
-          href={github}
+          href={"#"}
           className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
           aria-label="Github"
         >
