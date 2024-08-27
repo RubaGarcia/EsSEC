@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import type { ApiRequest, HeaderFields, Entry } from "../../types";
 import { getElements } from "../../api/LayoutAPI";
 import { Link } from "react-router-dom";
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);  // Estado para manejar el menú
   let headerObject: Entry<HeaderFields> | null = null;
 
   const localHeader = sessionStorage.getItem('header');
@@ -33,14 +35,10 @@ export default function Header() {
 
   console.log(headerObject);
 
-
   const navList = headerObject.fields.navigation?.fields?.items || [];
 
   return (
-    <nav
-      x-data="{ isOpen: false }"
-      className="relative bg-white shadow dark:bg-gray-800"
-    >
+    <nav className="relative bg-white shadow dark:bg-gray-800">
       <div className="container px-6 py-3 mx-auto md:flex">
         <div className="flex items-center justify-between">
           <a href="/">
@@ -53,53 +51,55 @@ export default function Header() {
 
           <div className="flex lg:hidden">
             <button
-              onClick={() => { /* Aquí podrías manejar la apertura/cierre del menú móvil */ }}
+              onClick={() => setIsMenuOpen(!isMenuOpen)} // Manejador de clic para alternar el menú
               type="button"
               className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
               aria-label="toggle menu"
             >
-              <svg
-                x-show="!isOpen"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 8h16M4 16h16"
-                />
-              </svg>
-
-              <svg
-                x-show="isOpen"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              {isMenuOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 8h16M4 16h16"
+                  />
+                </svg>
+              )}
             </button>
           </div>
         </div>
 
-        <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
+        {/* Mostrar/Ocultar menú dependiendo del estado */}
+        <div className={`${isMenuOpen ? 'block' : 'hidden'} absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between`}>
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
             {navList.map((item, index) => (
               <Link
                 key={index}
                 className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
                 to={`${item.fields.url}`}
+                onClick={() => setIsMenuOpen(false)} // Cerrar el menú cuando se hace clic en un enlace
               >
                 {item.fields.label}
               </Link>
