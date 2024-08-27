@@ -64,6 +64,8 @@ export interface FooterFields {
   internalTitle: string;
   copyright: string;
   newlesterCartridge: Entry<NewlesterCartridgeFields>;
+  logo: Entry<Asset>;
+  logoUrl: string;
 }
 
 export interface NewlesterCartridgeFields {
@@ -77,7 +79,7 @@ export interface PersonFields {
   email: string;
   cv: Entry<Document>;
   job: Entry<JobFields>;
-  image: Entry<any>;
+  image: Entry<MediaWrapperFields>;
   review: Entry<ReviewFields>;
   team: string;
   rss: string[];

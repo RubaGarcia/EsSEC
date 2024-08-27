@@ -1,7 +1,35 @@
-// import catchElements from "../../helpers/elementRetainer"
+
+import { useQuery } from "@tanstack/react-query";
+import { FooterFields, Entry, ApiRequest } from "../../types";
+import { getElements } from "../../api/LayoutAPI";
 
 export default function Footer() {
-  // const footerInfo= catchElements().footerObject; // No se le da funcionalidad porque queremos un footer fijo
+  let footerObject: Entry<FooterFields>;
+  // let footerObject: Entry<FooterFields>; 
+
+  let localHeader = sessionStorage.getItem('Header');
+  let localFooter = sessionStorage.getItem('Footer');
+
+
+  if (localHeader === null || localFooter === null) {
+    const { data, isLoading }: { data: undefined | ApiRequest, error: null | Error, isLoading: boolean } = useQuery({
+      queryKey: ["elements"],
+      queryFn: getElements,
+    })
+
+    if (isLoading) return <p>Loading...</p>
+
+    footerObject = data!.fields.footer;
+    // footerObject= data!.fields.footer;
+
+    sessionStorage.setItem('Header', JSON.stringify(footerObject));
+    // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
+
+
+  } else {
+    footerObject = JSON.parse(localHeader);
+    // footerObject=JSON.parse(localFooter);
+  }
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
@@ -86,7 +114,7 @@ export default function Footer() {
           <a href="#">
             <img
               className="w-auto h-7"
-              src="https://merakiui.com/images/full-logo.svg"
+              src={footerObject.fields.logo.fields.file.url}
               alt=""
             />
           </a>
