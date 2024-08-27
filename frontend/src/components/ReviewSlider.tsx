@@ -19,7 +19,6 @@ export default function ReviewSlider({ reviewer }: ReviewSliderProps) {
     };
 
     const currentReview = reviewer[currentIndex];
-
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="container px-6 py-10 mx-auto">
@@ -50,7 +49,8 @@ export default function ReviewSlider({ reviewer }: ReviewSliderProps) {
                         </p>
 
                         <div className="flex flex-col items-center justify-center mt-8">
-                            <img className="object-cover rounded-full w-14 h-14" src="https://images.unsplash.com/photo-1499470932971-a90681ce8530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt=""/>
+                            <img className="object-cover rounded-full w-14 h-14" src={currentReview.fields.image.fields.asset.fields.file.url}//"https://images.unsplash.com/photo-1499470932971-a90681ce8530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                             alt=""/>
 
                             <div className="mt-4 text-center">
                                 <h1 className="font-semibold text-gray-800 dark:text-white">{currentReview.fields.name}</h1>

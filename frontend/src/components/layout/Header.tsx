@@ -1,37 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ApiRequest, HeaderFields, Entry } from "../../types";
 import { getElements } from "../../api/LayoutAPI";
+import { Link } from "react-router-dom";
 
 export default function Header() {
-  
+
   let headerObject: Entry<HeaderFields>;
   // let footerObject: Entry<FooterFields>; 
-    
-  let localHeader= sessionStorage.getItem('Header');
-  let localFooter= sessionStorage.getItem('Footer');
+
+  let localHeader = sessionStorage.getItem('Header');
+  let localFooter = sessionStorage.getItem('Footer');
 
 
-  if( localHeader === null || localFooter === null){
-    const { data, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
+  if (localHeader === null || localFooter === null) {
+    const { data, isLoading }: { data: undefined | ApiRequest, error: null | Error, isLoading: boolean } = useQuery({
       queryKey: ["elements"],
       queryFn: getElements,
     })
 
     if (isLoading) return <p>Loading...</p>
 
-    headerObject= data!.fields.header;
+    headerObject = data!.fields.header;
     // footerObject= data!.fields.footer;
-    
+
     sessionStorage.setItem('Header', JSON.stringify(headerObject));
     // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
-    
 
-  } else{
-    headerObject=JSON.parse(localHeader);
+
+  } else {
+    headerObject = JSON.parse(localHeader);
     // footerObject=JSON.parse(localFooter);
   }
 
-  const navList= headerObject.fields.navigation.fields.items;
+  const navList = headerObject.fields.navigation.fields.items;
+
+
+  
   
 
   return (
@@ -51,7 +55,7 @@ export default function Header() {
 
           <div className="flex lg:hidden">
             <button
-              onClick={() => {}}
+              onClick={() => { }}
               type="button"
               className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
               aria-label="toggle menu"
@@ -94,25 +98,18 @@ export default function Header() {
         <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
             
-            <a
-              href={navList[0].fields.url}
+
+            {navList.map((item, index) => (
+              <Link
+              key={index}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
+              to={`${item.fields.url}`}
             >
+              {/* {console.log(item.fields.url)} */}
+              {item.fields.label}
+            </Link>
               
-              {navList[0].fields.label}
-            </a>
-            <a
-              href={navList[1].fields.url}
-              className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
-            >
-              {navList[1].fields.label}
-            </a>
-            <a
-              href={navList[2].fields.url}
-              className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
-            >
-              {navList[2].fields.label}
-            </a>
+            ))}
           </div>
 
           <div className="relative mt-4 md:mt-0">
