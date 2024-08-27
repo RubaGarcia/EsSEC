@@ -192,6 +192,7 @@ export type ContentNodeRT = {
   nodeType: string;
 };
 
+
 export type RichText = {
   nodeType: string;
   data: Record<string, any>;
