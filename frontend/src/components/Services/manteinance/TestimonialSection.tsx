@@ -1,4 +1,3 @@
-import React from 'react';
 import { PersonFieldsReview } from '../../../types';
 import Reviews from './Reviews';
 
@@ -31,7 +30,7 @@ export default function TestimonialSection({
 
       <div className="grid grid-cols-1 gap-8 mx-auto mt-8 lg:grid-cols-2 xl:mt-10 max-w-7xl">
         {reviewsToDisplay.map((testimonial: PersonFieldsReview) => (
-          <Reviews review={testimonial} key={testimonial.id} />
+          <Reviews review={testimonial} key={testimonial.name} />
         ))}
       </div>
     </>

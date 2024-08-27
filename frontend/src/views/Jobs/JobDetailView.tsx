@@ -19,6 +19,11 @@ export default function JobDetailView() {
     retry: 10,
   });
 
+  if(isLoading || isError) {
+    return <div>Loading...</div>
+  }
+
+
   console.log(data);
 
   function handleFileSelection(selectedFiles: File[]) {

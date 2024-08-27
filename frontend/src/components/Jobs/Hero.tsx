@@ -1,5 +1,4 @@
 
-import React from 'react'
 import { heroElement } from '../../types'
 import { renderRichText } from '../../helpers/RichTextProcessor'
 

@@ -1,4 +1,4 @@
-import { NavigationItem } from "contentful-management";
+// import { NavigationItem } from "contentful-management";
 
 export interface ApiRequest {
   metadata: {
@@ -20,7 +20,7 @@ export interface ApiRequest {
 
 export interface Cartridge {
   internalTitle: string;
-  items: Array<Entry<ValueProposition | Job | NavigationItem | PersonFields >>;
+  items: Array<Entry<ValueProposition | Job | NavigationItemFields | PersonFields >>;
 }
 
 export interface ValueProposition {
@@ -99,6 +99,7 @@ interface Link<T> {
   type: "Link";
   linkType: string;
   id: string;
+  T: T;
 }
 
 export interface Entry<T> {
@@ -306,8 +307,8 @@ export type contactPersonElement = {
 export type contactPersonFields = {
   image?: string;
   name: string;
-  email: string;
-  review:Review;
+  email?: string;
+  review?:Review;
   job:Job;
   team: string;
 }

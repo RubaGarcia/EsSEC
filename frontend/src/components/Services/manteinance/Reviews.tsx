@@ -1,4 +1,3 @@
-import React from "react";
 import { PersonFieldsReview } from "../../../types";
 
 type ReviewsProps = {

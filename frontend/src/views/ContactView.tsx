@@ -2,7 +2,7 @@ import { useState } from "react";
 import PersonalDisplay from "../components/Personal/PersonalDisplay";
 import { getContact } from "../api/ContactAPI";
 import { useQuery } from "@tanstack/react-query";
-import { contactPersonElement, PersonFields, Entry } from "../types";
+import { contactPersonFields } from "../types";
 
 export default function ContactView() {
   const { data, isError, isLoading } = useQuery({
@@ -17,15 +17,15 @@ export default function ContactView() {
     return <div>Loading...</div>;
   }
 
-  const people: PersonFields[] = [];
+  const people: contactPersonFields[] = [];
 
   const elements = data?.fields.sections[0].fields.items;
 
-  elements?.forEach((element: Entry<PersonFields>) => {
-    const item: Entry<PersonFields> = {
-      name: element.fields.name,
-      job: element.fields.job,
-      team: element.fields.team,
+  elements?.forEach((element: contactPersonFields) => {
+    const item: contactPersonFields= {
+      name: element.name,
+      job: element.job,
+      team: element.team,
       // img: "element.fields.img.fields.file.url",
       // facebook: element.fields.facebook,
       // github: element.fields.github,

@@ -87,9 +87,9 @@ export async function getDigitalKit(){
     }
 }
 
-type ServiceAPIType = {
-    formData: FormData;
-}
+// type ServiceAPIType = {
+//     formData: FormData;
+// }
 
 export async function postEmailDigitalKit(formData: FormData) {
     try {

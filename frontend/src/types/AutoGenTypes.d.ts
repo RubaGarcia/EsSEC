@@ -39,16 +39,16 @@ export interface IBlurbFields {
     list: any[];
 }
 
-export interface IProduct/ServiceTileFields {
-    internalTitle: string;
-    title: string;
-    url: string;
-    ctaText: string;
-    allingment: any[];
-    image: Entry<any>;
-    interestedInThis: Entry<any>;
-    date: Date;
-}
+// export interface IProduct/ServiceTileFields {
+//     internalTitle: string;
+//     title: string;
+//     url: string;
+//     ctaText: string;
+//     allingment: any[];
+//     image: Entry<any>;
+//     interestedInThis: Entry<any>;
+//     date: Date;
+// }
 
 export interface ICartridgeFields {
     internalTitle: string;

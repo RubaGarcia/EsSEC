@@ -1,4 +1,3 @@
-import { Component } from "react";
 import "./spinner.css";
 
 export const LoadingSpinner = () => {

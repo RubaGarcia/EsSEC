@@ -8,13 +8,11 @@ type ReviewSliderProps = {
 export default function ReviewSlider({ reviewer }: ReviewSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // Función para cambiar la revisión a la anterior
     const showPreviousReview = () => {
         const previousIndex = currentIndex === 0 ? reviewer.length - 1 : currentIndex - 1;
         setCurrentIndex(previousIndex);
     };
 
-    // Función para cambiar la revisión a la siguiente
     const showNextReview = () => {
         const nextIndex = currentIndex === reviewer.length - 1 ? 0 : currentIndex + 1;
         setCurrentIndex(nextIndex);
