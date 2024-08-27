@@ -74,15 +74,15 @@ export interface NewlesterCartridgeFields {
 }
 
 export interface PersonFields {
-  internalName: string;
-  name: string;
-  email: string;
-  cv: Entry<Document>;
-  job: Entry<JobFields>;
-  image: Entry<MediaWrapperFields>;
-  review: Entry<ReviewFields>;
-  team: string;
-  rss: string[];
+  internalName?: string;
+  name?: string;
+  email?: string;
+  cv?: Entry<Document>;
+  job?: Entry<JobFields>;
+  image?: Entry<MediaWrapperFields>;
+  review?: Entry<ReviewFields>;
+  team?: string;
+  rss?: string[];
 }
 
 interface Sys {
