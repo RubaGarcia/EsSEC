@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import type { ApiRequest, HeaderFields, Entry } from "../../types";
+import type { HeaderFields, Entry } from "../../types";
 import { getElements } from "../../api/LayoutAPI";
 import { Link } from "react-router-dom";
 
