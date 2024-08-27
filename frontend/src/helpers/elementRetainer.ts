@@ -67,3 +67,4 @@ export function catchElements(){
 
 
 // export default waitToCatch('testVar').then((res:any) => console.log('>>>', res));
+

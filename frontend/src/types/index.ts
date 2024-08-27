@@ -1,3 +1,5 @@
+import { NavigationItem } from "contentful-management";
+
 export interface ApiRequest {
   metadata: {
     tags: Array<{
@@ -11,31 +13,35 @@ export interface ApiRequest {
     slug: string;
     seoMetadata: Entry<SeoMetadataFields>;
     header: Entry<HeaderFields>;
-    sections: Array<Entry<SectionFields>>;
+    sections: Array<Entry<Cartridge> | Entry<Blurb>>;
     footer: Entry<FooterFields>;
   };
 }
 
-interface SectionFields {
+export interface Cartridge {
   internalTitle: string;
-  items: Array<Entry<ValuePropositionFields>>;
+  items: Array<Entry<ValueProposition | Job | NavigationItem | PersonFields >>;
 }
 
-interface ValuePropositionFields {
+export interface ValueProposition {
   internalTitle: string;
   title: string;
   headline: string;
   body: Document;
   icon: Entry<MediaWrapperFields>;
+  type: string;
+  date: Date;
+  url: string;
+  propertiesList: Array<string>;
 }
 
 interface MediaWrapperFields {
   internalTitle: string;
   altText: string;
-  asset: Entry<AssetFields>;
+  asset: Entry<Asset>;
 }
 
-interface AssetFields {
+interface Asset {
   title: string;
   description: string;
   file: AssetFile;
@@ -60,15 +66,21 @@ export interface FooterFields {
   newlesterCartridge: Entry<NewlesterCartridgeFields>;
 }
 
-interface NewlesterCartridgeFields {
+export interface NewlesterCartridgeFields {
   internalTitle: string;
   items: Array<Entry<PersonFields>>;
 }
 
-interface PersonFields {
+export interface PersonFields {
   internalName: string;
   name: string;
   email: string;
+  cv: Entry<Document>;
+  job: Entry<JobFields>;
+  image: Entry<any>;
+  review: Entry<ReviewFields>;
+  team: string;
+  rss: string[];
 }
 
 interface Sys {
@@ -97,7 +109,7 @@ export interface Entry<T> {
   fields: T;
 }
 
-interface EntryLink<T> extends Link<T> {}
+interface EntryLink<T> extends Link<T> { }
 
 interface SeoMetadataFields {
   internalTitle: string;
@@ -135,7 +147,7 @@ interface ListNode {
 
 export interface HeaderFields {
   internalTitle: string;
-  logo: Entry<AssetFields>;
+  logo: Entry<Asset>;
   logoUrl: string;
   navigation: Entry<NavigationFields>;
 }
@@ -151,10 +163,10 @@ interface NavigationItemFields {
   url?: string
 }
 
-interface Space {}
-interface Environment {}
-interface ContentType {}
-interface Tag {}
+interface Space { }
+interface Environment { }
+interface ContentType { }
+interface Tag { }
 
 export type sys = {
   contentType: {
@@ -200,7 +212,7 @@ export type PortfolioFieldElement = {
   icon: string; //TODO implementar ImagesAPI
 };
 
-export type Person = {
+export type Person =  {
   sys: sys;
   fields: PersonFields;
 };
@@ -219,6 +231,7 @@ export type JobFields = {
   applicants?: Person[];
 };
 
+
 export type Review = {
   sys: sys;
   fields: ReviewFields;
@@ -229,11 +242,11 @@ export type ReviewFields = {
   reviewText: string;
 };
 export type PersonReview = {
-  sys: sys;
+  sys?: sys;
   fields: PersonFieldsReview;
 };
 export type PersonFieldsReview = {
-  image?: string; //TODO implementar ImagesAPI
+  image?: string; 
   name: string;
   email?: string;
   review: Review;
@@ -293,8 +306,14 @@ export type contactPersonElement = {
 export type contactPersonFields = {
   image?: string;
   name: string;
-  team?: string;
-  email?: string;
-  job: Job;
-  // role: string;
+  email: string;
+  review:Review;
+  job:Job;
+  team: string;
+}
+export type Blurb = {
+  internalTitle: string;
+  title: string;
+  textBlurb: string;
+  list: string[]
 }

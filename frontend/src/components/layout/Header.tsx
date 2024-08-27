@@ -1,17 +1,39 @@
+import { useQuery } from "@tanstack/react-query";
+import type { ApiRequest, HeaderFields, Entry } from "../../types";
+import { getElements } from "../../api/LayoutAPI";
 
 export default function Header() {
-  // FIXME: navlist puede quedar vacío porque el elemento asignado no es esperado correctamente 
-  // const headerInfo= catchElements().headerObject;
-  // let finished=false;
-  // let headerInfo;
-  // while(!finished){
-  //   const {loaded,scriptError,headerObject,footerObject,error}= catchElements();
-  //   finished=loaded;
-  //   headerInfo= headerObject;
-  // }
   
-  //console.log(JSON.stringify(headerInfo));
-  //const navList= headerInfo?.fields.navigation.fields.items;
+  let headerObject: Entry<HeaderFields>;
+  // let footerObject: Entry<FooterFields>; 
+    
+  let localHeader= sessionStorage.getItem('Header');
+  let localFooter= sessionStorage.getItem('Footer');
+
+
+  if( localHeader === null || localFooter === null){
+    const { data, isLoading } : {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
+      queryKey: ["elements"],
+      queryFn: getElements,
+    })
+
+    if (isLoading) return <p>Loading...</p>
+
+    headerObject= data!.fields.header;
+    // footerObject= data!.fields.footer;
+    
+    sessionStorage.setItem('Header', JSON.stringify(headerObject));
+    // sessionStorage.setItem('Footer', JSON.stringify(footerObject));
+    
+
+  } else{
+    headerObject=JSON.parse(localHeader);
+    // footerObject=JSON.parse(localFooter);
+  }
+
+  const navList= headerObject.fields.navigation.fields.items;
+  
+
   return (
     <nav
       x-data="{ isOpen: false }"
@@ -22,7 +44,7 @@ export default function Header() {
           <a href="/">
             <img
               className="w-auto h-6 sm:h-7"
-              src="https://merakiui.com/images/full-logo.svg"
+              src={headerObject.fields.logo.fields.file.url}
               alt=""
             />
           </a>
@@ -73,22 +95,22 @@ export default function Header() {
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
             
             <a
-              href=/*{navList![0].fields.url} */"#"
+              href={navList[0].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {/* {navList[0].fields.label} */}Home
+              {navList[0].fields.label}
             </a>
             <a
-              href=/* {navList![1].fields.url} */"#"
+              href={navList[1].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {/* {navList[1].fields.label} */}About
+              {navList[1].fields.label}
             </a>
             <a
-              href=/* {navList![2].fields.url} */"#"
+              href={navList[2].fields.url}
               className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
             >
-              {/* {navList[2].fields.label} */}Contact
+              {navList[2].fields.label}
             </a>
           </div>
 
