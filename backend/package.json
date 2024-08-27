@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc -b && vite build",
     "dev": "nodemon --exec ts-node src/index.ts",
     "dev:api": "nodemon --exec ts-node src/index.ts --api"
   },
@@ -11,18 +12,22 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@contentful/content-source-maps": "^0.11.1",
     "@types/cors": "^2.8.17",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
-    "file-system": "^2.2.2",
+    "file-system": "^1.2.2",
+    "json-patch": "^0.7.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/json-patch": "^0.0.33",
     "@types/multer": "^1.4.11",
+    "@types/node": "^22.5.0",
     "contentful": "^10.15.0",
     "contentful-management": "^11.31.7",
     "contentful-typescript-codegen": "^3.4.0",

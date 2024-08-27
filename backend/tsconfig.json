@@ -2,14 +2,15 @@
     "compilerOptions": {
         "outDir": "./dist",
         "rootDir": "./src",
-        "lib": ["esnext"],
+        "lib": ["dom","esnext"],
         "target": "ESNext",
         "moduleResolution": "NodeNext",
         "module": "NodeNext",
         "strict": false,
         "sourceMap": true,
         "esModuleInterop": true,
-        "declaration": true
+        "declaration": true,
+        "allowSyntheticDefaultImports": true,
     },
     "include": ["src/**/*.ts", "../frontend/src/types/AutoGenTypes.d.ts"]
 }
