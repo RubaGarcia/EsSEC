@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { HomeController } from "../Controllers/HomeController";
-import { getEntries } from "../contentful/contentfulAPI";
 import { createPersonEntry } from "../config/contentfulClient";
 
 const router = Router();
