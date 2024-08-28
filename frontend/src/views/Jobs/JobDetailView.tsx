@@ -18,18 +18,7 @@ export default function JobDetailView() {
     queryFn: () => getJobById({ JobId: jobId }),
     retry: 10,
   });
-
-  if(isLoading || isError) {
-    return <div>Loading...</div>
-  }
-
-
-  console.log(data);
-
-  function handleFileSelection(selectedFiles: File[]) {
-    setFiles(selectedFiles);
-  }
-
+  
   const { mutate } = useMutation({
     mutationFn: applyJob,
     onError: (error) => {
@@ -40,6 +29,21 @@ export default function JobDetailView() {
       alert("Email y archivos subidos con éxito");
     },
   });
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (isError) {
+    return <div>Ha ocurrido un error al cargar los datos.</div>;
+  }
+
+
+  console.log(data);
+
+  function handleFileSelection(selectedFiles: File[]) {
+    setFiles(selectedFiles);
+  }
+
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
