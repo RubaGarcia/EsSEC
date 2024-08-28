@@ -27,8 +27,9 @@ export class LayoutController {
         
         
             try {
-                
-                const id = await createPersonEntry({
+              console.log("*************")
+                console.log(req.body.mail)      
+                 const id = await createPersonEntry({
                 //   internalName: "John Doe 5",,
                   email: req.body.email,
                   // cvAssetId: "cvAssetId123", // Opcional

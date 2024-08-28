@@ -19,7 +19,7 @@ export async function getElements(){
 
 export async function postEmail(formData: FormData) {
     try {
-        const url = '/home/create';
+        const url = '/';
 
         // Verifica el contenido del FormData
         for (const [key, value] of formData.entries()) {

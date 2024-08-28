@@ -182,6 +182,11 @@ export async function createPersonEntry({
   imageEntryId?: string;
   reviewEntryId?: string;
 }) {
+
+  // console.log("internalName", internalName);
+
+
+
   try {
     console.log("managementClient", managementClient);
     const space = await managementClient.getSpace("k9voop8uf94b");

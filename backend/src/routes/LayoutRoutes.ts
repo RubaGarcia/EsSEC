@@ -8,14 +8,16 @@ const router = Router();
 router.get(
   "/",
   //TODO:Return data
-  LayoutController.getGeneral
+  LayoutController.getGeneral,
 );
 
-router.post("/",
-    //TODO:Add middleware  (Body:email)
-    body('email').isEmail().withMessage('Email is not valid'),
-    handleInputErrors,
-    LayoutController.postLayout
-  );
+router.post(
+  "/",
+  //TODO:Add middleware  (Body:email)
+  // body('email').isEmail().withMessage('Email is not valid'),
+  // handleInputErrors,
+
+  LayoutController.postLayout,
+);
 
 export default router;
