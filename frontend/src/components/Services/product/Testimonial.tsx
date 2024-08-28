@@ -15,7 +15,7 @@ export default function Testimonial({ personReview }: TestimonialProps) {
     <div className="p-8 border rounded-lg dark:border-gray-700">
       {personReview?.review && (
         <p className="leading-loose text-gray-500 dark:text-gray-400">
-          {personReview.review.fields.reviewText}
+          {personReview.review.fields?.reviewText}
         </p>
       )}
 

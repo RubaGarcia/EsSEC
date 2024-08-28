@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
-import {PersonFields, ValueProposition, Cartridge } from "../types";
+import {PersonFields, ValuePropositionFields, Cartridge } from "../types";
 import type { ApiRequest, Entry, Blurb } from "../types";
 
 export default function MainView() {
@@ -13,10 +13,10 @@ export default function MainView() {
 
   if (isLoading) return <p>Loading...</p>
 
-  const elements = data?.fields.sections;
+  const elements = data?.fields?.sections;
  
     const characteristics = elements?.find(
-      (element : Entry<Cartridge> | Entry<Blurb> ) => element.fields.internalTitle === "characteristics",
+      (element : Entry<Cartridge> | Entry<Blurb> ) => element.fields?.internalTitle === "characteristics",
     );
     console.log(JSON.stringify(characteristics))
   
@@ -39,7 +39,8 @@ export default function MainView() {
     return texts;
   };
 
-  const texts = aux ? extractTexts(aux.fields.list) : [];
+  //TODO: Revisar que esto no lo haga crashear
+  const texts = aux ? extractTexts(aux.fields!.list) : [];
 /*    interface JsonData {
     fields?: {
       sections?: Array<{
@@ -58,14 +59,14 @@ export default function MainView() {
     };
   } */
 
-  const valuePropList: Entry<Cartridge>= data?.fields.sections[1] as Entry<Cartridge>
+  const valuePropList: Entry<Cartridge>= data?.fields?.sections![1] as Entry<Cartridge>
  
   
   function PortfolioFields(): string[] {
     const types: string[] = [];
 
 
-      const items : Entry<ValueProposition>[] = valuePropList.fields.items as Entry<ValueProposition>[];
+      const items : Entry<ValuePropositionFields>[] = valuePropList.fields?.items as Entry<ValuePropositionFields>[];
       
       // Recorre cada elemento en items y extrae el campo 'type'
       for (const item of items) {
@@ -80,21 +81,21 @@ export default function MainView() {
 
   
 
-  const personList: Entry<Cartridge>= data?.fields.sections[2]  as Entry<Cartridge>
+  const personList: Entry<Cartridge>= data?.fields?.sections![2]  as Entry<Cartridge>;
 
-  const reviewer: Entry<PersonFields> = personList.fields.items[0] as Entry<PersonFields> ;
+  const reviewer: Entry<PersonFields> = personList.fields?.items![0] as Entry<PersonFields>;
 
 
   let listReview: Entry <PersonFields>[] = personList.fields?.items as Entry<PersonFields>[];
-  const hero: Entry<Cartridge>= data?.fields.sections[0] as Entry<Cartridge>;
-  const heroValueProp: Entry<ValueProposition>= hero?.fields.items[0] as  Entry<ValueProposition>;
-  const heroImgUrl= heroValueProp.fields.icon?.fields.asset.fields.file.url;
+  const hero: Entry<Cartridge>= data?.fields?.sections![0] as Entry<Cartridge>;
+  const heroValueProp: Entry<ValuePropositionFields>= hero?.fields?.items![0] as  Entry<ValuePropositionFields>;
+  const heroImgUrl= heroValueProp.fields?.icon?.fields?.asset?.fields?.file?.url;
   //console.log(data)
 
   //let portFolioElements  = []; // inicializado como array vacío
 
 
-  const portFolioElements  : Entry<ValueProposition>[] = valuePropList.fields?.items as Entry<ValueProposition>[] ?? [];
+  const portFolioElements  : Entry<ValuePropositionFields>[] = valuePropList.fields?.items as Entry<ValuePropositionFields>[] ?? [];
 
 
   reviewer && listReview?.push(reviewer);

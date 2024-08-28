@@ -51,7 +51,7 @@ export default function TestimonialAuditories({reviews}: TestimonialAuditoriesPr
         </div>
 
         <p className="mt-4 text-lg leading-relaxed text-white md:text-xl">
-          {reviews[currentIndex].review.fields.reviewText}
+          {reviews[currentIndex].review.fields?.reviewText}
         </p>
 
         <div className="flex items-center justify-between mt-6 md:justify-start">

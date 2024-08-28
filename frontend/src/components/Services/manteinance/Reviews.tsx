@@ -7,9 +7,9 @@ type ReviewsProps = {
 export default function Reviews({ review }: ReviewsProps) {
   return (
     <div className="p-6 bg-gray-100 rounded-lg dark:bg-gray-800 md:p-8">
-      {review.review.fields.reviewText && (
+      {review.review.fields?.reviewText && (
         <p className="leading-loose text-gray-500 dark:text-gray-300">
-          {review.review.fields.reviewText}
+          {review.review.fields?.reviewText}
         </p>
       )}
 

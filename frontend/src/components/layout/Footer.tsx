@@ -26,8 +26,7 @@ export default function Footer() {
 
     if (isLoading) return <p>Loading...</p>;
 
-    footerObject = data!.fields.footer;
-    // footerObject= data!.fields.footer;
+    footerObject = data!.fields!.footer!;
 
     //sessionStorage.setItem('Header', JSON.stringify(headerObject));
     sessionStorage.setItem("Footer", JSON.stringify(footerObject));
@@ -36,7 +35,9 @@ export default function Footer() {
     footerObject = JSON.parse(localFooter);
   }
 
-  const [email, setEmail] = useState<string>("");
+  const footerLogoUrl= footerObject.fields?.logo?.fields?.file?.url ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+
+  /* FIXME: const [email, setEmail] = useState<string>("");
 
   const { mutate } = useMutation({
     mutationFn: postEmail,
@@ -79,7 +80,9 @@ export default function Footer() {
     return re.test(email);
   }
 
-  console.log(footerObject);
+  console.log(footerObject); */
+
+
 
   return (
     <footer className="bg-white dark:bg-gray-900">
@@ -92,13 +95,13 @@ export default function Footer() {
 
             <form
               className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row"
-              onSubmit={handleSubmit}
+              //FIXME: onSubmit={handleSubmit}
             >
               <input
                 type="email"
                 placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                //FIXME:value={email}
+                //onChange={(e) => setEmail(e.target.value)}
                 className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
                 // placeholder="Email Address"
               />
@@ -173,7 +176,7 @@ export default function Footer() {
           <a href="#">
             <img
               className="w-auto h-7"
-              src={footerObject.fields.logo.fields.file.url}
+              src={footerLogoUrl}
               alt=""
             />
           </a>

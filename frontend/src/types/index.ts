@@ -1,76 +1,76 @@
-// import { NavigationItem } from "contentful-management";
+// ------------------------------------ Structural types (contentful) ----------------------------
 
 export interface ApiRequest {
-  metadata: {
-    tags: Array<{
-      sys: Link<Tag>;
+  metadata?: {
+    tags?: Array<{
+      sys?: Link<Tag>;
     }>;
   };
-  sys: Sys;
-  fields: {
-    pageTitle: string;
-    internalTitle: string;
-    slug: string;
-    seoMetadata: Entry<SeoMetadataFields>;
-    header: Entry<HeaderFields>;
-    sections: Array<Entry<Cartridge> | Entry<Blurb>>;
-    footer: Entry<FooterFields>;
+  sys?: Sys;
+  fields?: {
+    pageTitle?: string;
+    internalTitle?: string;
+    slug?: string;
+    seoMetadata?: Entry<SeoMetadataFields>;
+    header?: Entry<HeaderFields>;
+    sections?: Array<Entry<Cartridge> | Entry<Blurb>>;
+    footer?: Entry<FooterFields>;
   };
 }
 
 export interface Cartridge {
-  internalTitle: string;
-  items: Array<Entry<ValueProposition | Job | NavigationItemFields | PersonFields >>;
+  internalTitle?: string;
+  items?: Array<Entry<ValuePropositionFields | JobFields | NavigationItemFields | PersonFields >>;
 }
 
-export interface ValueProposition {
-  internalTitle: string;
-  title: string;
-  headline: string;
-  body: Document;
-  icon: Entry<MediaWrapperFields>;
-  type: string;
-  date: Date;
-  url: string;
-  propertiesList: Array<string>;
+export interface ValuePropositionFields {
+  internalTitle?: string;
+  title?: string;
+  headline?: string;
+  body?: Document;
+  icon?: Entry<MediaWrapperFields>;
+  type?: string;
+  date?: Date;
+  url?: string;
+  propertiesList?: Array<string>;
 }
 
 interface MediaWrapperFields {
-  internalTitle: string;
-  altText: string;
-  asset: Entry<Asset>;
+  internalTitle?: string;
+  altText?: string;
+  asset?: Entry<Asset>;
 }
 
 interface Asset {
-  title: string;
-  description: string;
-  file: AssetFile;
+  title?: string;
+  description?: string;
+  file?: AssetFile;
 }
 
 interface AssetFile {
-  url: string;
-  details: {
-    size: number;
-    image: {
-      width: number;
-      height: number;
+  url?: string;
+  details?: {
+    size?: number;
+    image?: {
+      width?: number;
+      height?: number;
     };
   };
-  fileName: string;
-  contentType: string;
+  fileName?: string;
+  contentType?: string;
 }
 
 export interface FooterFields {
-  internalTitle: string;
-  copyright: string;
-  newlesterCartridge: Entry<NewlesterCartridgeFields>;
-  logo: Entry<Asset>;
-  logoUrl: string;
+  internalTitle?: string;
+  copyright?: string;
+  newlesterCartridge?: Entry<NewlesterCartridgeFields>;
+  logo?: Entry<Asset>;
+  logoUrl?: string;
 }
 
 export interface NewlesterCartridgeFields {
-  internalTitle: string;
-  items: Array<Entry<PersonFields>>;
+  internalTitle?: string;
+  items?: Array<Entry<PersonFields>>;
 }
 
 export interface PersonFields {
@@ -86,90 +86,107 @@ export interface PersonFields {
 }
 
 interface Sys {
-  space: EntryLink<Space>;
-  id: string;
-  type: string;
-  createdAt: string;
-  updatedAt: string;
-  environment: EntryLink<Environment>;
-  revision: number;
-  contentType: EntryLink<ContentType>;
-  locale: string;
+  space?: EntryLink<Space>;
+  id?: string;
+  type?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  environment?: EntryLink<Environment>;
+  revision?: number;
+  contentType?: EntryLink<ContentType>;
+  locale?: string;
 }
 
 interface Link<T> {
-  type: "Link";
-  linkType: string;
-  id: string;
-  T: T;
+  type?: "Link";
+  linkType?: string;
+  id?: string;
+  T?: T;
 }
 
 export interface Entry<T> {
-  metadata: {
-    tags: Array<any>;
+  metadata?: {
+    tags?: Array<any>;
   };
-  sys: Sys;
-  fields: T;
+  sys?: Sys;
+  fields?: T;
 }
 
 interface EntryLink<T> extends Link<T> { }
 
 interface SeoMetadataFields {
-  internalTitle: string;
-  pageTitle: string;
-  pageDescription: Document;
-  ogType: string;
-  ogImage: string;
-  ogDescription: string;
+  internalTitle?: string;
+  pageTitle?: string;
+  pageDescription?: Document;
+  ogType?: string;
+  ogImage?: string;
+  ogDescription?: string;
 }
 
-interface Document {
-  nodeType: string;
-  data: any;
-  content: Array<ContentNode>;
-}
-
-interface ContentNode {
-  nodeType: string;
-  data: any;
-  content: Array<TextNode | ListNode>;
-}
-
-interface TextNode {
-  nodeType: "text";
-  value: string;
-  marks: Array<any>;
-  data: any;
-}
-
-interface ListNode {
-  nodeType: "unordered-list" | "ordered-list" | "list-item";
-  data: any;
-  content: Array<ContentNode>;
-}
 
 export interface HeaderFields {
-  internalTitle: string;
-  logo: Entry<Asset>;
-  logoUrl: string;
-  navigation: Entry<NavigationFields>;
+  internalTitle?: string;
+  logo?: Entry<Asset>;
+  logoUrl?: string;
+  navigation?: Entry<NavigationFields>;
 }
 
 interface NavigationFields {
-  internalTitle: string;
-  items: Array<Entry<NavigationItemFields>>;
+  internalTitle?: string;
+  items?: Array<Entry<NavigationItemFields>>;
 }
 
 interface NavigationItemFields {
-  internalTitle: string;
-  label: string;
+  internalTitle?: string;
+  label?: string;
   url?: string
 }
+
+export type JobFields = {
+  internal?: boolean;
+  name?: string;
+  salary?: number;
+  description: RichText;
+  employees?: Entry<PersonFields>[];
+  applicants?: Entry<PersonFields>[];
+};
 
 interface Space { }
 interface Environment { }
 interface ContentType { }
 interface Tag { }
+
+
+//-------------------------- Document related ----------------------------
+
+
+interface Document {
+  nodeType?: string;
+  data?: any;
+  content?: Array<ContentNode>;
+}
+
+interface ContentNode {
+  nodeType?: string;
+  data?: any;
+  content?: Array<TextNode | ListNode>;
+}
+
+interface TextNode {
+  nodeType?: "text";
+  value?: string;
+  marks?: Array<any>;
+  data?: any;
+}
+
+interface ListNode {
+  nodeType?: "unordered-list" | "ordered-list" | "list-item";
+  data?: any;
+  content?: Array<ContentNode>;
+}
+
+
+//-------------------------- Auxiliary types ----------------------------
 
 export type sys = {
   contentType: {
@@ -216,44 +233,21 @@ export type PortfolioFieldElement = {
   icon: string; //TODO implementar ImagesAPI
 };
 
-export type Person =  {
-  sys: sys;
-  fields: PersonFields;
-};
-
-export type Job = {
-  sys: sys;
-  fields: JobFields;
-};
-
-export type JobFields = {
-  internal: boolean;
-  name: string;
-  salary?: number;
-  description: RichText;
-  employees?: Person[];
-  applicants?: Person[];
-};
 
 
-export type Review = {
-  sys: sys;
-  fields: ReviewFields;
-};
+
+
 
 export type ReviewFields = {
   mainQuote: string;
   reviewText: string;
 };
-export type PersonReview = {
-  sys?: sys;
-  fields: PersonFieldsReview;
-};
+
 export type PersonFieldsReview = {
   image?: string; 
   name: string;
   email?: string;
-  review: Review;
+  review: Entry<ReviewFields>;
   job?: Job;
 };
 
@@ -311,7 +305,7 @@ export type contactPersonFields = {
   image?: string;
   name: string;
   email?: string;
-  review?:Review;
+  review?:Entry<ReviewFields>;
   job:Job;
   team: string;
 }
@@ -321,3 +315,26 @@ export type Blurb = {
   textBlurb: string;
   list: string[]
 }
+
+
+//----------------------- Possibly unnecesary -----------------
+
+export type Job = {
+  sys: sys;
+  fields: JobFields;
+};
+
+export type Person =  {
+  sys: sys;
+  fields: PersonFields;
+};
+
+export type Review = {
+  sys: sys;
+  fields: ReviewFields;
+};
+
+export type PersonReview = {
+  sys?: sys;
+  fields: PersonFieldsReview;
+};
