@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
 import { createAsset, createPersonEntry } from "../config/contentfulClient";
-import { Multer } from "multer";
 
 interface MulterRequest extends Request {
   file: Express.Multer.File; // Multer agrega la propiedad `file` aquí
@@ -18,11 +17,9 @@ export class JobsController{
     };
 
   static getJob = async (req: Request, res: Response) => {
-    // res.send('Job with id ' + req.params.JobId);
     try {
       const entries = await getEntries("job");
       // const fields = entries.map((entry) => entry.fields)
-      //TODO:filter by the id element of the job, if the id is true return the job
       const job = entries.find((entry) => entry.sys.id === req.params.JobId);
       res.json(job.fields);
     } catch (error) {
