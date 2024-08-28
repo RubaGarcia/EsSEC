@@ -4,20 +4,41 @@ import { createPersonEntry } from "../config/contentfulClient";
 
 const router = Router();
 
+/**
+ * @swagger
+ * /api/home:
+ *      get:
+ *          summary: Get the elements of the home view
+ *          tags:
+ *              - Home
+ *          description: Return a JSON with the home elements from contentful
+ *          responses:
+ *              200:
+ *                  description: Successful response
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: array
+ * 
+ *              500:
+ *                  description: Internal Server Error
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  error:
+ *                                      type: string
+ *                  example:
+ *                      error: "An error occurred"
+ */
 router.get(
   "/",
   
   HomeController.getGeneral,
 );
 
-// router.get("/spaces", async (req, res) => {
-//   try {
-//     const entries = await getEntries("valueProposition");
-//     res.json(entries.map((entry) => entry.fields));
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+
 
 router.post("/create",
 

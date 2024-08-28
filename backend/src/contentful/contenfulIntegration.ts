@@ -8,6 +8,7 @@ app.get('/spaces', async (req, res) => {
     const entries = await getEntries('yourContentType');
     res.json(entries);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Error fetching entries:', error); // Log error server-side
+    res.status(500).json({ error: 'Internal server error' }); // Generic message to client
   }
 });

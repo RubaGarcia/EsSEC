@@ -16,16 +16,34 @@ export class JobsController{
           }
     };
 
-  static getJob = async (req: Request, res: Response) => {
-    try {
-      const entries = await getEntries("job");
-      // const fields = entries.map((entry) => entry.fields)
-      const job = entries.find((entry) => entry.sys.id === req.params.JobId);
-      res.json(job.fields);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
+    static getJob = async (req: Request, res: Response) => {
+      try {
+        const entries = await getEntries("job");
+    
+        // Verifica si 'entries' es un array
+        if (Array.isArray(entries)) {
+          // Encuentra el trabajo que coincide con JobId
+          const jobId = req.params.JobId;
+          if (!jobId) {
+            return res.status(400).json({ error: "JobId is required" });
+          }
+    
+          const job = entries.find((entry) => entry.sys.id === jobId);
+    
+          if (!job) {
+            return res.status(404).json({ error: "Job not found" });
+          }
+    
+          return res.json(job.fields);
+        } else {
+          // Manejo del caso en el que 'entries' no es un array
+          return res.status(500).json({ error: "Unexpected response format" });
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    };
+    
 
   static obtainEmail = async (req: MulterRequest, res: Response) => {
     try {

@@ -15,11 +15,24 @@ export const managementClient: ClientAPI = createClient({
 });
 
 function generateID(): string {
-  return "xxxxyxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  
+  const array = new Uint8Array(16); // 16 bytes for a UUID
+  window.crypto.getRandomValues(array);
+  
+  // Convert the byte array to a UUID string
+  const uuid = [...array].map((byte, index) => {
+    const hex = byte.toString(16).padStart(2, '0'); // Convert to hex and pad
+    if (index === 6) {
+      return (parseInt(hex[0], 16) & 0x0f | 0x40).toString(16) + hex[1]; // Ensure version 4 UUID
+    }
+    if (index === 8) {
+      return (parseInt(hex[0], 16) & 0x3f | 0x80).toString(16) + hex[1]; // Ensure variant 1 UUID
+    }
+    return hex;
+  }).join('');
+  
+  // Format the UUID
+  return `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
 }
 
 export async function AvailableName() {

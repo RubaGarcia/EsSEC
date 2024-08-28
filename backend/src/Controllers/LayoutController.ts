@@ -8,15 +8,15 @@ export class LayoutController {
       const header = await getEntries("header");
       const footer = await getEntries("footer");
       const layout = {
-        header: header.map((entry) => entry.fields),
-        footer: footer.map((entry) => entry.fields),
+        header: Array.isArray(header) ? header.map((entry) => entry.fields) : [],
+        footer: Array.isArray(footer) ? footer.map((entry) => entry.fields) : [],
       };
 
       res.json(layout);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-    res.send("Layout General");
+    // res.send("Layout General");
   };
 
   static postLayout = async (req: Request, res: Response) => {

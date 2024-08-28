@@ -1,13 +1,12 @@
 import { Router } from "express";
-import multer from "multer";
 import { JobsController } from "../Controllers/JobsController";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
+import upload from "../config/multer";
 
 const router = Router();
 
-// Configuramos multer para almacenar los archivos subidos temporalmente en la carpeta 'uploads'
-const upload = multer({ dest: "uploads" });
+
 
 router.get("/", JobsController.getGeneral);
 
