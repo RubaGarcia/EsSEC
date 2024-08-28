@@ -1,5 +1,5 @@
 import { createClient as createDeliveryClient } from "contentful";
-import { ClientAPI, createClient  } from "contentful-management";
+import { ClientAPI, createClient } from "contentful-management";
 import colors from "colors";
 import fs from "fs";
 
@@ -22,7 +22,6 @@ function generateID(): string {
   });
 }
 
-//TODO: función para configurar los nombres internos, se la puede cambiar(estaba pensada para ids)
 export async function AvailableName() {
   const space = await managementClient.getSpace("k9voop8uf94b");
   const environment = await space.getEnvironment("master");
@@ -61,51 +60,6 @@ async function existingEmail(email: string) {
     }
   }
   return false;
-}
-
-//FIXME: función de pruebas
-export async function createEntry() {
-  try {
-    // const id = await AvailableEntryId();
-    // console.log("ID generado:", id);
-    // AvailableEntryId();
-
-    // Obtener el espacio (aquí debes usar el cliente de Content Management API)
-    const space = await managementClient.getSpace("k9voop8uf94b");
-
-    // Obtener el entorno (por defecto, "master")
-    const environment = await space.getEnvironment("master");
-
-    // Crear una nueva entrada de tipo 'footer'
-    const entry = await environment.createEntry("footer", {
-      fields: {
-        internalTitle: {
-          "en-US": "My Footer",
-        },
-        copyright: {
-          "en-US": "Copyright 2024 © All rights reserved",
-        },
-        newlesterCartridge: {
-          "en-US": {
-            sys: {
-              type: "Link",
-              linkType: "Entry",
-              id: "2gsunsNsDDTpdGMkvv7EFD", // ID de la entrada de tipo 'newlesterCartridge'
-            },
-          },
-        },
-      },
-    });
-
-    console.log("Entry created:", entry.sys.id);
-
-    // Publicar la entrada después de crearla
-    const publishedEntry = await entry.publish();
-
-    console.log("Entry published:", publishedEntry.sys.id);
-  } catch (error) {
-    console.error(error);
-  }
 }
 
 // Función para crear un Asset
@@ -182,11 +136,6 @@ export async function createPersonEntry({
   imageEntryId?: string;
   reviewEntryId?: string;
 }) {
-
-  // console.log("internalName", internalName);
-
-
-
   try {
     console.log("managementClient", managementClient);
     const space = await managementClient.getSpace("k9voop8uf94b");
@@ -266,7 +215,8 @@ export async function createPersonEntry({
   }
 }
 
-export async function retrieveAsset(asset_id:string){
-  const asset = deliveryClient.getAsset(asset_id)
-  .then((asset) => console.log(asset.fields.file.url))
+export async function retrieveAsset(asset_id: string) {
+  deliveryClient
+    .getAsset(asset_id)
+    .then((asset) => console.log(asset.fields.file.url));
 }

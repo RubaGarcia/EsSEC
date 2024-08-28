@@ -9,22 +9,24 @@ export async function getSpace() {
 /**
  * Obtener las entradas de una vista, puede tomar como parametro opcional el internalTitle
  * de la misma para devolver directamente la vista adecuada
- * @param contentType El content-type 
+ * @param contentType El content-type
  * @param internalTitle El internalTitle de la vista
- * @returns 
+ * @returns
  */
 export async function getEntries(contentType: string, internalTitle?: string) {
   try {
     const entries = await client.getEntries({
       content_type: contentType,
-      include:10
+      include: 10,
     });
-    let aux;
-    internalTitle ? aux=entries.items.find((entry) => entry.fields.internalTitle === internalTitle): aux=entries.items;
-    return aux;
+    return internalTitle
+      ? entries.items.find(
+          (entry) => entry.fields.internalTitle === internalTitle,
+        )
+      : entries.items;
   } catch (error) {
     console.error("Error fetching entries:", error);
-    throw error
+    throw error;
   }
 }
 
