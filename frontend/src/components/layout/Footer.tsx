@@ -1,49 +1,46 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
 import { getElements, postEmail } from "../../api/LayoutAPI";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import axios from "axios";
 
 export default function Footer() {
   let footerObject: Entry<FooterFields>;
-  // const [email, setEmail] = useState<string>("");
-
-  let localHeader = sessionStorage.getItem("Header");
-  let localFooter = sessionStorage.getItem("Footer");
-
-  if (localHeader === null || localFooter === null) {
-    const {
-      data,
-      isLoading,
-    }: {
-      data: undefined | ApiRequest;
-      error: null | Error;
-      isLoading: boolean;
-    } = useQuery({
-      queryKey: ["elements"],
-      queryFn: getElements,
-    });
-
-    if (isLoading) return <p>Loading...</p>;
-
-    footerObject = data!.fields.footer;
-    // footerObject= data!.fields.footer;
-
-    //sessionStorage.setItem('Header', JSON.stringify(headerObject));
-    sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-  } else {
-    //HeaderObject = JSON.parse(localHeader);
-    footerObject = JSON.parse(localFooter);
-  }
-
   const [email, setEmail] = useState<string>("");
+
+  // Usamos useState para manejar el estado del footer local
+  const [localFooter, setLocalFooter] = useState<string | null>(sessionStorage.getItem("Footer"));
+
+  const {
+    data,
+    isLoading,
+  }: {
+    data: undefined | ApiRequest;
+    error: null | Error;
+    isLoading: boolean;
+  } = useQuery({
+    queryKey: ["elements"],
+    queryFn: getElements,
+    // Esta opción habilita o deshabilita la consulta según la condición
+    enabled: localFooter === null,
+  });
+
+  useEffect(() => {
+    if (localFooter === null && data) {
+      footerObject = data.fields.footer;
+      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+      setLocalFooter(JSON.stringify(footerObject));  // Actualiza el estado local con el footer recién obtenido
+    } else if (localFooter) {
+      footerObject = JSON.parse(localFooter);
+    }
+  }, [data, localFooter]);
 
   const { mutate } = useMutation({
     mutationFn: postEmail,
     onError: (error) => {
       console.error("Error al enviar los datos:", error);
       alert(
-        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde.",
+        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde."
       );
     },
     onSuccess: () => {
@@ -79,9 +76,13 @@ export default function Footer() {
     return re.test(email);
   }
 
-  console.log(footerObject);
+  if (isLoading) return <p>Loading...</p>;
 
-  return (
+  // Si localFooter sigue siendo null, no renderiza nada hasta que se haya establecido
+  if (!localFooter) return null;
+
+  footerObject = JSON.parse(localFooter);
+    return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
