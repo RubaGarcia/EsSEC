@@ -2,50 +2,33 @@ import React, { useState } from "react";
 import ProjectDisplay from "../../components/Proyects/ProjectDisplay";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "../../api/ProjectsAPI";
-import { PortfolioFieldElement, sys } from "../../types";
+import { ApiRequest, PortfolioFieldElement, sys, Cartridge, Entry, ValuePropositionFields } from "../../types";
 
-// Define la estructura esperada de los datos
-interface JsonData {
-  fields?: {
-    sections?: Array<{
-      fields?: {
-        items?: Array<{
-          fields?: {
-            type?: string;
-            title?: string;
-            icon?: string;
-            headline?: string;
-          };
-          sys?: sys;
-        }>;
-      };
-    }>;
-  };
-}
 
 // Filtra los proyectos por tipo
-const getProjectsByType = (data: JsonData | undefined, type: string) => {
-  const projects: PortfolioFieldElement[] = [];
+const getProjectsByType = (data: ApiRequest | undefined, type: string) => {
+  const projects: ValuePropositionFields[] = [];
   const ids: string[] = [];
 
   if (data?.fields?.sections) {
-    for (const section of data.fields.sections) {
+    for (const section of data.fields.sections as Entry<Cartridge>[]) {
       if (section?.fields?.items) {
-        const filteredItems = section.fields.items.filter(
+        const list : Entry<ValuePropositionFields>[] = section.fields.items as Entry<ValuePropositionFields>[]
+        const filteredItems = list.filter(
           (item) => (type ? item.fields?.type === type : true), // Display all if no type is specified
         );
 
         filteredItems.forEach((item) => {
-          const element: PortfolioFieldElement = {
+          const element: ValuePropositionFields = {
             internalTitle: "",
             title: item.fields?.title || "",
             type: item.fields?.type,
             headline: item.fields?.headline || "",
-            icon: item.fields?.icon || "",
+            icon: item.fields?.icon!,
           };
 
           if (item.sys) {
-            ids.push(item.sys.id);
+            ids.push(item?.sys?.id!);
           }
           projects.push(element);
         });
@@ -57,15 +40,15 @@ const getProjectsByType = (data: JsonData | undefined, type: string) => {
 };
 
 // Extrae los tipos de los campos
-const PortfolioFields = (data: JsonData | undefined): string[] => {
+const PortfolioFields = (data: ApiRequest | undefined): string[] => {
   const types: string[] = [];
 
   if (data?.fields?.sections) {
     if (data.fields.sections.length > 0) {
-      const firstSection = data.fields.sections[0];
+      const firstSection : Entry<Cartridge> = data.fields.sections[0] ;
 
       if (firstSection?.fields?.items) {
-        const cartridges = firstSection.fields.items;
+        const cartridges: Entry<ValuePropositionFields>[] = firstSection.fields.items as Entry<ValuePropositionFields>[];
 
         for (const cartridge of cartridges) {
           const type = cartridge.fields?.type;
@@ -82,7 +65,7 @@ const PortfolioFields = (data: JsonData | undefined): string[] => {
 };
 
 export default function ProjectsGeneralView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } :  {data: undefined | ApiRequest, isError:boolean, isLoading: boolean} = useQuery({
     queryKey: ["ProjectsPage"],
     queryFn: getProjects,
     retry: 10,
@@ -113,7 +96,6 @@ export default function ProjectsGeneralView() {
         </h1>
 
         <div className="flex py-4 mt-4 overflow-x-auto overflow-y-hidden md:justify-center dark:border-gray-700">
-          {/* Add a button for "All" */}
           <button
             key="all"
             className={`h-12 px-8 py-2 -mb-px text-sm text-center text-gray-700 bg-transparent border-b-2 border-gray-200 sm:text-base dark:text-white whitespace-nowrap cursor-base focus:outline-none dark:border-gray-700 dark:hover:border-gray-400 hover:border-gray-400 ${

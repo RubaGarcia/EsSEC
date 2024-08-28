@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { PortfolioFieldElement } from "../../types";
+import { PortfolioFieldElement, ValuePropositionFields } from "../../types";
 
 type ProjectDisplayProps = {
-  projects: Pick<PortfolioFieldElement, "title" | "headline" | "icon">[];
+  projects: Pick<ValuePropositionFields, "title" | "headline" | "icon">[];
   ids: string[];
 };
 
@@ -32,7 +32,7 @@ export default function ProjectDisplay({ projects, ids }: ProjectDisplayProps) {
             <div className="mt-4 lg:w-1/2 lg:mt-0">
               <img
                 className="object-cover w-full h-64 rounded-lg md:h-96"
-                src={project.icon}
+                src={project.icon?.fields?.asset?.fields?.file?.url}
                 alt=""
               />
             </div>

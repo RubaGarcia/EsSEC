@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { applyJob, getJobById } from "../../api/JobsAPI";
 import { useParams } from "react-router-dom";
 import { renderRichText } from "../../helpers/RichTextProcessor";
+import type { JobFields } from "../../types";
 
 export default function JobDetailView() {
   const [email, setEmail] = useState<string>("");
@@ -13,7 +14,7 @@ export default function JobDetailView() {
   const jobId = params.jobId!;
   console.log(jobId);
 
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } : {data: undefined | JobFields, isError: null | boolean, isLoading: boolean}= useQuery({
     queryKey: ["JobDetailPage", jobId],
     queryFn: () => getJobById({ JobId: jobId }),
     retry: 10,
@@ -80,7 +81,7 @@ export default function JobDetailView() {
             <div className="flex items-center justify-center w-full mt-6 lg:mt-0 lg:w-1/2">
               <img
                 className="w-full h-full max-w-md"
-                src="https://merakiui.com/images/components/Email-campaign-bro.svg"
+                src={data?.icon?.fields?.asset?.fields?.file?.url ?? "https://merakiui.com/images/components/Email-campaign-bro.svg"}
                 alt="email illustration vector art"
               />
             </div>

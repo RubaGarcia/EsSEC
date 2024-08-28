@@ -20,14 +20,14 @@ export interface ApiRequest {
 
 export interface Cartridge {
   internalTitle?: string;
-  items?: Array<Entry<ValuePropositionFields | JobFields | NavigationItemFields | PersonFields >>;
+  items?: Array<Entry<ValuePropositionFields | JobFields | NavigationItemFields | PersonFields | ProductServiceTileFields >>;
 }
 
 export interface ValuePropositionFields {
   internalTitle?: string;
   title?: string;
   headline?: string;
-  body?: Document;
+  body?: RichText;
   icon?: Entry<MediaWrapperFields>;
   type?: string;
   date?: Date;
@@ -149,7 +149,19 @@ export type JobFields = {
   description: RichText;
   employees?: Entry<PersonFields>[];
   applicants?: Entry<PersonFields>[];
+  icon?: Entry<MediaWrapperFields>;
 };
+
+export interface ProductServiceTileFields {
+  internalTitle: string;
+  title: string;
+  url: string;
+  ctaText: string;
+  allingment: string[];
+  icon: Entry<MediaWrapperFields>;
+  interestedInThis: Entry<PersonFields>;
+  date: Date;
+}
 
 interface Space { }
 interface Environment { }
@@ -259,9 +271,9 @@ export type ResourceElement = {
 export type ResourceFields = {
   body: RichText;
   headline: string;
-  icon: string; //TODO implementar ImagesAPI
-  title: string;
-  type: string;
+  icon: string ;
+  title: string ;
+  type: string ;
   date: string;
   url: string;
 };
@@ -278,14 +290,6 @@ export type servicePreviewFields = {
   internalTitle: string;
   url: string;
   date?: string;
-}
-
-
-export type heroElement={
-  body?:RichText
-  headline?:string
-  icon?:string
-  title:string
 }
 
 
@@ -338,3 +342,11 @@ export type PersonReview = {
   sys?: sys;
   fields: PersonFieldsReview;
 };
+
+
+export type heroElement={
+  body?:RichText
+  headline?:string
+  icon?:string
+  title:string
+}
