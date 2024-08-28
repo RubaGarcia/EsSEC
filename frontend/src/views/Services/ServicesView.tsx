@@ -10,35 +10,47 @@ export default function ServicesView() {
     retry: 10,
   });
 
-  console.log(data);
+  console.log('Data completa:', data);
 
-  //   console.log(data.fields.sections[0].fields.items)
-  if (isLoading || isError) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Hubo un error al cargar los servicios.</p>;
+
   const elements: servicePreviewFields[] = [];
-  data.fields.sections[0].fields.items.forEach((item: servicePreview) => {
-    // console.log(item.fields.title);
-    const element: servicePreviewFields = {
-        title: item.fields.title,
-        ctaText: item.fields.ctaText,
-        internalTitle: item.fields.internalTitle,
-        url: item.fields.url,
+
+  // Verificamos que data tenga la estructura esperada antes de acceder a las propiedades
+  if (
+    data &&
+    data.fields &&
+    data.fields.sections &&
+    Array.isArray(data.fields.sections) &&
+    data.fields.sections[0] &&
+    data.fields.sections[0].fields &&
+    data.fields.sections[0].fields.items &&
+    Array.isArray(data.fields.sections[0].fields.items)
+  ) {
+    data.fields.sections[0].fields.items.forEach((item: servicePreview) => {
+      // Verificamos que item.fields existe antes de acceder a sus propiedades
+      if (item.fields) {
+        const element: servicePreviewFields = {
+          title: item.fields.title,
+          ctaText: item.fields.ctaText,
+          internalTitle: item.fields.internalTitle,
+          url: item.fields.url,
         };
-    elements.push(element);
-  });
-  console.log(elements);
-  
+        elements.push(element);
+      } else {
+        console.error('El item no tiene fields definidos:', item);
+      }
+    });
+  } else {
+    console.error('Estructura de datos inesperada:', data);
+  }
 
-  
-
-
-
-
-
-
+  console.log('Elementos procesados:', elements);
 
   return (
     <>
-      //TODO hacer breadcrumb
+      {/* TODO hacer breadcrumb */}
       <div className="bg-gray-200 dark:bg-gray-900">
         <div className="container flex items-center px-6 py-4 mx-auto overflow-x-auto whitespace-nowrap">
           <a href="/" className="text-gray-600 dark:text-gray-200">
@@ -87,10 +99,10 @@ export default function ServicesView() {
             quam voluptatibus
           </p>
 
-          <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-16 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-16 md:grid-cols-2 xl:grid-cols-5">
             {elements.map((element, index) => (
               <ServiceSmall
-                key={index}
+                key={index} 
                 title={element.title}
                 description={element.ctaText}
                 link={element.url}
