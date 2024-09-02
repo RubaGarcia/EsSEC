@@ -18,7 +18,7 @@ export default function MainView() {
     const characteristics = elements?.find(
       (element : Entry<Cartridge> | Entry<Blurb> ) => element.fields?.internalTitle === "characteristics",
     );
-    console.log(JSON.stringify(characteristics))
+    //console.log(JSON.stringify(characteristics))
   
 
       const aux = characteristics as Entry<Blurb>

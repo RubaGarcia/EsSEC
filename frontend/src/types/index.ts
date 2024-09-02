@@ -112,7 +112,10 @@ export interface Entry<T> {
   fields?: T;
 }
 
-interface EntryLink<T> extends Link<T> { }
+//interface EntryLink<T> extends Link<T> { }
+interface EntryLink<T> {
+  sys: Link<T>
+ }
 
 interface SeoMetadataFields {
   internalTitle?: string;
@@ -263,20 +266,10 @@ export type PersonFieldsReview = {
   job?: Job;
 };
 
-export type ResourceElement = {
-  sys: sys;
-  fields: ResourceFields;
+export type Resource = {
+  element: Entry<ValuePropositionFields | JobFields | NavigationItemFields | PersonFields | ProductServiceTileFields>;
 };
 
-export type ResourceFields = {
-  body: RichText;
-  headline: string;
-  icon: string ;
-  title: string ;
-  type: string ;
-  date: string;
-  url: string;
-};
 
 
 export type servicePreview = {
@@ -350,3 +343,13 @@ export type heroElement={
   icon?:string
   title:string
 }
+
+export type ResourceFields = {
+  body: RichText;
+  headline: string;
+  icon: string ;
+  title: string ;
+  type: string ;
+  date: string;
+  url: string;
+};

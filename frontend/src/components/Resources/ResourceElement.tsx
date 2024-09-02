@@ -1,41 +1,61 @@
-import { ResourceFields } from "../../types";
+import { Resource, ValuePropositionFields, Entry, ProductServiceTileFields } from "../../types";
+
+export default function ResourceElement(data:Resource) {
 
 
-// type resourceElementProps = {
-//     // title: string;
-//     // date: string;
-//     // img: string;
-//     // link_to: string;
-    
-// }
-
-export default function ResourceElement(data:Pick<ResourceFields, "title"| "headline"|"icon"|"date"|"url">) {
+const contentType= data.element.sys?.contentType?.sys.id
 
 
 
-console.log(data)
-// console.log(data.link_to)
+let imageIcon;
+let url;
+let title;
+let date;
+
+//Asina los valores a usar accediendo a ellos según el tipo del elemento
+switch (contentType){
+  case "valueProposition":
+    const valueProp : Entry<ValuePropositionFields>= data.element as Entry<ValuePropositionFields>
+    imageIcon= valueProp.fields?.icon?.fields?.asset?.fields?.file?.url;
+    url= valueProp.fields?.url ?? "/resources";
+    title= valueProp.fields?.title;
+    date= valueProp.fields?.date ? new Date(valueProp.fields?.date).toLocaleDateString() : "";
+    break;
+  case "productTile":
+    const productTile : Entry<ProductServiceTileFields>= data.element as Entry<ProductServiceTileFields>
+    imageIcon= productTile.fields?.icon.fields?.asset?.fields?.file?.url;
+    url= productTile.fields?.url ?? "/resources" ;
+    title= productTile.fields?.title;
+    date= productTile.fields?.date ? new Date(productTile.fields?.date).toLocaleDateString() : "";
+    break;
+  default:
+    console.log("Error, el valor introducido por el switch fue: "+ contentType)
+    break;
+}
 
 
+/*   const imageIcon= switch (data.element.sys?.contentType) {
+
+  } */
   return (
     <div className="lg:flex">
       <img
         className="object-cover w-full h-56 rounded-lg lg:w-64"
-        src={data.icon}
+        src={imageIcon}
         alt=""
       />
 
       <div className="flex flex-col justify-between py-6 lg:mx-6">
         
         <a
-          href={`${data.url}`}
+          href={`${url}`}
           className="text-xl font-semibold text-gray-800 hover:underline dark:text-white "
         >
-        {data.title}
+        {title}
         </a>
 
         <span className="text-sm text-gray-500 dark:text-gray-300">
-          {data.date/* TODO: hacer lo de las fechas de forma que pille el formato date y lo ponga bonito*/ }
+          {date}
         </span>
       </div>
     </div>
