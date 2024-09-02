@@ -2,55 +2,43 @@ import { useQuery } from "@tanstack/react-query";
 import ProductDisplay from "../../components/Products/ProductDisplay";
 import { getProducts } from "../../api/ServicesAPI";
 import {
-  heroElement,
-  PersonFieldsReview,
-  PersonReview, servicePreview,
-  servicePreviewFields
+  PersonFields,
+  ApiRequest,
+  Cartridge,
+  Entry,
+  ValuePropositionFields,
+  ProductServiceTileFields
 } from "../../types";
 import Hero from "../../components/Services/product/Hero";
 import TestimonialComplete from "../../components/Services/product/TestimonialComplete";
 
 export default function ProductServiceView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading }  : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
     queryKey: ["ServicesProductPage"],
     queryFn: getProducts,
     retry: 10,
   });
 
-  console.log(data);
+  //console.log(data);
 
   if (isLoading || isError) return <p>Loading...</p>;
 
-  const hero: heroElement = data.fields.sections[0].fields.items[0].fields;
+  const valuePropCartridge: Entry<Cartridge>= data?.fields?.sections?.[0] as Entry<Cartridge>;
 
-  const products: servicePreviewFields[] = [];
-
-  data.fields.sections[1].fields.items.forEach((item: servicePreview) => {
-    const element: servicePreviewFields = {
-      title: item.fields.title,
-      ctaText: item.fields.ctaText,
-      internalTitle: item.fields.internalTitle,
-      url: item.fields.url,
-      date: item.fields.date,
-    };
-    products.push(element);
-  });
+  const hero: ValuePropositionFields = valuePropCartridge.fields?.items?.[0].fields as ValuePropositionFields; 
 
 
-  const PersonReviews: PersonFieldsReview[] = [];
 
-  data.fields.sections[2].fields.items.forEach((item: PersonReview) => {
-    const element: PersonFieldsReview = {
-      name: item.fields.name,
-      review: item.fields.review,
-      image: item.fields.image,
-      job: item.fields.job,
-    };
-    if (element != null) {
-      PersonReviews.push(element);
-      
-    }
-  });
+  const productCartridge: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
+  
+  const products: Entry<ProductServiceTileFields>[] = productCartridge.fields?.items as  Entry<ProductServiceTileFields>[];
+
+
+
+  const personCartridge: Entry<Cartridge>= data?.fields?.sections?.[2] as Entry<Cartridge>;
+
+  const PersonReviews: Entry<PersonFields>[] = personCartridge.fields?.items as Entry<PersonFields>[];
+
 
 
   return (
@@ -76,9 +64,10 @@ export default function ProductServiceView() {
             {products.map((product, index) => (
               <ProductDisplay
                 key={index}
-                imageSrc={product.ctaText}
-                title={product.title}
-                abstract={product.ctaText}
+                imageSrc={product.fields?.icon.fields?.asset?.fields?.file?.url ?? ""}
+                title={product.fields?.title ?? ""}
+                cta={product.fields?.ctaText?? ""}
+                url={product.fields?.url?? "/"}
               />
             ))}
           </div>

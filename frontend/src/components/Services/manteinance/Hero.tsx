@@ -10,16 +10,15 @@ type heroProps = {
 
 
 export default function Hero({hero}:heroProps) {
-  //console.log("hero: "+ JSON.stringify(hero.fields))
+
   const heroImgUrl= hero?.fields?.icon?.fields?.asset?.fields?.file?.url;
-  //console.log(heroImgUrl)
+
   return (
     <div
           className="w-full bg-center bg-cover h-[38rem]"
           style={{
             backgroundImage:
               `url(https:${heroImgUrl})`
-              //"url('https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80')",
           }}
         >
           <div className="flex items-center justify-center w-full h-full bg-gray-900/40">
