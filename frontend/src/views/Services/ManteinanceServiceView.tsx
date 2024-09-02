@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMaintenance } from "../../api/ServicesAPI";
-import { heroElement, PersonFieldsReview } from "../../types";
+import { Entry, ApiRequest, ValuePropositionFields, Cartridge, PersonFields } from "../../types";
 import Hero from "../../components/Services/manteinance/Hero";
 import TestimonialSection from "../../components/Services/manteinance/TestimonialSection";
 
 export default function ManteinanceServiceView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading }  : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}  = useQuery({
     queryKey: ["ServicesManteinancePage"],
     queryFn: getMaintenance,
     retry: 10,
@@ -13,30 +13,20 @@ export default function ManteinanceServiceView() {
 
   if (isLoading || isError) return <div>Loading...</div>;
 
-  const hero: heroElement = {
-    headline: data.fields.sections[0].fields.items[0].fields.headline,
-    title: data.fields.sections[0].fields.items[0].fields.title,
-    icon: data.fields.sections[0].fields.items[0].fields.icon,
-  };
+  const heroCartridge: Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>;
+  const hero: Entry<ValuePropositionFields>= heroCartridge.fields?.items?.[0] as Entry<ValuePropositionFields>;
 
 
-  const testimonials:PersonFieldsReview[] = []
+  const testimonials:Entry<PersonFields>[] = []
+  const reviewCartridge: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
 
-  const reviews = data.fields.sections[1].fields.items
+  const reviews : Entry<PersonFields>[]  = reviewCartridge.fields?.items as Entry<PersonFields>[]
 
-  reviews.forEach((review:any) => {
-    const person:PersonFieldsReview ={
-      name: review.fields.name,
-      review: review.fields.review,
-      image: review.fields.image,
-      job: review.fields.job
-    }
-    // console.log(person)
+  reviews.forEach((person:Entry<PersonFields>) => {
+
     testimonials.push(person)
   });
 
-  // console.log(testimonials)
-  // console.log(testimonials.length)
 
   return (
     <>
