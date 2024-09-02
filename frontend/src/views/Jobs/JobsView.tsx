@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getJobs } from "../../api/JobsAPI";
-import { heroElement, Job} from "../../types";
 import Hero from "../../components/Jobs/Hero";
 import JobItem from "../../components/Jobs/JobItem";
-import type { ApiRequest, Entry, Cartridge, ValuePropositionFields, JobFields, RichText } from "../../types";
+import type { ApiRequest, Entry, Cartridge, ValuePropositionFields, JobFields } from "../../types";
 
 export default function JobsView() {
   const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean} = useQuery({

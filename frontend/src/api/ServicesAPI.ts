@@ -97,7 +97,7 @@ export async function postEmailDigitalKit(formData: FormData) {
 
         // Verifica el contenido del FormData
         for (const [key, value] of formData.entries()) {
-            //console.log(`${key}: ${value}`);
+            console.log(`${key}: ${value}`);
         }
 
         const response = await api.post(url, formData);
