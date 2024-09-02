@@ -1,7 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
-import { getElements, postEmail } from "../../api/LayoutAPI";
-import React, { useState } from "react";
+import { getElements } from "../../api/LayoutAPI";
 // import axios from "axios";
 
 export default function Footer() {

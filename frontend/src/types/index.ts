@@ -199,32 +199,22 @@ interface ListNode {
   data?: any;
   content?: Array<ContentNode>;
 }
+export type ReviewFields = {
+  mainQuote: string;
+  reviewText: string;
+};
+
+export type Blurb = {
+  internalTitle: string;
+  title: string;
+  textBlurb: string;
+  list: string[]
+}
+
 
 
 //-------------------------- Auxiliary types ----------------------------
 
-export type sys = {
-  contentType: {
-    sys: {
-      id: string;
-      linkType: string;
-      type: string;
-    };
-  };
-
-  id: string;
-  locale: string;
-  revision: number;
-  // contentType:EntryLink<ContentType>
-};
-
-export type ContentNodeRT = {
-  data: Record<string, any>;
-  content?: ContentNodeRT[];
-  marks?: any[];
-  value?: string;
-  nodeType: string;
-};
 
 
 export type RichText = {
@@ -235,36 +225,6 @@ export type RichText = {
   marks?: Array<{ type: string }>;
 };
 
-export type PortfolioElement = {
-  sys: sys;
-  fields: PortfolioFieldElement;
-};
-export type PortfolioFieldElement = {
-  internalTitle: string;
-  body?: RichText;
-  title: string;
-  headline: string;
-  type?: string;
-  icon: string; //TODO implementar ImagesAPI
-};
-
-
-
-
-
-
-export type ReviewFields = {
-  mainQuote: string;
-  reviewText: string;
-};
-
-export type PersonFieldsReview = {
-  image?: string; 
-  name: string;
-  email?: string;
-  review: Entry<ReviewFields>;
-  job?: Job;
-};
 
 export type Resource = {
   element: Entry<ValuePropositionFields | JobFields | NavigationItemFields | PersonFields | ProductServiceTileFields>;
@@ -272,33 +232,9 @@ export type Resource = {
 
 
 
-
-
-
-export type contactPersonElement = {
-  sys: sys;
-  fields: contactPersonFields;
-}
-
-export type contactPersonFields = {
-  image?: string;
-  name: string;
-  email?: string;
-  review?:Entry<ReviewFields>;
-  job:Job;
-  team: string;
-}
-export type Blurb = {
-  internalTitle: string;
-  title: string;
-  textBlurb: string;
-  list: string[]
-}
-
-
 //----------------------- Possibly unnecesary -----------------
 
-export type Job = {
+/* export type Job = {
   sys: sys;
   fields: JobFields;
 };
@@ -355,3 +291,65 @@ export type PropertiesCardType = {
   headline:string,
   title:string
 }
+
+export type contactPersonElement = {
+  sys: sys;
+  fields: contactPersonFields;
+}
+
+export type contactPersonFields = {
+  image?: string;
+  name: string;
+  email?: string;
+  review?:Entry<ReviewFields>;
+  job:Job;
+  team: string;
+}
+
+
+
+export type PersonFieldsReview = {
+  image?: string; 
+  name: string;
+  email?: string;
+  review: Entry<ReviewFields>;
+  job?: Job;
+};
+
+export type PortfolioElement = {
+  sys: sys;
+  fields: PortfolioFieldElement;
+};
+export type PortfolioFieldElement = {
+  internalTitle: string;
+  body?: RichText;
+  title: string;
+  headline: string;
+  type?: string;
+  icon: string;
+};
+
+export type sys = {
+  contentType: {
+    sys: {
+      id: string;
+      linkType: string;
+      type: string;
+    };
+  };
+
+  id: string;
+  locale: string;
+  revision: number;
+  // contentType:EntryLink<ContentType>
+};
+
+export type ContentNodeRT = {
+  data: Record<string, any>;
+  content?: ContentNodeRT[];
+  marks?: any[];
+  value?: string;
+  nodeType: string;
+};
+
+ */

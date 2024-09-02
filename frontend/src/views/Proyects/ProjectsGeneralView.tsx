@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ProjectDisplay from "../../components/Proyects/ProjectDisplay";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "../../api/ProjectsAPI";
-import { ApiRequest, PortfolioFieldElement, sys, Cartridge, Entry, ValuePropositionFields } from "../../types";
+import { ApiRequest, Cartridge, Entry, ValuePropositionFields } from "../../types";
 
 
 // Filtra los proyectos por tipo

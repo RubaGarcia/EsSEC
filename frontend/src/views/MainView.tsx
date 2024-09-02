@@ -3,7 +3,7 @@ import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
 import {PersonFields, ValuePropositionFields, Cartridge } from "../types";
-import type { ApiRequest, Entry, Blurb, RichText } from "../types";
+import type { ApiRequest, Entry, Blurb } from "../types";
 
 export default function MainView() {
   const { data/* ,error */, isLoading } :  {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
@@ -22,45 +22,6 @@ export default function MainView() {
 
       const aux = characteristics as Entry<Blurb>
 
-    
-
-  
- /*  
-
-  const extractTexts = (content: any[]): string[] => {
-    let texts: string[] = [];
-    content.forEach((node: any) => {
-      if (node.nodeType === "text" && node.value) {
-        texts.push(node.value);
-      } else if (node.content) {
-        texts = texts.concat(extractTexts(node.content));
-      }
-    });
-    return texts;
-  };
-
-  
-  const texts = aux ? extractTexts(aux.fields!.list) : [];
-
-
-   interface JsonData {
-    fields?: {
-      sections?: Array<{
-        fields?: {
-          items?: Array<{
-            sys?: sys
-            fields?: {
-              type?: string;
-              name?: string;
-              icon?: any
-            };
-          } | Blurb>;
-          
-        };
-      }>;
-    };
-  }
- */
 
   const heroCartridge: Entry<Cartridge>= data?.fields?.sections![0] as Entry<Cartridge>
   const heroValueProp: Entry<ValuePropositionFields>= heroCartridge?.fields?.items![0] as  Entry<ValuePropositionFields>;

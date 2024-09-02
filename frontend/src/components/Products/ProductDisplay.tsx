@@ -9,7 +9,7 @@ type ProductDisplayProps = {
 
 export default function ProductDisplay({ imageSrc, title, cta, url }: ProductDisplayProps) {
 
-    //console.log(url)
+
     return (
         <div>
             <img

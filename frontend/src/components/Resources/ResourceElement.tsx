@@ -34,9 +34,7 @@ switch (contentType){
 }
 
 
-/*   const imageIcon= switch (data.element.sys?.contentType) {
 
-  } */
   return (
     <div className="lg:flex">
       <img

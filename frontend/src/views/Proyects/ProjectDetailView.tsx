@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "../../api/ProjectsAPI";
 import { useParams } from "react-router-dom";
 import {renderRichText} from "../../helpers/RichTextProcessor";
-import type { ApiRequest, ValuePropositionFields } from "../../types";
+import type {ValuePropositionFields } from "../../types";
 
 export default function ProyectDetailView() {
   

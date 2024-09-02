@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PortfolioFieldElement, ValuePropositionFields } from "../../types";
+import { ValuePropositionFields } from "../../types";
 
 type ProjectDisplayProps = {
   projects: Pick<ValuePropositionFields, "title" | "headline" | "icon">[];
