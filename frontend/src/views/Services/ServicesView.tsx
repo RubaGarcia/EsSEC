@@ -1,31 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
 import ServiceSmall from "../../components/Services/ServiceSmall";
 import { getServices } from "../../api/ServicesAPI";
-import { servicePreview, servicePreviewFields } from "../../types";
+import { servicePreview, servicePreviewFields, ApiRequest, Entry,Cartridge, ValuePropositionFields, ProductServiceTileFields } from "../../types";
 
 export default function ServicesView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
     queryKey: ["ServicesPage"],
     queryFn: getServices,
     retry: 10,
   });
 
-  console.log(data);
-
-  //   console.log(data.fields.sections[0].fields.items)
   if (isLoading || isError) return <p>Loading...</p>;
-  const elements: servicePreviewFields[] = [];
-  data.fields.sections[0].fields.items.forEach((item: servicePreview) => {
-    // console.log(item.fields.title);
-    const element: servicePreviewFields = {
-        title: item.fields.title,
-        ctaText: item.fields.ctaText,
-        internalTitle: item.fields.internalTitle,
-        url: item.fields.url,
+
+
+  const elements: ProductServiceTileFields[] = [];
+  const listSection: Entry<Cartridge>[]= data?.fields?.sections as Entry<Cartridge>[];
+  const products: Entry<ProductServiceTileFields>[]= listSection?.[0]?.fields?.items as Entry<ProductServiceTileFields>[];
+  products.forEach((item: Entry<ProductServiceTileFields>) => {
+
+    const element: ProductServiceTileFields = {
+        title: item.fields?.title ?? "",
+        ctaText: item.fields?.ctaText ?? "",
+        internalTitle: item.fields?.internalTitle ?? "",
+        url: item.fields?.url ?? "",
+        allingment:item.fields?.allingment ?? ["left"],
+        icon: item.fields?.icon!,
+        interestedInThis: item.fields?.interestedInThis!,
+        date: item.fields?.date!
         };
     elements.push(element);
   });
-  console.log(elements);
+
   
 
   

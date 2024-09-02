@@ -42,6 +42,7 @@ return (
           <div className="w-full lg:w-1/2">
             <div className="lg:max-w-lg">
               <h1 className="text-3xl font-semibold tracking-wide text-gray-800 dark:text-white lg:text-4xl">
+                {data.title}
               </h1>
               <p className="mt-4 text-gray-600 dark:text-gray-300">
                 {data.type}

@@ -12,18 +12,14 @@ export default function AuditoryServiceView() {
     retry: 10,
   });
 
-  //console.log(data);
-
-  //   console.log(data.fields.sections[0].fields.items)
   if (isLoading || isError) return <p className="bg-white">Loading...</p>;
 
   const cartridgeHero : Entry<Cartridge>= data?.fields?.sections![0] as  Entry<Cartridge>;
 
   const hero: Entry<ValuePropositionFields> = cartridgeHero.fields?.items![0] as Entry<ValuePropositionFields>;
-// console.log(hero)
 
 
-  const reviews: PersonFields[] = []
+  const reviews:  Entry<PersonFields>[] = []
 
   const cartridgeServices: Entry<Cartridge>= data?.fields?.sections![1] as Entry<Cartridge>;
   const productos : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
@@ -31,12 +27,8 @@ export default function AuditoryServiceView() {
 
   productos.forEach((item: Entry<PersonFields>) => {
 
-    const review:PersonFields = {
-      name: item?.fields?.name,
-      review: item?.fields?.review,
-      // job: item.fields.job || "No job",
-    }
-    reviews.push(review);
+
+    reviews.push(item);
   })
 
 

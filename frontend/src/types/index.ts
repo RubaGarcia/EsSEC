@@ -272,18 +272,6 @@ export type Resource = {
 
 
 
-export type servicePreview = {
-  sys: sys;
-  fields: servicePreviewFields;
-}
-
-export type servicePreviewFields = {
-  title: string;
-  ctaText: string;
-  internalTitle: string;
-  url: string;
-  date?: string;
-}
 
 
 export type PropertiesCardType = {
@@ -353,3 +341,16 @@ export type ResourceFields = {
   date: string;
   url: string;
 };
+
+export type servicePreview = {
+  sys: sys;
+  fields: servicePreviewFields;
+}
+
+export type servicePreviewFields = {
+  title: string;
+  ctaText: string;
+  internalTitle: string;
+  url: string;
+  date?: string;
+}

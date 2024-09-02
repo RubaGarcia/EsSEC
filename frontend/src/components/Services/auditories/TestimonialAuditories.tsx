@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { PersonFields } from '../../../types'
+import { PersonFields, Entry } from '../../../types'
 
 
 type TestimonialAuditoriesProps = {
-    reviews: PersonFields[]
+    reviews: Entry<PersonFields>[]
 }
 
 
@@ -28,8 +28,7 @@ export default function TestimonialAuditories({reviews}: TestimonialAuditoriesPr
     );
   };
 
-  const reviewImgUrl= reviews[currentIndex].image?.fields?.asset?.fields?.file?.url
-  console.log(reviewImgUrl)
+  
   return (
     <main className="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
     <div className="absolute w-full bg-blue-600 -z-10 md:h-96 rounded-2xl"></div>
@@ -37,21 +36,21 @@ export default function TestimonialAuditories({reviews}: TestimonialAuditoriesPr
     <div className="w-full p-6 bg-blue-600 md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly">
       <img
         className="h-24 w-24 md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl"
-        src=""//{reviewImgUrl}
+        src={reviews[currentIndex].fields?.image?.fields?.asset?.fields?.file?.url}
         alt="client photo"
       />
 
       <div className="mt-2 md:mx-6">
         <div>
           <p className="text-xl font-medium tracking-tight text-white">
-            {reviews[currentIndex].name}
+            {reviews[currentIndex].fields?.name}
           </p>
-          {reviews[currentIndex].job && <p className="text-blue-200 ">{reviews[currentIndex].job.toString()}</p>}
+          {reviews[currentIndex].fields?.job && <p className="text-blue-200 ">{reviews[currentIndex].fields.job.fields?.name?.toString()}</p>}
           
         </div>
 
         <p className="mt-4 text-lg leading-relaxed text-white md:text-xl">
-          {reviews[currentIndex].review?.fields?.reviewText}
+          {reviews[currentIndex].fields?.review?.fields?.reviewText}
         </p>
 
         <div className="flex items-center justify-between mt-6 md:justify-start">
