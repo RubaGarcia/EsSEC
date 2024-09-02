@@ -3,7 +3,7 @@ import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
 import {PersonFields, ValuePropositionFields, Cartridge } from "../types";
-import type { ApiRequest, Entry, Blurb } from "../types";
+import type { ApiRequest, Entry, Blurb, RichText } from "../types";
 
 export default function MainView() {
   const { data/* ,error */, isLoading } :  {data: undefined | ApiRequest, error: null | Error, isLoading: boolean} = useQuery({
@@ -18,14 +18,14 @@ export default function MainView() {
     const characteristics = elements?.find(
       (element : Entry<Cartridge> | Entry<Blurb> ) => element.fields?.internalTitle === "characteristics",
     );
-    //console.log(JSON.stringify(characteristics))
   
 
       const aux = characteristics as Entry<Blurb>
+
     
 
   
-  
+ /*  
 
   const extractTexts = (content: any[]): string[] => {
     let texts: string[] = [];
@@ -39,9 +39,11 @@ export default function MainView() {
     return texts;
   };
 
-  //TODO: Revisar que esto no lo haga crashear
+  
   const texts = aux ? extractTexts(aux.fields!.list) : [];
-/*    interface JsonData {
+
+
+   interface JsonData {
     fields?: {
       sections?: Array<{
         fields?: {
@@ -57,7 +59,12 @@ export default function MainView() {
         };
       }>;
     };
-  } */
+  }
+ */
+
+  const heroCartridge: Entry<Cartridge>= data?.fields?.sections![0] as Entry<Cartridge>
+  const heroValueProp: Entry<ValuePropositionFields>= heroCartridge?.fields?.items![0] as  Entry<ValuePropositionFields>;
+  const texts :string[]= aux.fields?.list!
 
   const valuePropList: Entry<Cartridge>= data?.fields?.sections![1] as Entry<Cartridge>
  
@@ -87,12 +94,10 @@ export default function MainView() {
 
 
   let listReview: Entry <PersonFields>[] = personList.fields?.items as Entry<PersonFields>[];
-  const hero: Entry<Cartridge>= data?.fields?.sections![0] as Entry<Cartridge>;
-  const heroValueProp: Entry<ValuePropositionFields>= hero?.fields?.items![0] as  Entry<ValuePropositionFields>;
+  
+  
   const heroImgUrl= heroValueProp.fields?.icon?.fields?.asset?.fields?.file?.url;
-  //console.log(data)
 
-  //let portFolioElements  = []; // inicializado como array vacío
 
 
   const portFolioElements  : Entry<ValuePropositionFields>[] = valuePropList.fields?.items as Entry<ValuePropositionFields>[] ?? [];
@@ -100,15 +105,8 @@ export default function MainView() {
 
   reviewer && listReview?.push(reviewer);
 
-  /*TODO: function subscribePerson() {
-
-    return
-  } */
 
 
-  
-  
-  //console.log(listReview);
 
   return (
     <>
