@@ -1,8 +1,8 @@
-import { heroElement } from "../../../types";
+import { Entry, ValuePropositionFields } from "../../../types";
 import { renderRichText } from "../../../helpers/RichTextProcessor";
 
 type HeroProps = {
-  hero: heroElement;
+  hero: Entry<ValuePropositionFields>;
 };
 
 export default function Hero({ hero }: HeroProps) {
@@ -11,18 +11,18 @@ export default function Hero({ hero }: HeroProps) {
     <div className="lg:flex">
       <div className="flex items-center justify-center w-full px-6 py-8 lg:h-[32rem] lg:w-1/2">
         <div className="max-w-xl">
-          {hero.title && (
+          {hero.fields?.title && (
             <h2 className="text-3xl font-semibold text-gray-800 dark:text-white lg:text-4xl">
-              {hero.title}
+              {hero.fields?.title}
             </h2>
           )}
 
-          {hero.body && (
+          {hero.fields?.body && (
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 lg:text-base">
-              {hero.body && (
+              {hero.fields?.body && (
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: renderRichText(hero.body),
+                    __html: renderRichText(hero.fields?.body),
                   }}
                 />
               )}

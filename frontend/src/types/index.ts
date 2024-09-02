@@ -274,12 +274,6 @@ export type Resource = {
 
 
 
-export type PropertiesCardType = {
-  body:RichText,
-  headline:string,
-  title:string
-}
-
 
 export type contactPersonElement = {
   sys: sys;
@@ -353,4 +347,11 @@ export type servicePreviewFields = {
   internalTitle: string;
   url: string;
   date?: string;
+}
+
+
+export type PropertiesCardType = {
+  body:RichText,
+  headline:string,
+  title:string
 }
