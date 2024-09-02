@@ -10,7 +10,6 @@ type TestimonialAuditoriesProps = {
 
 
 export default function TestimonialAuditories({reviews}: TestimonialAuditoriesProps) {
-    //console.log(reviews)
 
 
 

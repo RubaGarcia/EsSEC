@@ -5,7 +5,7 @@ import { isAxiosError } from "axios";
 export async function getServices(){
     try {
         const response = await api.get('/services');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -19,7 +19,7 @@ export async function getServices(){
 export async function getAuditories(){
     try {
         const response = await api.get('/services/auditories');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -33,7 +33,7 @@ export async function getAuditories(){
 export async function getProducts(){
     try {
         const response = await api.get('/services/products');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -47,7 +47,7 @@ export async function getProducts(){
 export async function getMaintenance(){
     try {
         const response = await api.get('/services/manteinance');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -61,7 +61,7 @@ export async function getMaintenance(){
 export async function getImprovementPlans(){
     try {
         const response = await api.get('/services/improvement-plans');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -76,7 +76,7 @@ export async function getImprovementPlans(){
 export async function getDigitalKit(){
     try {
         const response = await api.get('/services/digital-kit');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -97,19 +97,19 @@ export async function postEmailDigitalKit(formData: FormData) {
 
         // Verifica el contenido del FormData
         for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
+            //console.log(`${key}: ${value}`);
         }
 
         const response = await api.post(url, formData);
-        console.log(response.data); // Verifica la respuesta
+        //console.log(response.data); // Verifica la respuesta
         return response.data;
 
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            console.error('Error en la solicitud:', error.response.data.message);
+            //console.error('Error en la solicitud:', error.response.data.message);
             throw new Error(error.response.data.message);
         }
-        console.error('Error inesperado:', error);
+        //console.error('Error inesperado:', error);
         throw error;
     }
 }

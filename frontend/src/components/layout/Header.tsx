@@ -33,7 +33,7 @@ export default function Header() {
     return <p>Error: Header data is missing.</p>;
   }
 
-  console.log(headerObject);
+  //console.log(headerObject);
 
   const navList = headerObject.fields.navigation?.fields?.items ?? [];
   const logoURL = headerObject.fields.logo?.fields?.file?.url ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";

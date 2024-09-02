@@ -1,4 +1,4 @@
-import { heroElement, ValuePropositionFields, Entry } from "../../../types";
+import { ValuePropositionFields, Entry } from "../../../types";
 import { renderRichText } from "../../../helpers/RichTextProcessor";
 
 type heroAuditoriesProps = {

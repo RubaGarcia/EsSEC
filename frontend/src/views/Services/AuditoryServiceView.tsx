@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAuditories } from "../../api/ServicesAPI";
-import { heroElement, PersonFieldsReview, PersonReview } from "../../types";
 import HeroAuditories from "../../components/Services/auditories/HeroAuditories";
 import TestimonialAuditories from "../../components/Services/auditories/TestimonialAuditories";
-import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, ProductServiceTileFields, PersonFields} from "../../types";
+import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, PersonFields} from "../../types";
 
 export default function AuditoryServiceView() {
   const { data, isError, isLoading } :  {data: undefined | ApiRequest, isError:boolean, isLoading: boolean} = useQuery({

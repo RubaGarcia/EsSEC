@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import ServiceSmall from "../../components/Services/ServiceSmall";
 import { getServices } from "../../api/ServicesAPI";
-import { servicePreview, servicePreviewFields, ApiRequest, Entry,Cartridge, ValuePropositionFields, ProductServiceTileFields } from "../../types";
+import { ApiRequest, Entry,Cartridge, ProductServiceTileFields } from "../../types";
 
 export default function ServicesView() {
   const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
