@@ -11,7 +11,8 @@ export async function getSpace() {
  * de la misma para devolver directamente la vista adecuada
  * @param contentType El content-type
  * @param internalTitle El internalTitle de la vista
- * @returns
+ * valores permitidos: los retornados por getContentTypes, internalTitle es opcional
+ * @returns la entry de contentful
  */
 export async function getEntries(contentType: string, internalTitle?: string) {
   try {
@@ -35,6 +36,6 @@ async function getContentTypes() {
   return contentTypes.items.map((type) => type.sys.id);
 }
 
-getContentTypes().then((types) =>
-  console.log("Available Content Types:", types),
-);
+// getContentTypes().then((types) =>
+  // console.log("Available Content Types:", types),
+// );

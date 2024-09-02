@@ -21,8 +21,8 @@ export class LayoutController {
 
   static postLayout = async (req: Request, res: Response) => {
     try {
-      console.log("*************");
-      console.log(req.body.mail);
+      // console.log("*************");
+      // console.log(req.body.mail);
       const id = await createPersonEntry({
         //   internalName: "John Doe 5",,
         email: req.body.email,

@@ -10,6 +10,8 @@
  */
 import { Router } from "express";
 import { LayoutController } from "../Controllers/LayoutController";
+import validator from 'validator';
+import { emailValidation } from "../middleware/email";
 
 const router = Router();
 
@@ -115,7 +117,9 @@ router.get("/", LayoutController.getGeneral);
  *                          }
  *                      ]
  */
-router.post("/", LayoutController.postLayout);
-router.post("/", LayoutController.postLayout);
+router.post("/", 
+    emailValidation,
+    LayoutController.postLayout);
+// router.post("/", LayoutController.postLayout);
 
 export default router;

@@ -8,28 +8,29 @@ export default function Footer() {
   let footerObject: Entry<FooterFields>;
   const [email, setEmail] = useState<string>("");
 
-  // Usamos useState para manejar el estado del footer local
   const [localFooter, setLocalFooter] = useState<string | null>(sessionStorage.getItem("Footer"));
 
   const {
     data,
     isLoading,
+    error,
   }: {
-    data: undefined | ApiRequest;
+    data: ApiRequest | undefined;
     error: null | Error;
     isLoading: boolean;
   } = useQuery({
     queryKey: ["elements"],
     queryFn: getElements,
-    // Esta opción habilita o deshabilita la consulta según la condición
     enabled: localFooter === null,
   });
 
   useEffect(() => {
     if (localFooter === null && data) {
-      footerObject = data.fields.footer;
-      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-      setLocalFooter(JSON.stringify(footerObject));  // Actualiza el estado local con el footer recién obtenido
+      if (data.fields && data.fields.footer) {
+        footerObject = data.fields.footer;
+        sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+        setLocalFooter(JSON.stringify(footerObject));
+      }
     } else if (localFooter) {
       footerObject = JSON.parse(localFooter);
     }
@@ -78,11 +79,21 @@ export default function Footer() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  // Si localFooter sigue siendo null, no renderiza nada hasta que se haya establecido
+  if (error) {
+    console.error("Error fetching elements:", error);
+    return <p>Error loading footer data. Please try again later.</p>;
+  }
+
   if (!localFooter) return null;
 
-  footerObject = JSON.parse(localFooter);
-    return (
+  try {
+    footerObject = JSON.parse(localFooter);
+  } catch (error) {
+    console.error("Error parsing localFooter:", error);
+    return null;
+  }
+
+  return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">

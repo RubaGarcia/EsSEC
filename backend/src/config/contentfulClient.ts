@@ -1,6 +1,7 @@
 import { createClient as createDeliveryClient } from "contentful";
 import { ClientAPI, createClient } from "contentful-management";
 import colors from "colors";
+import crypto from "crypto";
 import fs from "fs";
 
 // Cliente para leer contenido (Content Delivery API)
@@ -14,28 +15,26 @@ export const managementClient: ClientAPI = createClient({
   accessToken: "CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4",
 });
 
+
 function generateID(): string {
-  
-  const array = new Uint8Array(16); // 16 bytes for a UUID
-  window.crypto.getRandomValues(array);
-  
-  // Convert the byte array to a UUID string
+  const array = new Uint8Array(16);
+  crypto.randomFillSync(array); // Usa crypto.randomFillSync para llenar el array con valores aleatorios
+
   const uuid = [...array].map((byte, index) => {
-    const hex = byte.toString(16).padStart(2, '0'); // Convert to hex and pad
+    const hex = byte.toString(16).padStart(2, '0'); 
     if (index === 6) {
-      return (parseInt(hex[0], 16) & 0x0f | 0x40).toString(16) + hex[1]; // Ensure version 4 UUID
+      return (parseInt(hex[0], 16) & 0x0f | 0x40).toString(16) + hex[1]; 
     }
     if (index === 8) {
-      return (parseInt(hex[0], 16) & 0x3f | 0x80).toString(16) + hex[1]; // Ensure variant 1 UUID
+      return (parseInt(hex[0], 16) & 0x3f | 0x80).toString(16) + hex[1]; 
     }
     return hex;
   }).join('');
   
-  // Format the UUID
   return `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
 }
 
-export async function AvailableName() {
+async function AvailableName() {
   const space = await managementClient.getSpace("k9voop8uf94b");
   const environment = await space.getEnvironment("master");
   const entries = await environment.getEntries();
@@ -63,13 +62,18 @@ async function existingEmail(email: string) {
   const environment = await space.getEnvironment("master");
   const entries = await environment.getEntries();
 
+  console.log(colors.bgYellow(email))
+
+
   for (const entry of entries.items) {
-    if (entry.fields.email !== undefined) {
-      console.log("entry.fields.email", entry.fields.email[1]);
+    if (entry.fields.email != undefined) {
+      console.log(colors.bgMagenta(entry.fields.email["en-US"]));
       if (entry.fields.email["en-US"] === email) {
         console.log(colors.bgRed("Email already exists"));
         return true;
       }
+    } else {
+      return true
     }
   }
   return false;
@@ -90,6 +94,11 @@ export async function createAsset({
     const environment = await space.getEnvironment("master");
 
     const fileContent = fs.readFileSync(filePath);
+
+    console.log(fileName, "\n", fileContentType,"\n", filePath);
+
+
+
 
     const upload = await environment.createUpload({
       file: fileContent,
@@ -150,13 +159,14 @@ export async function createPersonEntry({
   reviewEntryId?: string;
 }) {
   try {
-    console.log("managementClient", managementClient);
+    // console.log("managementClient", managementClient);
     const space = await managementClient.getSpace("k9voop8uf94b");
     const environment = await space.getEnvironment("master");
 
-    if (await existingEmail(email)) {
-      throw new Error("Email already exists");
-    }
+    // if (await existingEmail(email)) {
+    //   throw new Error("Email already exists");
+    // }
+    console.log(email, cvAssetId)
 
     const entry = await environment.createEntry("person", {
       fields: {
@@ -223,7 +233,7 @@ export async function createPersonEntry({
 
     return publishedEntry.sys.id;
   } catch (error) {
-    console.error("Error creating person entry:", error);
+    // console.error("Error creating person entry:", error);
     throw error;
   }
 }

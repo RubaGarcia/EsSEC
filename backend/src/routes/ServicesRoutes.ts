@@ -5,6 +5,8 @@
 
 import { Router } from "express";
 import { ServicesController } from "../Controllers/ServicesController";
+import validator from 'validator';
+import { emailValidation } from "../middleware/email";
 
 const router = Router();
 
@@ -23,7 +25,7 @@ const router = Router();
  *                      application/json:
  *                          schema:
  *                              type: array
- *                  
+ *
  *              500:
  *                  description: Internal Server Error
  *                  content:
@@ -45,7 +47,7 @@ router.get("/", ServicesController.index);
  *          summary: Get the elements of the auditories page
  *          tags:
  *              - Services
- *          description: Return a JSON with contentful elements 
+ *          description: Return a JSON with contentful elements
  *          responses:
  *              200:
  *                  description: Successful response
@@ -53,7 +55,7 @@ router.get("/", ServicesController.index);
  *                      application/json:
  *                          schema:
  *                              type: array
- *                  
+ *
  *              500:
  *                  description: Internal Server Error
  *                  content:
@@ -83,7 +85,7 @@ router.get("/auditories", ServicesController.auditories);
  *                      application/json:
  *                          schema:
  *                              type: array
- *                  
+ *
  *              500:
  *                  description: Internal Server Error
  *                  content:
@@ -113,7 +115,7 @@ router.get("/products", ServicesController.products);
  *                      application/json:
  *                          schema:
  *                              type: array
- *                  
+ *
  *              500:
  *                  description: Internal Server Error
  *                  content:
@@ -143,7 +145,7 @@ router.get("/manteinance", ServicesController.manteinance);
  *                      application/json:
  *                          schema:
  *                              type: array
- *                  
+ *
  *              500:
  *                  description: Internal Server Error
  *                  content:
@@ -173,7 +175,7 @@ router.get("/improvement-plans", ServicesController.improvementPlans);
  *                      application/json:
  *                          schema:
  *                              type: object
- *                  
+ *
  *              500:
  *                  description: Internal Server Error
  *                  content:
@@ -242,6 +244,10 @@ router.get("/digital-kit", ServicesController.getDigitalKit);
  *                  example:
  *                      error: "An error occurred"
  */
-router.post("/digital-kit", ServicesController.postDigitalKit);
+router.post(
+  "/digital-kit",
+  emailValidation,
+  ServicesController.postDigitalKit,
+);
 
 export default router;

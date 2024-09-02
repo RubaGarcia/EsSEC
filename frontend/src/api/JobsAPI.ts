@@ -9,6 +9,8 @@ type JobAPIType = {
 export async function applyJob({formData, jobId}: JobAPIType){ 
     try {
         const url = `jobs/${jobId}`
+        console.log(url);
+        
         const {data} = await api.post(url, formData);
         return data
 

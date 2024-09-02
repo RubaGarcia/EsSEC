@@ -1,64 +1,52 @@
-import request from 'supertest'
+import request from 'supertest';
+import { getEntries } from '../contentful/contentfulAPI';
 
+// Base URL for requests
+const baseURL = 'http://localhost:4000';
+
+// Helper function to test GET requests
+const testGET = (endpoint, expectedStatus) => {
+    it(`${endpoint} - should get ${expectedStatus} ${expectedStatus === 200 ? 'OK' : 'Bad Request'}`, async () => {
+        const res = await request(baseURL).get(endpoint);
+        expect(res.status).toEqual(expectedStatus);
+    });
+};
+
+// Helper function to test POST requests
+const testPOST = (endpoint, payload, expectedStatus) => {
+    it(`${endpoint} - should get ${expectedStatus} ${expectedStatus === 200 ? 'OK' : 'Bad Request'}`, async () => {
+        const res = await request(baseURL).post(endpoint).send(payload);
+        expect(res.status).toEqual(expectedStatus);
+    });
+};
 
 describe('GET calls', () => {
+    testGET('/api', 200);
+    testGET('/api/home', 200);
+    testGET('/api/services', 200);
+    testGET('/api/services/auditories', 200);
+    testGET('/api/services/products', 200);
+    testGET('/api/services/manteinance', 200);
+    testGET('/api/services/improvement-plans', 200);
+    testGET('/api/resources', 200);
+    testGET('/api/jobs', 200);
+});
 
-    /**
-     * /api/home
-     * /api/projects
-     * /api/services
-     * /api/services/auditories
-     * /api/services/products
-     * /api/services/manteinance
-     * /api/services/improvement-plans
-     * /api/services/digital-kit
-     * /api/resources
-     * /api/jobs
-     */
+describe('POST calls', () => {
+    // testPOST('/api/', { email: "email@testing.txu" }, 200);
+    testPOST('/api/', { email: "emailtesting.txu" }, 400);
+    // testPOST('/api/', { email: "ema@watson.com" }, 500);
+    // testPOST('/api/services/digital-kit', { email: "email.prueba@kjdajhd.txu" }, 200);
+    testPOST('/api/services/digital-kit', { email: "emailtesting.txu" }, 400);
+    // testPOST('/api/services/digital-kit', { email: "ema@watson.com" }, 500);
+});
 
 
-    it('Layout - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Home - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/home')
-        expect(res.status).toEqual(200)
-    })
-    it('Services - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/services')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Services - Auditories - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/services/auditories')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Services - Products - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/services/products')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Services - Maintenance - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/services/manteinance')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Services - Improvement Plans - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/services/improvement-plans')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Resources - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/resources')
-        expect(res.status).toEqual(200)
-    })
-
-    it('Jobs - should get 200 OK', async () => {
-        const res = await request('http://localhost:4000').get('/api/jobs')
-        expect(res.status).toEqual(200)
-    })
-
-})
+// describe ("contentfulAPI", () => {
+//     it("getEntries - deberia de retornar elementos de auditories",()=>{
+//         expect(getEntries("auditories")).not.toBeNull();
+//     })
+//     it("getEntries - deberia de dar error",()=>{
+//         expect(getEntries("ESTOESTAMAL","")).rejects.toThrow();
+//     })
+// })

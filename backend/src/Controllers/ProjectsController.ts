@@ -14,9 +14,10 @@ export class ProjectsController {
     try {
       const aux = await getEntries("landingPage", "ProjectsPage");
   
-      if (!aux) {
-        return res.status(404).json({ error: "ProjectsPage not found" });
-      }
+      console.log(aux);
+      // if (!aux) {
+      //   return res.status(404).json({ error: "ProjectsPage not found" });
+      // }
   
       // Verifica si `aux` es un array o un objeto
       let sections: any[] = [];
@@ -27,7 +28,11 @@ export class ProjectsController {
         // Si `aux` es un objeto `Entry`
         sections = aux.fields.sections[0].fields.items;
       }
-  
+      
+      /*********** */
+      console.log(req.params);
+
+
       const project = sections.find(
         (section) => section.sys.id === req.params.projectId,
       );
@@ -35,7 +40,7 @@ export class ProjectsController {
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
-  
+    /************* */
       res.json(project.fields);
     } catch (error) {
       res.status(500).json({ error: error.message });
