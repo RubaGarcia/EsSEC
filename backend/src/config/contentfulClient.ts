@@ -16,7 +16,7 @@ export const managementClient: ClientAPI = createClient({
 });
 
 
-function generateID(): string {
+export function generateID(): string {
   const array = new Uint8Array(16);
   crypto.randomFillSync(array); // Usa crypto.randomFillSync para llenar el array con valores aleatorios
 
@@ -34,7 +34,7 @@ function generateID(): string {
   return `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
 }
 
-async function AvailableName() {
+export async function AvailableName() {
   const space = await managementClient.getSpace("k9voop8uf94b");
   const environment = await space.getEnvironment("master");
   const entries = await environment.getEntries();
@@ -57,27 +57,27 @@ async function AvailableName() {
   return name;
 }
 
-async function existingEmail(email: string) {
-  const space = await managementClient.getSpace("k9voop8uf94b");
-  const environment = await space.getEnvironment("master");
-  const entries = await environment.getEntries();
+// async function existingEmail(email: string) {
+//   const space = await managementClient.getSpace("k9voop8uf94b");
+//   const environment = await space.getEnvironment("master");
+//   const entries = await environment.getEntries();
 
-  console.log(colors.bgYellow(email))
+//   console.log(colors.bgYellow(email))
 
 
-  for (const entry of entries.items) {
-    if (entry.fields.email != undefined) {
-      console.log(colors.bgMagenta(entry.fields.email["en-US"]));
-      if (entry.fields.email["en-US"] === email) {
-        console.log(colors.bgRed("Email already exists"));
-        return true;
-      }
-    } else {
-      return true
-    }
-  }
-  return false;
-}
+//   for (const entry of entries.items) {
+//     if (entry.fields.email != undefined) {
+//       console.log(colors.bgMagenta(entry.fields.email["en-US"]));
+//       if (entry.fields.email["en-US"] === email) {
+//         console.log(colors.bgRed("Email already exists"));
+//         return true;
+//       }
+//     } else {
+//       return true
+//     }
+//   }
+//   return false;
+// }
 
 // Función para crear un Asset
 export async function createAsset({
@@ -97,14 +97,11 @@ export async function createAsset({
 
     console.log(fileName, "\n", fileContentType,"\n", filePath);
 
-
-
-
     const upload = await environment.createUpload({
       file: fileContent,
     });
 
-    console.log("Archivo subido:", upload.sys.id);
+    // console.log("Archivo subido:", upload.sys.id);
 
     const asset = await environment.createAsset({
       fields: {
@@ -128,12 +125,12 @@ export async function createAsset({
       },
     });
 
-    console.log("Asset creado:", asset.sys.id);
+    // console.log("Asset creado:", asset.sys.id);
 
     const processedAsset = await asset.processForAllLocales();
     const publishedAsset = await processedAsset.publish();
-    console.log("Asset publicado:", publishedAsset.sys.id);
-
+    // console.log("Asset publicado:", publishedAsset.sys.id);
+    
     return publishedAsset.sys.id;
   } catch (error) {
     console.error("Error creando asset:", error);
