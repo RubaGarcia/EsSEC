@@ -2,10 +2,10 @@ import { useState } from "react";
 import PersonalDisplay from "../components/Personal/PersonalDisplay";
 import { getContact } from "../api/ContactAPI";
 import { useQuery } from "@tanstack/react-query";
-import { contactPersonFields } from "../types";
+import { PersonFields, ApiRequest, Cartridge, Entry } from "../types";
 
 export default function ContactView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
     queryKey: ["ContactPage"],
     queryFn: getContact,
     retry: 10,
@@ -17,33 +17,24 @@ export default function ContactView() {
     return <div>Loading...</div>;
   }
 
-  const people: contactPersonFields[] = [];
+  
 
-  const elements = data?.fields.sections[0].fields.items;
+  const personCartridge: Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>;
+  const people : Entry<PersonFields>[]= personCartridge?.fields?.items as Entry<PersonFields>[];
 
-  elements?.forEach((element: contactPersonFields) => {
-    const item: contactPersonFields= {
-      name: element.name,
-      job: element.job,
-      team: element.team,
-      // img: "element.fields.img.fields.file.url",
-      // facebook: element.fields.facebook,
-      // github: element.fields.github,
-      // reddit: element.fields.reddit,
-    };
-    people.push(item);
-  });
+  console.log(JSON.stringify(people))
 
-  function extractTeam(people: contactPersonFields[]) {
-    const team = people.map((person) => person.team);
+
+  function extractTeam(people: Entry<PersonFields>[]) {
+    const team = people.map((person) => person.fields?.team);
     return Array.from(new Set(team)); 
   }
 
   const teams = extractTeam(people);
 
-  function extractPeople(people: contactPersonFields[], team: string | null) {
+  function extractPeople(people: Entry<PersonFields>[], team: string | null) {
     if (!team) return people;
-    return people.filter((person) => person.team === team);
+    return people.filter((person) => person.fields?.team === team);
   }
 
   const peopleTeams = extractPeople(people, selectedTeam);
@@ -66,7 +57,7 @@ export default function ContactView() {
             {teams.map((team, index) => (
               <button
                 key={index}
-                onClick={() => setSelectedTeam(team)}
+                onClick={() => setSelectedTeam(team!)}
                 className={`px-4 py-2 text-sm font-medium text-white capitalize ${
                   selectedTeam === team
                     ? "bg-blue-600 hover:bg-blue-700"
