@@ -1,6 +1,6 @@
 import { createClient as createDeliveryClient } from "contentful";
-import { ClientAPI, createClient  } from "contentful-management";
-import colors from "colors";
+import { ClientAPI, createClient } from "contentful-management";
+import crypto from "crypto";
 import fs from "fs";
 
 // Cliente para leer contenido (Content Delivery API)
@@ -14,15 +14,25 @@ export const managementClient: ClientAPI = createClient({
   accessToken: "CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4",
 });
 
-function generateID(): string {
-  return "xxxxyxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+
+export function generateID(): string {
+  const array = new Uint8Array(16);
+  crypto.randomFillSync(array); // Usa crypto.randomFillSync para llenar el array con valores aleatorios
+
+  const uuid = [...array].map((byte, index) => {
+    const hex = byte.toString(16).padStart(2, '0'); 
+    if (index === 6) {
+      return (parseInt(hex[0], 16) & 0x0f | 0x40).toString(16) + hex[1]; 
+    }
+    if (index === 8) {
+      return (parseInt(hex[0], 16) & 0x3f | 0x80).toString(16) + hex[1]; 
+    }
+    return hex;
+  }).join('');
+  
+  return `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
 }
 
-//TODO: función para configurar los nombres internos, se la puede cambiar(estaba pensada para ids)
 export async function AvailableName() {
   const space = await managementClient.getSpace("k9voop8uf94b");
   const environment = await space.getEnvironment("master");
@@ -46,67 +56,6 @@ export async function AvailableName() {
   return name;
 }
 
-async function existingEmail(email: string) {
-  const space = await managementClient.getSpace("k9voop8uf94b");
-  const environment = await space.getEnvironment("master");
-  const entries = await environment.getEntries();
-
-  for (const entry of entries.items) {
-    if (entry.fields.email !== undefined) {
-      console.log("entry.fields.email", entry.fields.email[1]);
-      if (entry.fields.email["en-US"] === email) {
-        console.log(colors.bgRed("Email already exists"));
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-//FIXME: función de pruebas
-export async function createEntry() {
-  try {
-    // const id = await AvailableEntryId();
-    // console.log("ID generado:", id);
-    // AvailableEntryId();
-
-    // Obtener el espacio (aquí debes usar el cliente de Content Management API)
-    const space = await managementClient.getSpace("k9voop8uf94b");
-
-    // Obtener el entorno (por defecto, "master")
-    const environment = await space.getEnvironment("master");
-
-    // Crear una nueva entrada de tipo 'footer'
-    const entry = await environment.createEntry("footer", {
-      fields: {
-        internalTitle: {
-          "en-US": "My Footer",
-        },
-        copyright: {
-          "en-US": "Copyright 2024 © All rights reserved",
-        },
-        newlesterCartridge: {
-          "en-US": {
-            sys: {
-              type: "Link",
-              linkType: "Entry",
-              id: "2gsunsNsDDTpdGMkvv7EFD", // ID de la entrada de tipo 'newlesterCartridge'
-            },
-          },
-        },
-      },
-    });
-
-    console.log("Entry created:", entry.sys.id);
-
-    // Publicar la entrada después de crearla
-    const publishedEntry = await entry.publish();
-
-    console.log("Entry published:", publishedEntry.sys.id);
-  } catch (error) {
-    console.error(error);
-  }
-}
 
 // Función para crear un Asset
 export async function createAsset({
@@ -124,11 +73,12 @@ export async function createAsset({
 
     const fileContent = fs.readFileSync(filePath);
 
+    console.log(fileName, "\n", fileContentType,"\n", filePath);
+
     const upload = await environment.createUpload({
       file: fileContent,
     });
 
-    console.log("Archivo subido:", upload.sys.id);
 
     const asset = await environment.createAsset({
       fields: {
@@ -152,12 +102,10 @@ export async function createAsset({
       },
     });
 
-    console.log("Asset creado:", asset.sys.id);
 
     const processedAsset = await asset.processForAllLocales();
     const publishedAsset = await processedAsset.publish();
-    console.log("Asset publicado:", publishedAsset.sys.id);
-
+    
     return publishedAsset.sys.id;
   } catch (error) {
     console.error("Error creando asset:", error);
@@ -183,13 +131,11 @@ export async function createPersonEntry({
   reviewEntryId?: string;
 }) {
   try {
-    console.log("managementClient", managementClient);
     const space = await managementClient.getSpace("k9voop8uf94b");
     const environment = await space.getEnvironment("master");
 
-    if (await existingEmail(email)) {
-      throw new Error("Email already exists");
-    }
+    
+    console.log(email, cvAssetId)
 
     const entry = await environment.createEntry("person", {
       fields: {
@@ -257,11 +203,12 @@ export async function createPersonEntry({
     return publishedEntry.sys.id;
   } catch (error) {
     console.error("Error creating person entry:", error);
-    throw error;
+    throw Error("Error creating person entry");
   }
 }
 
-export async function retrieveAsset(asset_id:string){
-  const asset = deliveryClient.getAsset(asset_id)
-  .then((asset) => console.log(asset.fields.file.url))
+export async function retrieveAsset(asset_id: string) {
+  deliveryClient
+    .getAsset(asset_id)
+    .then((asset) => console.log(asset.fields.file.url));
 }
