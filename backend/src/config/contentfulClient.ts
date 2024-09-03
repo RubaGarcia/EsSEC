@@ -1,6 +1,5 @@
 import { createClient as createDeliveryClient } from "contentful";
 import { ClientAPI, createClient } from "contentful-management";
-import colors from "colors";
 import crypto from "crypto";
 import fs from "fs";
 
@@ -57,27 +56,6 @@ export async function AvailableName() {
   return name;
 }
 
-// async function existingEmail(email: string) {
-//   const space = await managementClient.getSpace("k9voop8uf94b");
-//   const environment = await space.getEnvironment("master");
-//   const entries = await environment.getEntries();
-
-//   console.log(colors.bgYellow(email))
-
-
-//   for (const entry of entries.items) {
-//     if (entry.fields.email != undefined) {
-//       console.log(colors.bgMagenta(entry.fields.email["en-US"]));
-//       if (entry.fields.email["en-US"] === email) {
-//         console.log(colors.bgRed("Email already exists"));
-//         return true;
-//       }
-//     } else {
-//       return true
-//     }
-//   }
-//   return false;
-// }
 
 // Función para crear un Asset
 export async function createAsset({
@@ -101,7 +79,6 @@ export async function createAsset({
       file: fileContent,
     });
 
-    // console.log("Archivo subido:", upload.sys.id);
 
     const asset = await environment.createAsset({
       fields: {
@@ -125,11 +102,9 @@ export async function createAsset({
       },
     });
 
-    // console.log("Asset creado:", asset.sys.id);
 
     const processedAsset = await asset.processForAllLocales();
     const publishedAsset = await processedAsset.publish();
-    // console.log("Asset publicado:", publishedAsset.sys.id);
     
     return publishedAsset.sys.id;
   } catch (error) {
@@ -156,13 +131,10 @@ export async function createPersonEntry({
   reviewEntryId?: string;
 }) {
   try {
-    // console.log("managementClient", managementClient);
     const space = await managementClient.getSpace("k9voop8uf94b");
     const environment = await space.getEnvironment("master");
 
-    // if (await existingEmail(email)) {
-    //   throw new Error("Email already exists");
-    // }
+    
     console.log(email, cvAssetId)
 
     const entry = await environment.createEntry("person", {
@@ -230,8 +202,8 @@ export async function createPersonEntry({
 
     return publishedEntry.sys.id;
   } catch (error) {
-    // console.error("Error creating person entry:", error);
-    throw error;
+    console.error("Error creating person entry:", error);
+    throw Error("Error creating person entry");
   }
 }
 

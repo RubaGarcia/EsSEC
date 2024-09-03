@@ -15,9 +15,6 @@ export class ProjectsController {
       const aux = await getEntries("landingPage", "ProjectsPage");
   
       console.log(aux);
-      // if (!aux) {
-      //   return res.status(404).json({ error: "ProjectsPage not found" });
-      // }
   
       // Verifica si `aux` es un array o un objeto
       let sections: any[] = [];

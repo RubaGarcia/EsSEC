@@ -5,7 +5,6 @@
 
 import { Router } from "express";
 import { ServicesController } from "../Controllers/ServicesController";
-import validator from 'validator';
 import { emailValidation } from "../middleware/email";
 
 const router = Router();

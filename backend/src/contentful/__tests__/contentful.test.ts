@@ -4,7 +4,7 @@
 import { getSpace, getEntries } from '../contentfulAPI'; // Adjust the path to your actual functions file
 
 // Mock the contentfulClient
-jest.mock('../config/contentfulClient', () => ({
+jest.mock('../../config/contentfulClient', () => ({
   deliveryClient: {
     getSpace: jest.fn(),
     getEntries: jest.fn(),
@@ -13,7 +13,7 @@ jest.mock('../config/contentfulClient', () => ({
 }));
 
 // Destructure the mocked client to use in tests
-const { deliveryClient: client } = require('../config/contentfulClient');
+const { deliveryClient: client } = require('../../config/contentfulClient');
 
 describe('Contentful API Functions', () => {
   afterEach(() => {

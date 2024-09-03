@@ -1,5 +1,4 @@
 import request from 'supertest';
-import { getEntries } from '../contentful/contentfulAPI';
 
 // Base URL for requests
 const baseURL = 'http://localhost:4000';
@@ -33,20 +32,8 @@ describe('GET calls', () => {
 });
 
 describe('POST calls', () => {
-    // testPOST('/api/', { email: "email@testing.txu" }, 200);
     testPOST('/api/', { email: "emailtesting.txu" }, 400);
-    // testPOST('/api/', { email: "ema@watson.com" }, 500);
-    // testPOST('/api/services/digital-kit', { email: "email.prueba@kjdajhd.txu" }, 200);
     testPOST('/api/services/digital-kit', { email: "emailtesting.txu" }, 400);
-    // testPOST('/api/services/digital-kit', { email: "ema@watson.com" }, 500);
 });
 
 
-// describe ("contentfulAPI", () => {
-//     it("getEntries - deberia de retornar elementos de auditories",()=>{
-//         expect(getEntries("auditories")).not.toBeNull();
-//     })
-//     it("getEntries - deberia de dar error",()=>{
-//         expect(getEntries("ESTOESTAMAL","")).rejects.toThrow();
-//     })
-// })

@@ -36,6 +36,3 @@ async function getContentTypes() {
   return contentTypes.items.map((type) => type.sys.id);
 }
 
-// getContentTypes().then((types) =>
-  // console.log("Available Content Types:", types),
-// );

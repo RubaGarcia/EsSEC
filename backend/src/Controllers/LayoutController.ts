@@ -16,13 +16,10 @@ export class LayoutController {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-    // res.send("Layout General");
   };
 
   static postLayout = async (req: Request, res: Response) => {
     try {
-      // console.log("*************");
-      // console.log(req.body.mail);
       const id = await createPersonEntry({
         //   internalName: "John Doe 5",,
         email: req.body.email,

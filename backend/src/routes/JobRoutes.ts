@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { JobsController } from "../Controllers/JobsController";
-import { body, param } from "express-validator";
+import { param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import upload from "../config/multer";
-import { emailValidation } from "../middleware/email";
 
 const router = Router();
 

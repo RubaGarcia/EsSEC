@@ -4,9 +4,6 @@ import { createAsset } from "../contentfulClient";
 
 
 
-// generateID.test.js
- // Importa tu función aquí
-
 describe('generateID', () => {
   test('should return a string of length 36', () => {
     const id = generateID();
@@ -22,18 +19,20 @@ describe('generateID', () => {
 
 
 
-jest.mock('managementClient', () => {
+jest.mock('../contentfulClient', () => {
   return {
-    getSpace: jest.fn().mockResolvedValue({
-      getEnvironment: jest.fn().mockResolvedValue({
-        getEntries: jest.fn().mockResolvedValue({
-          items: [
-            { fields: { internalName: 'existingName1' } },
-            { fields: { internalName: 'existingName2' } },
-          ],
+    managementClient: {
+      getSpace: jest.fn().mockResolvedValue({
+        getEnvironment: jest.fn().mockResolvedValue({
+          getEntries: jest.fn().mockResolvedValue({
+            items: [
+              { fields: { internalName: 'existingName1' } },
+              { fields: { internalName: 'existingName2' } },
+            ],
+          }),
         }),
       }),
-    }),
+    },
   };
 });
 
@@ -84,7 +83,7 @@ describe("test de config",()=>{
                     fileContentType,
                     filePath,
                 })
-            ).rejects.toThrowError("Error al crear el asset");
+            ).rejects.toThrow("Error al crear el asset");
         });
     })
 })
