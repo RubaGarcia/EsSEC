@@ -79,7 +79,7 @@ describe("Controllers", () => {
       let sendMock: jest.Mock;
 
       beforeEach(() => {
-        ({ req, res, jsonMock, statusMock, sendMock } = setupMockReqRes());
+        ({ req, res } = setupMockReqRes());
       });
 
       it("debería responder con un mensaje de éxito cuando createPersonEntry es exitoso", async () => {
@@ -167,7 +167,7 @@ describe("Controllers", () => {
       let sendMock: jest.Mock;
 
       beforeEach(() => {
-        ({ req, res, jsonMock, statusMock, sendMock } = setupMockReqRes());
+        ({ req, res } = setupMockReqRes());
       });
 
       it("debería responder con un mensaje de éxito cuando createPersonEntry es exitoso", async () => {
