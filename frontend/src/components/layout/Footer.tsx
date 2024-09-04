@@ -26,15 +26,15 @@ export default function Footer() {
     enabled: localFooter === null,
   });
 
-  useEffect(() => {
-    if (localFooter === null && data) {
-      //footerObject = data.fields.footer;
-      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-      setLocalFooter(JSON.stringify(footerObject));
-    } else if (localFooter) {
-      footerObject = JSON.parse(localFooter);
-    }
-  }, [data, localFooter]);
+  // useEffect(() => {
+  //   if (localFooter === null && data) {
+  //     //footerObject = data.fields.footer;
+  //     sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+  //     setLocalFooter(JSON.stringify(footerObject));
+  //   } else if (localFooter) {
+  //     footerObject = JSON.parse(localFooter);
+  //   }
+  // }, [data, localFooter]);
 
   const  mutation  = useMutation({
     mutationFn: postEmail,
