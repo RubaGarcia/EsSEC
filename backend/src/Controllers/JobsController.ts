@@ -45,7 +45,9 @@ export class JobsController {
 
   static obtainEmail = async (req: MulterRequest, res: Response) => {
     try {
-      const { email } = req.body;
+      const { email, firstName, lastName } = req.body;
+      
+      console.log(req.body)
 
       if (!req.file) {
         return res.status(400).json({ error: "File is required" });
@@ -63,7 +65,7 @@ export class JobsController {
       console.log("CV Asset created with ID:", cvAssetId);
 
       const personEntryId = await createPersonEntry({
-        fullName: "John Doe",
+        fullName: `${firstName} ${lastName}`,
         email: email,
         cvAssetId: cvAssetId,
       });
