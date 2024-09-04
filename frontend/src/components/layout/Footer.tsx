@@ -9,7 +9,7 @@ export default function Footer() {
   const [email, setEmail] = useState<string>("");
 
   const [localFooter, setLocalFooter] = useState<string | null>(
-    sessionStorage.getItem("Footer")
+    sessionStorage.getItem("Footer"),
   );
 
   const {
@@ -26,17 +26,17 @@ export default function Footer() {
     enabled: localFooter === null,
   });
 
-  // useEffect(() => {
-  //   if (localFooter === null && data) {
-  //     //footerObject = data.fields.footer;
-  //     sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-  //     setLocalFooter(JSON.stringify(footerObject));
-  //   } else if (localFooter) {
-  //     footerObject = JSON.parse(localFooter);
-  //   }
-  // }, [data, localFooter]);
+  useEffect(() => {
+    if (localFooter === null && data) {
+      //footerObject = data.fields.footer;
+      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+      setLocalFooter(JSON.stringify(footerObject));
+    } else if (localFooter) {
+      footerObject = JSON.parse(localFooter);
+    }
+  }, [data, localFooter]);
 
-  const  mutation  = useMutation({
+  const mutation = useMutation({
     mutationFn: postEmail,
     onError: (error) => {
       console.error("Error al enviar los datos:", error);
@@ -48,35 +48,35 @@ export default function Footer() {
       alert("Email enviado con éxito. Gracias por unirte a nosotros.");
     },
   });
-console.log(mutation)//TODO
-async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  // const elem =event.currentTarget
-  // console.log(elem.elements.namedItem("email").value)
-  if (!email) {
-    alert("Por favor ingresa tu email.");
-    return;
-  }
-  
-  if (!validateEmail(email)) {
-    alert("Por favor ingresa un email válido.");
-    return;
-  }
-  
-  const formData = new FormData(event.currentTarget);
+  console.log(mutation); //TODO
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    // const elem =event.currentTarget
+    // console.log(elem.elements.namedItem("email").value)
+    if (!email) {
+      alert("Por favor ingresa tu email.");
+      return;
+    }
 
-  // formData.append("email", email);
-  
-  // Debug: Verifica que el FormData contiene el email correcto
-  // console.log("FormData antes de enviar:");
-  // for (const [key, value] of formData.entries()) {
-  //   console.log(`${key}: ${value}`);
-  // }
-  
-  // mutation(formData);
-  const result  = await mutation.mutateAsync(formData);
-  console.log(result);  
-}
+    if (!validateEmail(email)) {
+      alert("Por favor ingresa un email válido.");
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+
+    // formData.append("email", email);
+
+    // Debug: Verifica que el FormData contiene el email correcto
+    // console.log("FormData antes de enviar:");
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
+
+    // mutation(formData);
+    const result = await mutation.mutateAsync(formData);
+    console.log(result);
+  }
 
   function validateEmail(email: string) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
