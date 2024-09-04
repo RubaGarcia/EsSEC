@@ -33,9 +33,10 @@ export default function Header() {
     return <p>Error: Header data is missing.</p>;
   }
 
-  console.log(headerObject);
+  //console.log(headerObject);
 
-  const navList = headerObject.fields.navigation?.fields?.items || [];
+  const navList = headerObject.fields.navigation?.fields?.items ?? [];
+  const logoURL = headerObject.fields.logo?.fields?.file?.url ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
 
   return (
     <nav className="relative bg-white shadow dark:bg-gray-800">
@@ -44,7 +45,7 @@ export default function Header() {
           <a href="/">
             <img
               className="w-auto h-6 sm:h-7"
-              src={headerObject.fields.logo.fields.file.url}
+              src={logoURL}
               alt="Logo"
             />
           </a>
@@ -97,10 +98,10 @@ export default function Header() {
               <Link
                 key={index}
                 className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
-                to={`${item.fields.url}`}
+                to={`${item.fields?.url ?? ''}`}
                 onClick={() => setIsMenuOpen(false)} 
               >
-                {item.fields.label}
+                {item.fields?.label}
               </Link>
             ))}
           </div>

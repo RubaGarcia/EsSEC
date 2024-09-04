@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDigitalKit } from "../../api/ServicesAPI";
 import Hero from "../../components/Services/digital-kit/Hero";
-import { heroElement } from "../../types";
+import { Cartridge, ApiRequest, Blurb, Entry } from "../../types";
 import PricingPlan from "../../components/Services/digital-kit/PricingPlan";
 
 export default function DKServiceView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
     queryKey: ["DigitalKitPage"],
     queryFn: getDigitalKit,
     retry: 10,
@@ -15,19 +15,15 @@ export default function DKServiceView() {
 
   if (isLoading || isError) return <p>Loading...</p>;
 
-  const webPageElements = data.fields.sections;
-
-  const heroValues: heroElement = {
-    body: webPageElements[0].fields.textBlurb,
-    title: webPageElements[0].fields.title,
-  };
+  const blurb : Entry<Blurb> = data?.fields?.sections?.[0] as Entry<Blurb>;
+  const cart: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
 
   const pricingPlans:{
     name:string,
     price:number
   }[] = [];
   
-  webPageElements[1].fields.items.forEach((item:any) => {
+  cart?.fields?.items?.forEach((item:any) => {
     const element = {
       name: item.fields.title,
       price: item.fields.ctaText
@@ -43,7 +39,7 @@ export default function DKServiceView() {
 
   return (
     <>
-      <Hero hero={heroValues} />
+      <Hero blurb={blurb} />
 
       <div className="bg-white dark:bg-gray-900">
         <div className="container px-6 py-8 mx-auto">

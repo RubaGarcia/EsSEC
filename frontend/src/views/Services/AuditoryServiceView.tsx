@@ -1,35 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAuditories } from "../../api/ServicesAPI";
-import { heroElement, PersonFieldsReview, PersonReview } from "../../types";
 import HeroAuditories from "../../components/Services/auditories/HeroAuditories";
 import TestimonialAuditories from "../../components/Services/auditories/TestimonialAuditories";
+import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, PersonFields} from "../../types";
 
 export default function AuditoryServiceView() {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } :  {data: undefined | ApiRequest, isError:boolean, isLoading: boolean} = useQuery({
     queryKey: ["AuditoriesPage"],
     queryFn: getAuditories,
     retry: 10,
   });
 
-  console.log(data);
-
-  //   console.log(data.fields.sections[0].fields.items)
   if (isLoading || isError) return <p className="bg-white">Loading...</p>;
 
-  const hero: heroElement = data.fields.sections[0].fields.items[0].fields;
-// console.log(hero)
+  const cartridgeHero : Entry<Cartridge>= data?.fields?.sections![0] as  Entry<Cartridge>;
+
+  const hero: Entry<ValuePropositionFields> = cartridgeHero.fields?.items![0] as Entry<ValuePropositionFields>;
 
 
-  const reviews: PersonFieldsReview[] = []
+  const reviews:  Entry<PersonFields>[] = []
 
-  data.fields.sections[1].fields.items.forEach((item: PersonReview) => {
+  const cartridgeServices: Entry<Cartridge>= data?.fields?.sections![1] as Entry<Cartridge>;
+  const productos : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
+  
 
-    const review:PersonFieldsReview = {
-      name: item.fields.name,
-      review: item.fields.review,
-      // job: item.fields.job || "No job",
-    }
-    reviews.push(review);
+  productos.forEach((item: Entry<PersonFields>) => {
+
+
+    reviews.push(item);
   })
 
 

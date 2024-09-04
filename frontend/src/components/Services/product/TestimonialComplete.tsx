@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Testimonial from "./Testimonial";
-import { PersonFieldsReview } from "../../../types";
+import { Entry, PersonFields } from "../../../types";
 
 type TestimonialProps = {
-  personReviews: PersonFieldsReview[];
+  personReviews: Entry<PersonFields>[];
 };
 
 export default function TestimonialComplete({

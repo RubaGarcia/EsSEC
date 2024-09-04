@@ -1,20 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import ResourceElement from "../../components/Resources/ResourceElement";
 import { getResources } from "../../api/ResourcesAPI";
-import { ResourceElement as ResourceElementType } from "../../types";
+import {ApiRequest, Entry, Cartridge} from "../../types";
 
-type ResourcesData = {
-  fields: {
-    sections: Array<{
-      fields: {
-        items: ResourceElementType[];
-      };
-    }>;
-  };
-}
 
 export default function ResourcesView() {
-  const { data, isError, isLoading } = useQuery<ResourcesData>({
+  const { data, isError, isLoading } :  {data: undefined | ApiRequest, isError:boolean, isLoading: boolean} = useQuery({
     queryKey: ["ResourcesView"],
     queryFn: getResources,
   });
@@ -23,18 +14,15 @@ export default function ResourcesView() {
 
   if (isError || !data) return <p>Error al cargar los datos</p>;
 
-  console.log(data, isError, isLoading);
+  const cartridgeResources : Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>
+  const resources  = cartridgeResources.fields?.items;
 
-  // Accede a los recursos correctamente
-  const resources = data.fields.sections[0].fields.items;
-
-  const resourcesTyped = resources.map((resource) => ({
-    title: resource.fields.title,
-    headline: resource.fields.headline,
-    icon: resource.fields.icon,
-    date: resource.fields.date,
-    url: resource.fields.url,
-  }));
+  const resourcesTyped = resources?.map((resource) => {
+  
+    return {
+      element: resource
+    };
+  });
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -43,7 +31,7 @@ export default function ResourcesView() {
           From the blog
         </h1>
         <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
-          {resourcesTyped.map((resource, index) => (
+          {resourcesTyped?.map((resource, index) => (
             <ResourceElement
               key={index}
               {...resource}

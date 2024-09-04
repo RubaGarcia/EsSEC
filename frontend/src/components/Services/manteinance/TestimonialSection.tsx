@@ -1,11 +1,11 @@
-import { PersonFieldsReview } from '../../../types';
+import {Entry, PersonFields } from '../../../types';
 import Reviews from './Reviews';
 
 type TestimonialSectionProps = {
-  testimonials: PersonFieldsReview[];
+  testimonials: Entry<PersonFields>[];
 };
 
-function getRandomReviews(reviews: PersonFieldsReview[], count: number) {
+function getRandomReviews(reviews: Entry<PersonFields>[], count: number) {
   const shuffled = [...reviews].sort(() => 0.5 - Math.random()); 
   return shuffled.slice(0, count); 
 }
@@ -29,8 +29,8 @@ export default function TestimonialSection({
       </p>
 
       <div className="grid grid-cols-1 gap-8 mx-auto mt-8 lg:grid-cols-2 xl:mt-10 max-w-7xl">
-        {reviewsToDisplay.map((testimonial: PersonFieldsReview) => (
-          <Reviews review={testimonial} key={testimonial.name} />
+        {reviewsToDisplay.map((testimonial: Entry<PersonFields>) => (
+          <Reviews person={testimonial} key={testimonial.fields?.name} />
         ))}
       </div>
     </>

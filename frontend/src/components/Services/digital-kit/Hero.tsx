@@ -1,14 +1,14 @@
-import { heroElement } from "../../../types";
+import { Blurb,Entry } from "../../../types";
 import { renderRichText } from "../../../helpers/RichTextProcessor";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { postEmailDigitalKit } from "../../../api/ServicesAPI";
 
 type HeroProps = {
-  hero: heroElement;
+  blurb: Entry<Blurb>;
 };
 
-export default function Hero({ hero }: HeroProps) {
+export default function Hero({ blurb }: HeroProps) {
   const [email, setEmail] = useState<string>("");
 
   const { mutate } = useMutation({
@@ -55,16 +55,16 @@ export default function Hero({ hero }: HeroProps) {
     <section className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-16 mx-auto text-center">
         <div className="max-w-lg mx-auto">
-          {hero.title && (
+          {blurb.fields?.title && (
             <h1 className="text-3xl font-semibold text-gray-800 dark:text-white lg:text-4xl">
-              {hero.title}
+              {blurb.fields?.title}
             </h1>
           )}
 
           <p className="mt-6 text-gray-500 dark:text-gray-300">
-            {hero.body && (
+            {blurb.fields?.textBlurb && (
               <div
-                dangerouslySetInnerHTML={{ __html: renderRichText(hero.body) }}
+                dangerouslySetInnerHTML={{ __html: renderRichText(blurb.fields?.textBlurb) }}
               />
             )}
           </p>

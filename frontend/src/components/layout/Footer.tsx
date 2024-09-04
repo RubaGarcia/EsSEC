@@ -28,7 +28,7 @@ export default function Footer() {
 
   useEffect(() => {
     if (localFooter === null && data) {
-      footerObject = data.fields.footer;
+      //footerObject = data.fields.footer;
       sessionStorage.setItem("Footer", JSON.stringify(footerObject));
       setLocalFooter(JSON.stringify(footerObject));
     } else if (localFooter) {
@@ -191,7 +191,7 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
           <a href="#">
             <img
               className="w-auto h-7"
-              src={footerObject.fields.logo.fields.file.url}
+              // src={footerObject.fields.logo.fields.file.url}
               alt=""
             />
           </a>

@@ -46,22 +46,22 @@ export default function ReviewSlider({ reviewer }: ReviewSliderProps) {
 
                     <div>
                         <p className="flex items-center text-center text-gray-500 lg:mx-8">
-                            {currentReview.fields.review?.fields.reviewText}
+                            {currentReview.fields?.review?.fields?.reviewText}
                         </p>
 
                         <div className="flex flex-col items-center justify-center mt-8">
                             <img
                                 className="object-cover rounded-full w-14 h-14"
-                                src={currentReview.fields.image?.fields.asset?.fields.file.url || "https://images.unsplash.com/photo-1499470932971-a90681ce8530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"}
+                                src={currentReview.fields?.image?.fields?.asset?.fields?.file?.url || "https://images.unsplash.com/photo-1499470932971-a90681ce8530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"}
                                 alt=""
                             />
 
                             <div className="mt-4 text-center">
                                 <h1 className="font-semibold text-gray-800 dark:text-white">
-                                    {currentReview.fields.name}
+                                    {currentReview.fields?.name}
                                 </h1>
                                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                                    {currentReview.fields.job?.fields.name}
+                                    {currentReview.fields?.job?.fields?.name}
                                 </span>
                             </div>
                         </div>

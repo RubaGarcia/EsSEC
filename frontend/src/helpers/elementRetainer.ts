@@ -31,8 +31,8 @@ export function catchElements(){
 
     const response = data;
     
-    headerObject= response!.fields.header;
-    footerObject= response!.fields.footer;
+    headerObject= response!.fields?.header!;
+    footerObject= response!.fields?.footer!;
     
     sessionStorage.setItem('Header', JSON.stringify(headerObject));
     sessionStorage.setItem('Footer', JSON.stringify(footerObject));
