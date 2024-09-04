@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
 import { createAsset, createPersonEntry, linkPersonJob, managementClient } from "../config/contentfulClient";
-import colors from "colors"; // Import the 'colors' module
 
 interface MulterRequest extends Request {
   file: Express.Multer.File; // Multer agrega la propiedad `file` aquí
