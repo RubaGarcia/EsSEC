@@ -150,8 +150,8 @@ export type JobFields = {
   name?: string;
   salary?: number;
   description: RichText;
-  employees?: Entry<PersonFields>[];
-  applicants?: Entry<PersonFields>[];
+  employees?: Entry<Cartridge>; 
+  applicants?: Entry<Cartridge>; // Recuerda que para usar un cartridge en concreto usamos una variable auxiliar casteada (ver Mainview: lineas 52 y 54)
   icon?: Entry<MediaWrapperFields>;
 };
 

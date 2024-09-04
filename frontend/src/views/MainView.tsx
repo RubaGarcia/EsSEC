@@ -49,9 +49,9 @@ export default function MainView() {
 
   
 
-  const personList: Entry<Cartridge>= data?.fields?.sections![2]  as Entry<Cartridge>;
+  const personList: Entry<Cartridge>= data?.fields?.sections?.[2]  as Entry<Cartridge>;
 
-  const reviewer: Entry<PersonFields> = personList.fields?.items![0] as Entry<PersonFields>;
+  const reviewer: Entry<PersonFields> = personList.fields?.items?.[0] as Entry<PersonFields>;
 
 
   let listReview: Entry <PersonFields>[] = personList.fields?.items as Entry<PersonFields>[];
