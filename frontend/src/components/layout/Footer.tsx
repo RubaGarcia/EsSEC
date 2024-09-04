@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
-
 import { getElements, postEmail } from "../../api/LayoutAPI";
 import React, { useEffect, useState } from "react";
 // import axios from "axios";
@@ -27,15 +26,15 @@ export default function Footer() {
     enabled: localFooter === null,
   });
 
-  // useEffect(() => {
-  //   if (localFooter === null && data) {
-  //     footerObject = data.fields.footer;
-  //     sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-  //     setLocalFooter(JSON.stringify(footerObject));
-  //   } else if (localFooter) {
-  //     footerObject = JSON.parse(localFooter);
-  //   }
-  // }, [data, localFooter]);
+  useEffect(() => {
+    if (localFooter === null && data) {
+      //footerObject = data.fields.footer;
+      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+      setLocalFooter(JSON.stringify(footerObject));
+    } else if (localFooter) {
+      footerObject = JSON.parse(localFooter);
+    }
+  }, [data, localFooter]);
 
   const  mutation  = useMutation({
     mutationFn: postEmail,
@@ -66,10 +65,19 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
   
   const formData = new FormData(event.currentTarget);
 
+  // formData.append("email", email);
+  
+  // Debug: Verifica que el FormData contiene el email correcto
+  // console.log("FormData antes de enviar:");
+  // for (const [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
+  
   // mutation(formData);
   const result  = await mutation.mutateAsync(formData);
   console.log(result);  
 }
+
   function validateEmail(email: string) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -90,9 +98,6 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     console.error("Error parsing localFooter:", error);
     return null;
   }
-
-  const footerLogoUrl= data?.fields?.footer?.fields?.logo?.fields?.file?.url ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
-  
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
@@ -111,7 +116,7 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
                 name="email"
                 placeholder="Enter your email address"
                 value={email}
-                //onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
                 // placeholder="Email Address"
               />
@@ -186,7 +191,7 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
           <a href="#">
             <img
               className="w-auto h-7"
-              src={footerLogoUrl}
+              // src={footerObject.fields.logo.fields.file.url}
               alt=""
             />
           </a>
