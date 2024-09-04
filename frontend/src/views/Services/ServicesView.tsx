@@ -1,79 +1,48 @@
 import { useQuery } from "@tanstack/react-query";
 import ServiceSmall from "../../components/Services/ServiceSmall";
 import { getServices } from "../../api/ServicesAPI";
-import { ApiRequest, Entry,Cartridge, ProductServiceTileFields } from "../../types";
+import {
+  ApiRequest,
+  Entry,
+  Cartridge,
+  ProductServiceTileFields,
+} from "../../types";
 
 export default function ServicesView() {
-  const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
+  const {
+    data,
+    isError,
+    isLoading,
+  }: {
+    data: undefined | ApiRequest;
+    isError: null | boolean;
+    isLoading: boolean;
+  } = useQuery({
     queryKey: ["ServicesPage"],
     queryFn: getServices,
     retry: 10,
   });
 
-
   if (isLoading || isError) return <p>Loading...</p>;
 
-
   const elements: ProductServiceTileFields[] = [];
-  const listSection: Entry<Cartridge>[]= data?.fields?.sections as Entry<Cartridge>[];
-  const products: Entry<ProductServiceTileFields>[]= listSection?.[0]?.fields?.items as Entry<ProductServiceTileFields>[];
+  const listSection: Entry<Cartridge>[] = data?.fields
+    ?.sections as Entry<Cartridge>[];
+  const products: Entry<ProductServiceTileFields>[] = listSection?.[0]?.fields
+    ?.items as Entry<ProductServiceTileFields>[];
   products.forEach((item: Entry<ProductServiceTileFields>) => {
-
     const element: ProductServiceTileFields = {
-        title: item.fields?.title ?? "",
-        ctaText: item.fields?.ctaText ?? "",
-        internalTitle: item.fields?.internalTitle ?? "",
-        url: item.fields?.url ?? "",
-        allingment:item.fields?.allingment ?? ["left"],
-        icon: item.fields?.icon!,
-        interestedInThis: item.fields?.interestedInThis!,
-        date: item.fields?.date!
-        };
+      title: item.fields?.title ?? "",
+      ctaText: item.fields?.ctaText ?? "",
+      internalTitle: item.fields?.internalTitle ?? "",
+      url: item.fields?.url ?? "",
+      allingment: item.fields?.allingment ?? ["left"],
+      icon: item.fields?.icon!,
+      interestedInThis: item.fields?.interestedInThis!,
+      date: item.fields?.date!,
+    };
     elements.push(element);
   });
-
-  
-
-  
-
-
-
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Hubo un error al cargar los servicios.</p>;
-
-  const elements: servicePreviewFields[] = [];
-
-  // Verificamos que data tenga la estructura esperada antes de acceder a las propiedades
-  if (
-    data &&
-    data.fields &&
-    data.fields.sections &&
-    Array.isArray(data.fields.sections) &&
-    data.fields.sections[0] &&
-    data.fields.sections[0].fields &&
-    data.fields.sections[0].fields.items &&
-    Array.isArray(data.fields.sections[0].fields.items)
-  ) {
-    data.fields.sections[0].fields.items.forEach((item: servicePreview) => {
-      // Verificamos que item.fields existe antes de acceder a sus propiedades
-      if (item.fields) {
-        const element: servicePreviewFields = {
-          title: item.fields.title,
-          ctaText: item.fields.ctaText,
-          internalTitle: item.fields.internalTitle,
-          url: item.fields.url,
-        };
-        elements.push(element);
-      } else {
-        console.error('El item no tiene fields definidos:', item);
-      }
-    });
-  } else {
-    console.error('Estructura de datos inesperada:', data);
-  }
-
-  console.log('Elementos procesados:', elements);
 
   return (
     <>
@@ -129,13 +98,12 @@ export default function ServicesView() {
           <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-16 md:grid-cols-2 xl:grid-cols-5">
             {elements.map((element, index) => (
               <ServiceSmall
-                key={index} 
+                key={index}
                 title={element.title}
                 description={element.ctaText}
                 link={element.url}
               />
             ))}
-            
           </div>
         </div>
       </section>
