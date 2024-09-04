@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import {  useQuery } from "@tanstack/react-query";
 import { applyJob, getJobById } from "../../api/JobsAPI";
 import { useParams } from "react-router-dom";
 import { renderRichText } from "../../helpers/RichTextProcessor";
