@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
 import { createPersonEntry } from "../config/contentfulClient";
+import colors from "colors";
 
 export class LayoutController {
   static getGeneral = async (req: Request, res: Response) => {
@@ -19,6 +20,7 @@ export class LayoutController {
   };
 
   static postLayout = async (req: Request, res: Response) => {
+    console.log(colors.bgBlue(req.body.email));
     try {
       const id = await createPersonEntry({
         //   internalName: "John Doe 5",,

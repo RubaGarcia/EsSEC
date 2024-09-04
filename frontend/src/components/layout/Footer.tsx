@@ -2,21 +2,24 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
 import { getElements, postEmail } from "../../api/LayoutAPI";
 import React, { useEffect, useState } from "react";
+import { json } from "react-router-dom";
 // import axios from "axios";
 
 export default function Footer() {
   let footerObject: Entry<FooterFields>;
   const [email, setEmail] = useState<string>("");
 
-  const [localFooter, setLocalFooter] = useState<string | null>(sessionStorage.getItem("Footer"));
+  const [localFooter, setLocalFooter] = useState<string | null>(
+    sessionStorage.getItem("Footer")
+  );
 
   const {
     data,
+    isError,
     isLoading,
-    error,
   }: {
-    data: ApiRequest | undefined;
-    error: null | Error;
+    data: undefined | ApiRequest;
+    isError: boolean;
     isLoading: boolean;
   } = useQuery({
     queryKey: ["elements"],
@@ -26,51 +29,55 @@ export default function Footer() {
 
   useEffect(() => {
     if (localFooter === null && data) {
-      if (data.fields && data.fields.footer) {
-        footerObject = data.fields.footer;
-        sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-        setLocalFooter(JSON.stringify(footerObject));
-      }
+      footerObject = data.fields.footer;
+      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+      setLocalFooter(JSON.stringify(footerObject));
     } else if (localFooter) {
       footerObject = JSON.parse(localFooter);
     }
   }, [data, localFooter]);
 
-  const { mutate } = useMutation({
+  const  mutation  = useMutation({
     mutationFn: postEmail,
     onError: (error) => {
       console.error("Error al enviar los datos:", error);
       alert(
-        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde."
+        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde.",
       );
     },
     onSuccess: () => {
       alert("Email enviado con éxito. Gracias por unirte a nosotros.");
     },
   });
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (!email) {
-      alert("Por favor ingresa tu email.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      alert("Por favor ingresa un email válido.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("email", email);
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    mutate(formData);
+console.log(mutation)//TODO
+async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  // const elem =event.currentTarget
+  // console.log(elem.elements.namedItem("email").value)
+  if (!email) {
+    alert("Por favor ingresa tu email.");
+    return;
   }
+  
+  if (!validateEmail(email)) {
+    alert("Por favor ingresa un email válido.");
+    return;
+  }
+  
+  const formData = new FormData(event.currentTarget);
+
+  // formData.append("email", email);
+  
+  // Debug: Verifica que el FormData contiene el email correcto
+  // console.log("FormData antes de enviar:");
+  // for (const [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
+  
+  // mutation(formData);
+  const result  = await mutation.mutateAsync(formData);
+  console.log(result);  
+}
 
   function validateEmail(email: string) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,8 +86,8 @@ export default function Footer() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (error) {
-    console.error("Error fetching elements:", error);
+  if (isError) {
+    console.error("Error fetching elements");
     return <p>Error loading footer data. Please try again later.</p>;
   }
 
@@ -92,7 +99,6 @@ export default function Footer() {
     console.error("Error parsing localFooter:", error);
     return null;
   }
-
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
@@ -108,6 +114,7 @@ export default function Footer() {
             >
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

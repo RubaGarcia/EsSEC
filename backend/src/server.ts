@@ -12,6 +12,7 @@ import ProjectRoutes from "./routes/ProjectRoutes";
 import helmet from "helmet";
 import swaggerSpec, { swaggerUiOptions } from "./config/swagger.config";
 import swaggerUi from "swagger-ui-express"; // Import the 'swaggerUi' module
+import bodyParser from "body-parser";
 
 const app = express();
 
@@ -21,6 +22,12 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
+// app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 //routes
 app.use("/api", LayoutRoutes);
 app.use("/api/home", HomeRoutes);

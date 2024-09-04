@@ -11,8 +11,13 @@
 import { Router } from "express";
 import { LayoutController } from "../Controllers/LayoutController";
 import { emailValidation } from "../middleware/email";
+import colors from "colors";
+import bodyParser from "body-parser";
+
 
 const router = Router();
+
+
 
 /**
  * @swagger
@@ -117,7 +122,17 @@ router.get("/", LayoutController.getGeneral);
  *                      ]
  */
 router.post("/", 
-    emailValidation,
-    LayoutController.postLayout);
+  bodyParser.urlencoded({ extended: true }),
+  (req, res, next) => {
+      console.log(req.body);
+      if (!req.body.email) {
+          console.log(colors.red("Email is required"));
+          return res.status(400).json({ message: "Email is required" });
+      }
+      next();
+  },
+  emailValidation,
+  LayoutController.postLayout // Asegúrate de pasar el controlador aquí
+);
 
 export default router;
