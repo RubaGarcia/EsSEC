@@ -17,7 +17,7 @@ export async function getServices(){
         }
     }
   }
-}
+
 
 
 export async function getAuditories(){
@@ -34,7 +34,7 @@ export async function getAuditories(){
 
     }
   }
-}
+
 
 
 export async function getProducts(){
@@ -50,7 +50,7 @@ export async function getProducts(){
         }
     }
   }
-}
+
 
 
 export async function getMaintenance(){
@@ -66,7 +66,7 @@ export async function getMaintenance(){
         }
     }
   }
-}
+
 
 
 export async function getImprovementPlans(){
@@ -83,7 +83,7 @@ export async function getImprovementPlans(){
 
     }
   }
-}
+
 
 
 export async function getDigitalKit(){
@@ -100,7 +100,7 @@ export async function getDigitalKit(){
 
     }
   }
-}
+
 
 // type ServiceAPIType = {
 //     formData: FormData;
