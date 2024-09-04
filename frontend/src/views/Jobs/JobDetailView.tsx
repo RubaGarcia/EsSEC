@@ -17,15 +17,22 @@ export default function JobDetailView() {
     setIsModalOpen(false);
   }
 
-  function handleFormSubmit(data: { firstName: string; lastName: string; email: string; files: File[] }) {
-    console.log("Datos enviados:", data);
+  function handleFormSubmit(Userdata: { firstName: string; lastName: string; email: string; files: File[] }) {
+    console.log("Datos enviados:", Userdata);
     
     const formData = new FormData();
-    formData.append("email", data.email);
-    formData.append("firstName", data.firstName);
-    formData.append("lastName", data.lastName);
-    data.files.forEach((file) => formData.append("files", file));
+    formData.append("email", Userdata.email);
+    formData.append("firstName", Userdata.firstName);
+    formData.append("lastName", Userdata.lastName);
+    Userdata.files.forEach((file) => formData.append("files", file));
     
+    if (!data?.applicants){
+      alert("No se puede aplicar a esta oferta de trabajo");
+      return;
+    }
+
+    formData.append("applicantsList", data.applicants.sys?.id ?? "");
+
     applyJob({ formData, jobId: "job" }).then(() => {
       alert("Email y archivos subidos con éxito");
       handleModalClose();
@@ -51,6 +58,9 @@ export default function JobDetailView() {
   if (isError) {
     return <div>Ha ocurrido un error al cargar los datos.</div>;
   }
+
+  console.log("applicants", data?.applicants)
+
 
   return (
     <>

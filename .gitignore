@@ -1,3 +1,6 @@
+#folder with pdfs
+uploads/
+
 # Logs
 logs
 *.log

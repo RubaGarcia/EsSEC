@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
-import { createAsset, createPersonEntry } from "../config/contentfulClient";
+import { createAsset, createPersonEntry, linkPersonJob, managementClient } from "../config/contentfulClient";
+import colors from "colors"; // Import the 'colors' module
 
 interface MulterRequest extends Request {
   file: Express.Multer.File; // Multer agrega la propiedad `file` aquí
@@ -45,37 +46,40 @@ export class JobsController {
 
   static obtainEmail = async (req: MulterRequest, res: Response) => {
     try {
-      const { email, firstName, lastName } = req.body;
-      
-      console.log(req.body)
-
+      const { email, firstName, lastName, applicantsList } = req.body;
+  
+      console.log(req.body);
+  
       if (!req.file) {
         return res.status(400).json({ error: "File is required" });
       }
-
+  
       const file = req.file;
       console.log("File uploaded:", file);
-
+  
       const cvAssetId = await createAsset({
         fileName: file.originalname,
         fileContentType: file.mimetype,
         filePath: file.path,
       });
-
+  
       console.log("CV Asset created with ID:", cvAssetId);
-
+  
       const personEntryId = await createPersonEntry({
         fullName: `${firstName} ${lastName}`,
         email: email,
         cvAssetId: cvAssetId,
       });
-
-      console.log("Person entry created with ID:", personEntryId);
-
+  
+      linkPersonJob(applicantsList, personEntryId)
+      
+  
       res.status(200).json({ personEntryId });
     } catch (error) {
       console.error("Error during the process:", error);
       res.status(500).json({ error: "Something went wrong" });
     }
   };
+  
+  
 }

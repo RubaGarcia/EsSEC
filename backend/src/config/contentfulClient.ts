@@ -14,22 +14,23 @@ export const managementClient: ClientAPI = createClient({
   accessToken: "CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4",
 });
 
-
 export function generateID(): string {
   const array = new Uint8Array(16);
   crypto.randomFillSync(array); // Usa crypto.randomFillSync para llenar el array con valores aleatorios
 
-  const uuid = [...array].map((byte, index) => {
-    const hex = byte.toString(16).padStart(2, '0'); 
-    if (index === 6) {
-      return (parseInt(hex[0], 16) & 0x0f | 0x40).toString(16) + hex[1]; 
-    }
-    if (index === 8) {
-      return (parseInt(hex[0], 16) & 0x3f | 0x80).toString(16) + hex[1]; 
-    }
-    return hex;
-  }).join('');
-  
+  const uuid = [...array]
+    .map((byte, index) => {
+      const hex = byte.toString(16).padStart(2, "0");
+      if (index === 6) {
+        return ((parseInt(hex[0], 16) & 0x0f) | 0x40).toString(16) + hex[1];
+      }
+      if (index === 8) {
+        return ((parseInt(hex[0], 16) & 0x3f) | 0x80).toString(16) + hex[1];
+      }
+      return hex;
+    })
+    .join("");
+
   return `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
 }
 
@@ -56,7 +57,6 @@ export async function AvailableName() {
   return name;
 }
 
-
 // Función para crear un Asset
 export async function createAsset({
   fileName,
@@ -73,12 +73,11 @@ export async function createAsset({
 
     const fileContent = fs.readFileSync(filePath);
 
-    console.log(fileName, "\n", fileContentType,"\n", filePath);
+    console.log(fileName, "\n", fileContentType, "\n", filePath);
 
     const upload = await environment.createUpload({
       file: fileContent,
     });
-
 
     const asset = await environment.createAsset({
       fields: {
@@ -102,10 +101,9 @@ export async function createAsset({
       },
     });
 
-
     const processedAsset = await asset.processForAllLocales();
     const publishedAsset = await processedAsset.publish();
-    
+
     return publishedAsset.sys.id;
   } catch (error) {
     console.error("Error creando asset:", error);
@@ -134,8 +132,7 @@ export async function createPersonEntry({
     const space = await managementClient.getSpace("k9voop8uf94b");
     const environment = await space.getEnvironment("master");
 
-    
-    console.log(email, cvAssetId)
+    console.log(email, cvAssetId);
 
     const entry = await environment.createEntry("person", {
       fields: {
@@ -204,6 +201,35 @@ export async function createPersonEntry({
   } catch (error) {
     console.error("Error creating person entry:", error);
     throw Error("Error creating person entry");
+  }
+}
+
+export async function linkPersonJob(applicantsList, personEntryId) {
+  try {
+    const space = await managementClient.getSpace("k9voop8uf94b");
+    const environment = await space.getEnvironment("master");
+    let cartridge = await environment.getEntry(applicantsList);
+
+    if (!cartridge.fields.items) {
+      cartridge.fields.items = { "en-US": [] };
+    } else if (!cartridge.fields.items["en-US"]) {
+      cartridge.fields.items["en-US"] = [];
+    }
+
+    cartridge.fields.items["en-US"].push({
+      sys: { id: personEntryId, linkType: "Entry", type: "Link" },
+    });
+
+    cartridge = await cartridge.update();
+
+    cartridge = await environment.getEntry(cartridge.sys.id);
+
+    const response = await cartridge.publish();
+
+    return response;
+  } catch (error) {
+    console.error("Error linking person to job:", error);
+    throw Error("Error linking person to job");
   }
 }
 

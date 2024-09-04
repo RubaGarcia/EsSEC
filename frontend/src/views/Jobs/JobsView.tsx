@@ -51,6 +51,8 @@ export default function JobsView() {
 
   });
 
+  
+
   return (
     <>
       <Hero hero={hero} />
