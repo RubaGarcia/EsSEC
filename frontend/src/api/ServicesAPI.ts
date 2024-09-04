@@ -1,5 +1,7 @@
-import api from '../lib/axios';
+import { formDataToJSON } from "../helpers/formDataToJSON";
+import api from "../lib/axios";
 import { isAxiosError } from "axios";
+
 
 
 export async function getServices(){
@@ -14,7 +16,9 @@ export async function getServices(){
             throw error;
         }
     }
+  }
 }
+
 
 export async function getAuditories(){
     try {
@@ -27,8 +31,11 @@ export async function getAuditories(){
         } else {
             throw error;
         }
+
     }
+  }
 }
+
 
 export async function getProducts(){
     try {
@@ -42,7 +49,9 @@ export async function getProducts(){
             throw error;
         }
     }
+  }
 }
+
 
 export async function getMaintenance(){
     try {
@@ -56,7 +65,9 @@ export async function getMaintenance(){
             throw error;
         }
     }
+  }
 }
+
 
 export async function getImprovementPlans(){
     try {
@@ -69,7 +80,9 @@ export async function getImprovementPlans(){
         } else {
             throw error;
         }
+
     }
+  }
 }
 
 
@@ -84,7 +97,9 @@ export async function getDigitalKit(){
         } else {
             throw error;
         }
+
     }
+  }
 }
 
 // type ServiceAPIType = {
@@ -92,27 +107,28 @@ export async function getDigitalKit(){
 // }
 
 export async function postEmailDigitalKit(formData: FormData) {
-    try {
-        const url = '/services/digital-kit';
 
-        // Verifica el contenido del FormData
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
+  try {
+    const url = "/services/digital-kit";
 
-        const response = await api.post(url, formData);
-        //console.log(response.data); // Verifica la respuesta
-        return response.data;
-
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            //console.error('Error en la solicitud:', error.response.data.message);
-            throw new Error(error.response.data.message);
-        }
-        //console.error('Error inesperado:', error);
-        throw error;
+    // Verifica el contenido del FormData
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
     }
+    
+    const json = formDataToJSON(formData);
+
+    // Realizar la solicitud con axios
+    const response = await api.post(url, JSON.parse(json));
+    // const response = await api.post(url, formData);
+    console.log(response.data); // Verifica la respuesta
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.error("Error en la solicitud:", error.response.data.message);
+      throw new Error(error.response.data.message);
+    }
+    console.error("Error inesperado:", error);
+    throw error;
+  }
 }
-
-
-

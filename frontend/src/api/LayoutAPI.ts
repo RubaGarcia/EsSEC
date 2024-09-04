@@ -1,5 +1,6 @@
+import { formDataToJSON } from '../helpers/formDataToJSON';
 import api from '../lib/axios';
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 
 
 export async function getElements(){
@@ -18,24 +19,22 @@ export async function getElements(){
 
 
 export async function postEmail(formData: FormData) {
-    try {
-        const url = '/home/create';
+  try {
+      const url = '/';
 
-        // Verifica el contenido del FormData
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
+      // Convertir FormData a un objeto JSON
+      const json = formDataToJSON(formData);
 
-        const response = await api.post(url, formData);
-        console.log(response.data); // Verifica la respuesta
-        return response.data;
+      // Realizar la solicitud con axios
+      const response = await api.post(url, JSON.parse(json));
 
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            console.error('Error en la solicitud:', error.response.data.message);
-            throw new Error(error.response.data.message);
-        }
-        console.error('Error inesperado:', error);
-        throw error;
-    }
+      return response.data;
+  } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+          console.error('Error en la solicitud:', error.response.data.message);
+          throw new Error(error.response.data.message);
+      }
+      console.error('Error inesperado:', error);
+      throw error;
+  }
 }

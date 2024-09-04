@@ -57,7 +57,7 @@ export class ServicesController {
 
   static postDigitalKit=async(req: Request, res: Response) => {
     try {
-      console.log(req.body)
+      // console.log(req.body)
       const id = await createPersonEntry({
       //   internalName: "John Doe 5",
         //fullName: "John Doe",

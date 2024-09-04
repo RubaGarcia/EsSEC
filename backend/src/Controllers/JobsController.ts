@@ -1,30 +1,43 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
 import { createAsset, createPersonEntry } from "../config/contentfulClient";
-import { Multer } from "multer";
 
 interface MulterRequest extends Request {
   file: Express.Multer.File; // Multer agrega la propiedad `file` aquí
 }
 
-
-export class JobsController{
-    static getGeneral = async (req: Request, res: Response) => {
-        try {
-            res.json(await getEntries("landingPage","jobs"));
-          } catch (error) {
-            res.status(500).json({ error: error.message });
-          }
-    };
+export class JobsController {
+  static getGeneral = async (req: Request, res: Response) => {
+    try {
+      res.json(await getEntries("landingPage", "jobs"));
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 
   static getJob = async (req: Request, res: Response) => {
-    // res.send('Job with id ' + req.params.JobId);
     try {
       const entries = await getEntries("job");
-      // const fields = entries.map((entry) => entry.fields)
-      //TODO:filter by the id element of the job, if the id is true return the job
-      const job = entries.find((entry) => entry.sys.id === req.params.JobId);
-      res.json(job.fields);
+      // console.log(entries);
+      // Verifica si 'entries' es un array
+      if (Array.isArray(entries)) {
+        // Encuentra el trabajo que coincide con JobId
+        const jobId = req.params.JobId;
+        if (!jobId) {
+          return res.status(400).json({ error: "JobId is required" });
+        }
+
+        const job = entries.find((entry) => entry.sys.id === jobId);
+
+        if (!job) {
+          return res.status(404).json({ error: "Job not found" });
+        }
+
+        return res.json(job.fields);
+      } else {
+        // Manejo del caso en el que 'entries' no es un array
+        return res.status(500).json({ error: "Unexpected response format" });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

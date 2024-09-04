@@ -5,7 +5,8 @@ export class ResourcesController {
 
     static getGeneral = async (req: Request, res: Response)=> {
         try {
-            res.json(await getEntries("landingPage","ResourcesPage"));
+          const data = await getEntries("landingPage","ResourcesPage");
+            res.status(200).json(data);
           } catch (error) {
             res.status(500).json({ error: error.message });
           }

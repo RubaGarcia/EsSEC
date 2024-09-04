@@ -52,7 +52,7 @@ export default function Header() {
 
           <div className="flex lg:hidden">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)} // Manejador de clic para alternar el menú
+              onClick={() => setIsMenuOpen(!isMenuOpen)} 
               type="button"
               className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
               aria-label="toggle menu"
@@ -92,15 +92,14 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mostrar/Ocultar menú dependiendo del estado */}
         <div className={`${isMenuOpen ? 'block' : 'hidden'} absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between`}>
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
             {navList.map((item, index) => (
               <Link
                 key={index}
                 className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
-                to={`${item.fields?.url}`}
-                onClick={() => setIsMenuOpen(false)} // Cerrar el menú cuando se hace clic en un enlace
+                to={`${item.fields.url}`}
+                onClick={() => setIsMenuOpen(false)} 
               >
                 {item.fields?.label}
               </Link>

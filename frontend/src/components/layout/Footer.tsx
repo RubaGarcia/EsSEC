@@ -1,44 +1,43 @@
 import { useQuery } from "@tanstack/react-query";
 import { FooterFields, Entry, ApiRequest } from "../../types";
-import { getElements } from "../../api/LayoutAPI";
+
+import { getElements, postEmail } from "../../api/LayoutAPI";
+import React, { useEffect, useState } from "react";
 // import axios from "axios";
 
 export default function Footer() {
   let footerObject: Entry<FooterFields>;
-  // const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-  let localHeader = sessionStorage.getItem("Header");
-  let localFooter = sessionStorage.getItem("Footer");
+  const [localFooter, setLocalFooter] = useState<string | null>(
+    sessionStorage.getItem("Footer")
+  );
 
-  if (localHeader === null || localFooter === null) {
-    const {
-      data,
-      isLoading,
-    }: {
-      data: undefined | ApiRequest;
-      error: null | Error;
-      isLoading: boolean;
-    } = useQuery({
-      queryKey: ["elements"],
-      queryFn: getElements,
-    });
+  const {
+    data,
+    isError,
+    isLoading,
+  }: {
+    data: undefined | ApiRequest;
+    isError: boolean;
+    isLoading: boolean;
+  } = useQuery({
+    queryKey: ["elements"],
+    queryFn: getElements,
+    enabled: localFooter === null,
+  });
 
-    if (isLoading) return <p>Loading...</p>;
+  useEffect(() => {
+    if (localFooter === null && data) {
+      footerObject = data.fields.footer;
+      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+      setLocalFooter(JSON.stringify(footerObject));
+    } else if (localFooter) {
+      footerObject = JSON.parse(localFooter);
+    }
+  }, [data, localFooter]);
 
-    footerObject = data!.fields!.footer!;
-
-    //sessionStorage.setItem('Header', JSON.stringify(headerObject));
-    sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-  } else {
-    //HeaderObject = JSON.parse(localHeader);
-    footerObject = JSON.parse(localFooter);
-  }
-
-  const footerLogoUrl= footerObject.fields?.logo?.fields?.file?.url ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
-
-  /* FIXME: const [email, setEmail] = useState<string>("");
-
-  const { mutate } = useMutation({
+  const  mutation  = useMutation({
     mutationFn: postEmail,
     onError: (error) => {
       console.error("Error al enviar los datos:", error);
@@ -50,38 +49,56 @@ export default function Footer() {
       alert("Email enviado con éxito. Gracias por unirte a nosotros.");
     },
   });
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (!email) {
-      alert("Por favor ingresa tu email.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      alert("Por favor ingresa un email válido.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("email", email);
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    mutate(formData);
+console.log(mutation)//TODO
+async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  // const elem =event.currentTarget
+  // console.log(elem.elements.namedItem("email").value)
+  if (!email) {
+    alert("Por favor ingresa tu email.");
+    return;
   }
+  
+  if (!validateEmail(email)) {
+    alert("Por favor ingresa un email válido.");
+    return;
+  }
+  
+  const formData = new FormData(event.currentTarget);
+
+  // formData.append("email", email);
+  
+  // Debug: Verifica que el FormData contiene el email correcto
+  // console.log("FormData antes de enviar:");
+  // for (const [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
+  
+  // mutation(formData);
+  const result  = await mutation.mutateAsync(formData);
+  console.log(result);  
+}
 
   function validateEmail(email: string) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   }
 
-  console.log(footerObject); */
+  if (isLoading) return <p>Loading...</p>;
 
+  if (isError) {
+    console.error("Error fetching elements");
+    return <p>Error loading footer data. Please try again later.</p>;
+  }
 
+  if (!localFooter) return null;
+
+  try {
+    footerObject = JSON.parse(localFooter);
+  } catch (error) {
+    console.error("Error parsing localFooter:", error);
+    return null;
+  }
 
   return (
     <footer className="bg-white dark:bg-gray-900">
@@ -98,6 +115,7 @@ export default function Footer() {
             >
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email address"
                 //FIXME:value={email}
                 //onChange={(e) => setEmail(e.target.value)}
