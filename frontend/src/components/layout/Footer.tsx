@@ -29,7 +29,7 @@ export default function Footer() {
   useEffect(() => {
     if (localFooter === null && data) {
       // Aquí asegúrate de que 'data.fields.footer' tenga un valor antes de usarlo
-      if (data.fields && data.fields.footer) {
+      if (data?.fields?.footer) {
         footerObject = data.fields.footer;
         sessionStorage.setItem("Footer", JSON.stringify(footerObject));
         setLocalFooter(JSON.stringify(footerObject));
@@ -92,7 +92,7 @@ export default function Footer() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) {
+  if (isError || !data || !data.fields || !data.fields.footer) {
     console.error("Error fetching elements");
     return <p>Error loading footer data. Please try again later.</p>;
   }
@@ -105,7 +105,7 @@ export default function Footer() {
   //   console.error("Error parsing localFooter:", error);
   //   return null;
   // }
-  
+
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
