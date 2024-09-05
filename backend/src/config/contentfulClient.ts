@@ -5,10 +5,10 @@ import fs from "fs";
 import 'dotenv/config'
 
 
-const cda_token= process.env.CDA_TOKEN;
-const cma_token= process.env.CMA_TOKEN;
-const contentful_space= process.env.SPACE;
-const contentful_environment= process.env.ENVIRONMENT;
+export const cda_token= process.env.CDA_TOKEN;
+export const cma_token= process.env.CMA_TOKEN;
+export const contentful_space= process.env.SPACE;
+export const contentful_environment= process.env.ENVIRONMENT;
 
 // Cliente para leer contenido (Content Delivery API)
 export const deliveryClient = createDeliveryClient({

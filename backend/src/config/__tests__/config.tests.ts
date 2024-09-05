@@ -1,6 +1,8 @@
 import { AvailableName, createPersonEntry, generateID } from '../contentfulClient'; // Asegúrate de poner la ruta correcta
 import { managementClient } from '../contentfulClient'; // Importa tu client de Contentful o mockéalo
-import { createAsset } from "../contentfulClient";
+import { createAsset, contentful_environment, contentful_space } from "../contentfulClient";
+import 'dotenv/config'
+
 
 
 
@@ -47,8 +49,8 @@ describe('AvailableName', () => {
     await AvailableName();
     expect(managementClient.getSpace).toHaveBeenCalledTimes(1);
     expect(managementClient.getSpace).toHaveBeenCalledWith('spaceId');
-    expect((await managementClient.getSpace('spaceId')).getEnvironment).toHaveBeenCalledWith('master');
-    expect((await (await managementClient.getSpace('spaceId')).getEnvironment('master')).getEntries).toHaveBeenCalledTimes(1);
+    expect((await managementClient.getSpace('spaceId')).getEnvironment).toHaveBeenCalledWith(contentful_environment);
+    expect((await (await managementClient.getSpace('spaceId')).getEnvironment(contentful_environment)).getEntries).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -119,8 +121,8 @@ describe('createPersonEntry', () => {
       reviewEntryId: 'review-id',
     });
 
-    expect(mockGetSpace).toHaveBeenCalledWith('k9voop8uf94b');
-    expect(mockGetEnvironment).toHaveBeenCalledWith('master');
+    expect(mockGetSpace).toHaveBeenCalledWith(contentful_space);
+    expect(mockGetEnvironment).toHaveBeenCalledWith(contentful_environment);
     expect(mockCreateEntry).toHaveBeenCalledWith('person', {
       fields: {
         internalName: { 'en-US': 'Internal Name' },
@@ -173,8 +175,8 @@ describe('createPersonEntry', () => {
       email: 'test@example.com',
     });
 
-    expect(mockGetSpace).toHaveBeenCalledWith('k9voop8uf94b');
-    expect(mockGetEnvironment).toHaveBeenCalledWith('master');
+    expect(mockGetSpace).toHaveBeenCalledWith(contentful_space);
+    expect(mockGetEnvironment).toHaveBeenCalledWith(contentful_environment);
     expect(mockCreateEntry).toHaveBeenCalledWith('person', {
       fields: {
         internalName: { 'en-US': expect.any(String) }, // se usa AvailableName si no se proporciona internalName

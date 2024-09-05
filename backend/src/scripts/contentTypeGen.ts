@@ -1,10 +1,8 @@
 import { createClient, ContentType } from 'contentful-management';
+import { contentful_environment as contentfulEnvironmentId, contentful_space as contentfulSpaceId, cma_token as contentfulManagementToken  } from '../config/contentfulClient';
 import fs from 'fs';
 import path from 'path';
 
-const contentfulSpaceId = 'k9voop8uf94b';
-const contentfulEnvironmentId = 'master';
-const contentfulManagementToken = 'CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4';
 
 async function fetchContentTypes() {
     const client = createClient({
