@@ -2,8 +2,10 @@ import api from '../lib/axios';
 import { isAxiosError } from "axios";
 
 export async function getProjects(){
+    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const params = { locale }; // Parámetro para la consulta GET
     try {
-        const response = await api.get('/projects');
+        const response = await api.get('/projects',{params});
         console.log(response.data);
         return response.data;
     } catch (error) {
@@ -17,8 +19,10 @@ export async function getProjects(){
 
 
 export async function getProjectById({ProjectId}: {ProjectId: string}){
+    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const params = { locale }; // Parámetro para la consulta GET
     try {
-        const response = await api.get(`/projects/${ProjectId}`);
+        const response = await api.get(`/projects/${ProjectId}`, {params});
         console.log(response.data);
         return response.data;
     } catch (error) {

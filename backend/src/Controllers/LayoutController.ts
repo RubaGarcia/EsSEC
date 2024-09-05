@@ -5,12 +5,19 @@ import colors from "colors";
 
 export class LayoutController {
   static getGeneral = async (req: Request, res: Response) => {
+    console.log(req.query); // Imprimir los parámetros de consulta (query params)
+    const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
+    console.log(locale);
     try {
-      const header = await getEntries("header");
-      const footer = await getEntries("footer");
+      const header = await getEntries("header", locale);
+      const footer = await getEntries("footer", locale);
       const layout = {
-        header: Array.isArray(header) ? header.map((entry) => entry.fields) : [],
-        footer: Array.isArray(footer) ? footer.map((entry) => entry.fields) : [],
+        header: Array.isArray(header)
+          ? header.map((entry) => entry.fields)
+          : [],
+        footer: Array.isArray(footer)
+          ? footer.map((entry) => entry.fields)
+          : [],
       };
 
       res.json(layout);

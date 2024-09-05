@@ -7,7 +7,7 @@ export async function getPage() {
     const params = { locale }; // Parámetro para la consulta GET
     
     try {
-        const response = await api.get('/home', { params });
+        const response = await api.get('home', { params });
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

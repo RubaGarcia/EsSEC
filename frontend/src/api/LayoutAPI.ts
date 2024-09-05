@@ -5,7 +5,9 @@ import axios, { isAxiosError } from "axios";
 
 export async function getElements(){
     try {
-        const response = await api.get('/home');
+        const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const params = { locale }; // Parámetro para la consulta GET
+        const response = await api.get('/home', {params});
         //console.log(response.data);
         return response.data;
     } catch (error) {

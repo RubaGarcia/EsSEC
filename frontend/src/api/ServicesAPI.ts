@@ -2,11 +2,12 @@ import { formDataToJSON } from "../helpers/formDataToJSON";
 import api from "../lib/axios";
 import { isAxiosError } from "axios";
 
-
+const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+const params = { locale }; // Parámetro para la consulta GET
 
 export async function getServices(){
     try {
-        const response = await api.get('/services');
+        const response = await api.get('/services', { params });
         //console.log(response.data);
         return response.data;
     } catch (error) {
@@ -22,7 +23,7 @@ export async function getServices(){
 
 export async function getAuditories(){
     try {
-        const response = await api.get('/services/auditories');
+        const response = await api.get('/services/auditories', { params });
         //console.log(response.data);
         return response.data;
     } catch (error) {
@@ -39,7 +40,7 @@ export async function getAuditories(){
 
 export async function getProducts(){
     try {
-        const response = await api.get('/services/products');
+        const response = await api.get('/services/products', { params });
         //console.log(response.data);
         return response.data;
     } catch (error) {
@@ -55,7 +56,7 @@ export async function getProducts(){
 
 export async function getMaintenance(){
     try {
-        const response = await api.get('/services/manteinance');
+        const response = await api.get('/services/manteinance', { params });
         //console.log(response.data);
         return response.data;
     } catch (error) {
@@ -71,7 +72,7 @@ export async function getMaintenance(){
 
 export async function getImprovementPlans(){
     try {
-        const response = await api.get('/services/improvement-plans');
+        const response = await api.get('/services/improvement-plans', { params });
         //console.log(response.data);
         return response.data;
     } catch (error) {
@@ -88,7 +89,7 @@ export async function getImprovementPlans(){
 
 export async function getDigitalKit(){
     try {
-        const response = await api.get('/services/digital-kit');
+        const response = await api.get('/services/digital-kit', { params });
         //console.log(response.data);
         return response.data;
     } catch (error) {

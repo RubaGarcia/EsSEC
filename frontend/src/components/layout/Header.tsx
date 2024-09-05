@@ -48,10 +48,12 @@ export default function Header() {
     } else if(language === "English"){
       idioma="en-US"
     }
+
     setSelectedLanguage(language);
     // console.log(selectedLanguage);
     localStorage.setItem("locale", idioma); // Guardar el idioma seleccionado en localStorage
     setIsDropdownOpen(false); // Cerrar el dropdown
+    window.location.reload();
   };
 
   

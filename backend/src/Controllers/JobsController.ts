@@ -1,6 +1,11 @@
 import type { Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
-import { createAsset, createPersonEntry, linkPersonJob, managementClient } from "../config/contentfulClient";
+import {
+  createAsset,
+  createPersonEntry,
+  linkPersonJob,
+  managementClient,
+} from "../config/contentfulClient";
 import colors from "colors"; // Import the 'colors' module
 
 interface MulterRequest extends Request {
@@ -10,15 +15,21 @@ interface MulterRequest extends Request {
 export class JobsController {
   static getGeneral = async (req: Request, res: Response) => {
     try {
-      res.json(await getEntries("landingPage", "jobWebPage"));
+      console.log(req.query); // Imprimir los parámetros de consulta (query params)
+      const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
+      console.log(locale);
+      res.json(await getEntries("landingPage", "jobWebPage", locale));
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   };
 
   static getJob = async (req: Request, res: Response) => {
+    console.log(req.query); // Imprimir los parámetros de consulta (query params)
+    const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
+    console.log(locale);
     try {
-      const entries = await getEntries("job");
+      const entries = await getEntries("job", locale);
       // console.log(entries);
       // Verifica si 'entries' es un array
       if (Array.isArray(entries)) {
@@ -47,39 +58,36 @@ export class JobsController {
   static obtainEmail = async (req: MulterRequest, res: Response) => {
     try {
       const { email, firstName, lastName, applicantsList } = req.body;
-  
+
       console.log(req.body);
-  
+
       if (!req.file) {
         return res.status(400).json({ error: "File is required" });
       }
-  
+
       const file = req.file;
       console.log("File uploaded:", file);
-  
+
       const cvAssetId = await createAsset({
         fileName: file.originalname,
         fileContentType: file.mimetype,
         filePath: file.path,
       });
-  
+
       console.log("CV Asset created with ID:", cvAssetId);
-  
+
       const personEntryId = await createPersonEntry({
         fullName: `${firstName} ${lastName}`,
         email: email,
         cvAssetId: cvAssetId,
       });
-  
-      linkPersonJob(applicantsList, personEntryId)
-      
-  
+
+      linkPersonJob(applicantsList, personEntryId);
+
       res.status(200).json({ personEntryId });
     } catch (error) {
       console.error("Error during the process:", error);
       res.status(500).json({ error: "Something went wrong" });
     }
   };
-  
-  
 }
