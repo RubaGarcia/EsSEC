@@ -18,7 +18,7 @@ const app = express();
 
 app.use(helmet());
 app.use(cors(corsConfig));
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms - :remote-addr'));
+app.use(morgan("dev"));
 
 app.use(express.json());
 
