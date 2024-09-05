@@ -9,7 +9,7 @@ export default function Footer() {
   const [email, setEmail] = useState<string>("");
 
   const [localFooter, setLocalFooter] = useState<string | null>(
-    sessionStorage.getItem("Footer"),
+    sessionStorage.getItem("Footer")
   );
 
   const {
@@ -49,7 +49,7 @@ export default function Footer() {
     onError: (error) => {
       console.error("Error al enviar los datos:", error);
       alert(
-        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde.",
+        "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo más tarde."
       );
     },
     onSuccess: () => {
@@ -167,7 +167,7 @@ export default function Footer() {
 
           <div>
             <p className="font-semibold text-gray-800 dark:text-white">
-              Miscelanious
+              Miscellaneous
             </p>
 
             <div className="flex flex-col items-start mt-5 space-y-2">
