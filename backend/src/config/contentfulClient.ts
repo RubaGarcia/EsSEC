@@ -13,6 +13,7 @@ const contentful_environment= process.env.ENVIRONMENT;
 // Cliente para leer contenido (Content Delivery API)
 export const deliveryClient = createDeliveryClient({
   space: contentful_space,
+  environment: contentful_environment,
   accessToken: cda_token,
 });
 
