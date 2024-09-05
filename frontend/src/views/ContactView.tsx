@@ -11,29 +11,35 @@ export default function ContactView() {
     retry: 10,
   });
 
-  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+  // Establecer "All" como el valor predeterminado
+  const [selectedTeam, setSelectedTeam] = useState<string>("All");
 
   if (isLoading || isError) {
     return <div>Loading...</div>;
   }
 
-  
-
   const personCartridge: Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>;
   const people : Entry<PersonFields>[]= personCartridge?.fields?.items as Entry<PersonFields>[];
 
-  console.log(JSON.stringify(people))
-
+  console.log(JSON.stringify(people));
 
   function extractTeam(people: Entry<PersonFields>[]) {
-    const team = people.map((person) => person.fields?.team);
-    return Array.from(new Set(team)); 
+    let team = ["All"];
+    people.forEach((person) => {
+      if (person.fields?.team){
+        team.push(person.fields?.team);
+      }
+    });
+    console.log(team);
+    return Array.from(new Set(team));
   }
 
   const teams = extractTeam(people);
+  console.log(teams);
 
-  function extractPeople(people: Entry<PersonFields>[], team: string | null) {
-    if (!team) return people;
+  // Mostrar todas las personas cuando el equipo seleccionado es "All"
+  function extractPeople(people: Entry<PersonFields>[], team: string) {
+    if (team === "All") return people;
     return people.filter((person) => person.fields?.team === team);
   }
 
