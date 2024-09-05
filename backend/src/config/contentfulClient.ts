@@ -10,6 +10,10 @@ export const cma_token= process.env.CMA_TOKEN;
 export const contentful_space= process.env.SPACE;
 export const contentful_environment= process.env.ENVIRONMENT;
 
+
+console.log(cda_token, cma_token, contentful_space, contentful_environment);
+
+
 // Cliente para leer contenido (Content Delivery API)
 export const deliveryClient = createDeliveryClient({
   space: contentful_space,
