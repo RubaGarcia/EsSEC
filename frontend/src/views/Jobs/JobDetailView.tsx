@@ -94,7 +94,7 @@ export default function JobDetailView() {
           </h1>
         </div>
 
-        <div className="text-white">
+        <div className="text-black dark:text-white">
           {data?.description ? (
             <div
               dangerouslySetInnerHTML={{
