@@ -2,16 +2,24 @@ import { createClient as createDeliveryClient } from "contentful";
 import { ClientAPI, createClient } from "contentful-management";
 import crypto from "crypto";
 import fs from "fs";
+import 'dotenv/config'
+
+
+export const cda_token= process.env.CDA_TOKEN;
+export const cma_token= process.env.CMA_TOKEN;
+export const contentful_space= process.env.SPACE;
+export const contentful_environment= process.env.ENVIRONMENT;
 
 // Cliente para leer contenido (Content Delivery API)
 export const deliveryClient = createDeliveryClient({
-  space: "k9voop8uf94b",
-  accessToken: "dVkwzvA0LUKDn83NgGkvwo_HMf9rV8TzfWjpd6nJizI",
+  space: contentful_space,
+  environment: contentful_environment,
+  accessToken: cda_token,
 });
 
 // Cliente para gestionar contenido (Content Management API)
 export const managementClient: ClientAPI = createClient({
-  accessToken: "CFPAT-fQQuxSBYTtwet9NZdCnEKh57X-IaxPnLomAeR-Fx2H4",
+  accessToken: cma_token,
 });
 
 export function generateID(): string {
@@ -35,8 +43,8 @@ export function generateID(): string {
 }
 
 export async function AvailableName() {
-  const space = await managementClient.getSpace("k9voop8uf94b");
-  const environment = await space.getEnvironment("master");
+  const space = await managementClient.getSpace(contentful_space);
+  const environment = await space.getEnvironment(contentful_environment);
   const entries = await environment.getEntries();
 
   let nameFound = false;
@@ -68,8 +76,8 @@ export async function createAsset({
   filePath: string;
 }) {
   try {
-    const space = await managementClient.getSpace("k9voop8uf94b");
-    const environment = await space.getEnvironment("master");
+    const space = await managementClient.getSpace(contentful_space);
+    const environment = await space.getEnvironment(contentful_environment);
 
     const fileContent = fs.readFileSync(filePath);
 
@@ -129,8 +137,8 @@ export async function createPersonEntry({
   reviewEntryId?: string;
 }) {
   try {
-    const space = await managementClient.getSpace("k9voop8uf94b");
-    const environment = await space.getEnvironment("master");
+    const space = await managementClient.getSpace(contentful_space);
+    const environment = await space.getEnvironment(contentful_environment);
 
     console.log(email, cvAssetId);
 
