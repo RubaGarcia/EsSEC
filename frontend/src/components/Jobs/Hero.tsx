@@ -6,7 +6,7 @@ type HeroProps = {
 };
 
 export default function Hero({ hero }: HeroProps) {
-  const heroImgUrl = hero.icon?.fields?.asset?.fields?.file?.url?.substring(2);
+  const heroImgUrl = hero.icon?.fields?.asset?.fields?.file?.url;
 
   console.log(heroImgUrl);
   return (
