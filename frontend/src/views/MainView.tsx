@@ -27,13 +27,13 @@ export default function MainView() {
   const aux = characteristics as Entry<Blurb>;
 
   const heroCartridge: Entry<Cartridge> = data?.fields
-    ?.sections![0] as Entry<Cartridge>;
+    ?.sections?.[0] as Entry<Cartridge>;
   const heroValueProp: Entry<ValuePropositionFields> = heroCartridge?.fields
-    ?.items![0] as Entry<ValuePropositionFields>;
+    ?.items?.[0] as Entry<ValuePropositionFields>;
   const texts: string[] = aux.fields?.list!;
 
   const valuePropList: Entry<Cartridge> = data?.fields
-    ?.sections![1] as Entry<Cartridge>;
+    ?.sections?.[1] as Entry<Cartridge>;
 
   function PortfolioFields(): string[] {
     const types: string[] = [];
@@ -66,6 +66,7 @@ export default function MainView() {
 
   const portFolioElements: Entry<ValuePropositionFields>[] =
     (valuePropList.fields?.items as Entry<ValuePropositionFields>[]) ?? [];
+    console.log(portFolioElements.length)
 
   reviewer && listReview?.push(reviewer);
 
