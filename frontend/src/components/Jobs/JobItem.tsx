@@ -13,7 +13,7 @@ export default function JobItem({ job }: JobItemProps) {
           {job.fields?.name}
         </h3>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 font-bold">
-          {job.fields?.salary?.toString()}€/mes
+          {job.fields?.salary?.toString()}€/año
         </p>
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-400">
