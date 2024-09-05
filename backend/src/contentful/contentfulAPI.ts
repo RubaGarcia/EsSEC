@@ -29,6 +29,7 @@ export async function getEntries(contentType: string, internalTitle?: string) {
     console.error("Error fetching entries:", error);
     throw error;
   }
+  
 }
 
 async function getContentTypes() {
@@ -36,3 +37,9 @@ async function getContentTypes() {
   return contentTypes.items.map((type) => type.sys.id);
 }
 
+async function getLocales(){
+  const locales = client.getLocales()
+  .then((response) => console.log(response))
+  .catch(console.error)
+  return locales
+}
