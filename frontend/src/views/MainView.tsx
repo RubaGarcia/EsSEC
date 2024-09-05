@@ -44,13 +44,14 @@ export default function MainView() {
     // Recorre cada elemento en items y extrae el campo 'type'
     for (const item of items) {
       const type = item.fields?.type;
-      if (type) {
+      if (type && !types.includes(type)) {
         types.push(type);
       }
     }
 
     return types;
   }
+  // console.log(PortfolioFields())
 
   const personList: Entry<Cartridge> = data?.fields
     ?.sections?.[2] as Entry<Cartridge>;
