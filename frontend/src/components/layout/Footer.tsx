@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 // import axios from "axios";
 
 export default function Footer() {
-  let footerObject: Entry<FooterFields>;
+  let footerObject: Entry<FooterFields> | null = null; // Inicialización segura
   const [email, setEmail] = useState<string>("");
 
   const [localFooter, setLocalFooter] = useState<string | null>(
@@ -28,17 +28,16 @@ export default function Footer() {
 
   useEffect(() => {
     if (localFooter === null && data) {
-      // Aquí asegúrate de que 'data.fields.footer' tenga un valor antes de usarlo
-      if (data?.fields?.footer) {
-        footerObject = data.fields.footer;
-        sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-        setLocalFooter(JSON.stringify(footerObject));
-      }
+      // Asegurarse de que data tiene la estructura correcta
+      footerObject = data.fields.footer;
+      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+      setLocalFooter(JSON.stringify(footerObject));
     } else if (localFooter) {
       try {
         footerObject = JSON.parse(localFooter);
       } catch (error) {
         console.error("Error parsing localFooter:", error);
+        setLocalFooter(null); // Si hay error, lo reseteamos
       }
     }
   }, [data, localFooter]);
@@ -55,11 +54,9 @@ export default function Footer() {
       alert("Email enviado con éxito. Gracias por unirte a nosotros.");
     },
   });
-  console.log(mutation); //TODO
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // const elem =event.currentTarget
-    // console.log(elem.elements.namedItem("email").value)
     if (!email) {
       alert("Por favor ingresa tu email.");
       return;
@@ -72,15 +69,6 @@ export default function Footer() {
 
     const formData = new FormData(event.currentTarget);
 
-    // formData.append("email", email);
-
-    // Debug: Verifica que el FormData contiene el email correcto
-    // console.log("FormData antes de enviar:");
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
-
-    // mutation(formData);
     const result = await mutation.mutateAsync(formData);
     console.log(result);
   }
@@ -92,19 +80,19 @@ export default function Footer() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError || !data || !data.fields || !data.fields.footer) {
+  if (isError) {
     console.error("Error fetching elements");
     return <p>Error loading footer data. Please try again later.</p>;
   }
 
   if (!localFooter) return null;
 
-  // try {
-  //   footerObject = JSON.parse(localFooter);
-  // } catch (error) {
-  //   console.error("Error parsing localFooter:", error);
-  //   return null;
-  // }
+  try {
+    footerObject = JSON.parse(localFooter);
+  } catch (error) {
+    console.error("Error parsing localFooter:", error);
+    return null;
+  }
 
   return (
     <footer className="bg-white dark:bg-gray-900">

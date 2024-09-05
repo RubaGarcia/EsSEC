@@ -24,13 +24,16 @@ export default function ServicesView() {
   });
 
   if (isLoading || isError) return <p>Loading...</p>;
+  
+  console.log("data")
+  console.log(data)
 
   const elements: ProductServiceTileFields[] = [];
   const listSection: Entry<Cartridge>[] = data?.fields
     ?.sections as Entry<Cartridge>[];
   const products: Entry<ProductServiceTileFields>[] = listSection?.[0]?.fields
     ?.items as Entry<ProductServiceTileFields>[];
-  products.forEach((item: Entry<ProductServiceTileFields>) => {
+  products.slice(0, products.length-1).forEach((item: Entry<ProductServiceTileFields>) => {
     const element: ProductServiceTileFields = {
       title: item.fields?.title ?? "",
       ctaText: item.fields?.ctaText ?? "",
@@ -43,7 +46,6 @@ export default function ServicesView() {
     };
     elements.push(element);
   });
-
   return (
     <>
       {/* TODO hacer breadcrumb */}

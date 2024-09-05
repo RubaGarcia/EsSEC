@@ -5,10 +5,10 @@ import { getElements } from "../../api/LayoutAPI";
 import { Link } from "react-router-dom";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);  // Estado para manejar el menú
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para manejar el menú
   let headerObject: Entry<HeaderFields> | null = null;
 
-  const localHeader = sessionStorage.getItem('header');
+  const localHeader = sessionStorage.getItem("header");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["elements"],
@@ -23,7 +23,7 @@ export default function Header() {
     if (data && data.fields) {
       headerObject = data.fields.header;
 
-      sessionStorage.setItem('header', JSON.stringify(headerObject));
+      sessionStorage.setItem("header", JSON.stringify(headerObject));
     }
   } else {
     headerObject = JSON.parse(localHeader);
@@ -36,23 +36,21 @@ export default function Header() {
   //console.log(headerObject);
 
   const navList = headerObject.fields.navigation?.fields?.items ?? [];
-  const logoURL = headerObject.fields.logo?.fields?.file?.url ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
+  const logoURL =
+    headerObject.fields.logo?.fields?.file?.url ??
+    "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
 
   return (
     <nav className="relative bg-white shadow dark:bg-gray-800">
       <div className="container px-6 py-3 mx-auto md:flex">
         <div className="flex items-center justify-between">
           <a href="/">
-            <img
-              className="w-auto h-6 sm:h-7"
-              src={logoURL}
-              alt="Logo"
-            />
+            <img className="w-auto h-6 sm:h-7" src={logoURL} alt="Logo" />
           </a>
 
           <div className="flex lg:hidden">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)} 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               type="button"
               className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
               aria-label="toggle menu"
@@ -92,14 +90,16 @@ export default function Header() {
           </div>
         </div>
 
-        <div className={`${isMenuOpen ? 'block' : 'hidden'} absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between`}>
+        <div
+          className={`${isMenuOpen ? "block" : "hidden"} absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between`}
+        >
           <div className="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
             {navList.map((item, index) => (
               <Link
                 key={index}
                 className="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2"
-                to={`${item.fields?.url ?? ''}`}
-                onClick={() => setIsMenuOpen(false)} 
+                to={`${item.fields?.url ?? ""}`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 {item.fields?.label}
               </Link>
