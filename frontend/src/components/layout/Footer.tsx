@@ -157,37 +157,37 @@ export default function Footer() {
                 Who We Are
               </a>
               <a
-                href="#"
+                href="/projects"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Our Philosophy
+                Our Projects
               </a>
             </div>
           </div>
 
           <div>
             <p className="font-semibold text-gray-800 dark:text-white">
-              Industries
+              Miscelanious
             </p>
 
             <div className="flex flex-col items-start mt-5 space-y-2">
               <a
-                href="#"
+                href="/resources"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Retail & E-Commerce
+                News
               </a>
               <a
-                href="#"
+                href="/jobs"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Information Technology
+                Employment
               </a>
               <a
-                href="#"
+                href="/services/manteinance"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Finance & Insurance
+                Manteinance
               </a>
             </div>
           </div>
