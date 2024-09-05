@@ -28,11 +28,19 @@ export default function Footer() {
 
   useEffect(() => {
     if (localFooter === null && data) {
-      //footerObject = data.fields.footer;
-      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-      setLocalFooter(JSON.stringify(footerObject));
+      if (data.fields && data.fields.footer) {
+        footerObject = data.fields.footer;
+        sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+        setLocalFooter(JSON.stringify(footerObject));
+      } else {
+        console.error("Data no contiende los campos del footer");
+      }
     } else if (localFooter) {
-      footerObject = JSON.parse(localFooter);
+      try {
+        footerObject = JSON.parse(localFooter);
+      } catch (error) {
+        console.error("Error parsing localFooter: ", error);
+      }
     }
   }, [data, localFooter]);
 
