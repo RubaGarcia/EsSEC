@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 import type { HeaderFields, Entry } from "../../types";
 import { getElements } from "../../api/LayoutAPI";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para manejar el menú
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Estado para manejar el dropdown
-  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem("language") || ""); // Estado para manejar el idioma seleccionado
+  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem("locale") || ""); // Estado para manejar el idioma seleccionado
   let headerObject: Entry<HeaderFields> | null = null;
 
   const localHeader = sessionStorage.getItem("header");
@@ -42,6 +42,7 @@ export default function Header() {
 
   const handleLanguageChange = (language: string) => {
     // console.log(language);
+    console.log(selectedLanguage)
     let idioma="es"
     if(language === "Spanish"){
       idioma="es"
