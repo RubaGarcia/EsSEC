@@ -46,11 +46,11 @@ export default function Header() {
     if(language === "Spanish"){
       idioma="es"
     } else if(language === "English"){
-      idioma="en-ES"
+      idioma="en-US"
     }
     setSelectedLanguage(language);
     // console.log(selectedLanguage);
-    localStorage.setItem("language", idioma); // Guardar el idioma seleccionado en localStorage
+    localStorage.setItem("locale", idioma); // Guardar el idioma seleccionado en localStorage
     setIsDropdownOpen(false); // Cerrar el dropdown
   };
 

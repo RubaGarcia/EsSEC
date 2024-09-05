@@ -14,11 +14,16 @@ export async function getSpace() {
  * valores permitidos: los retornados por getContentTypes, internalTitle es opcional
  * @returns la entry de contentful
  */
-export async function getEntries(contentType: string, internalTitle?: string) {
+export async function getEntries(contentType: string, internalTitle?: string, locale: string = "en-US")  {
+  
+  if (locale !== "en-US" && locale !== "es") {
+    locale = "en-US";
+  }
   try {
     const entries = await client.getEntries({
       content_type: contentType,
       include: 10,
+      locale: locale
     });
     return internalTitle
       ? entries.items.find(

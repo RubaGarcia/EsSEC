@@ -1,10 +1,13 @@
 import api from '../lib/axios';
 import { isAxiosError } from "axios";
 
-export async function getPage(){
+export async function getPage() {
+    
+    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const params = { locale }; // Parámetro para la consulta GET
+    
     try {
-        const response = await api.get('/home');
-        //console.log(response.data);
+        const response = await api.get('/home', { params });
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
