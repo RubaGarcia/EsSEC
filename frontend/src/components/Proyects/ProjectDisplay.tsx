@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ValuePropositionFields } from "../../types";
 
 type ProjectDisplayProps = {
-  projects: Pick<ValuePropositionFields, "title" | "headline" | "icon">[];
+  projects: Pick<ValuePropositionFields, "title" | "headline" | "icon" | "type">[];
   ids: string[];
 };
 
@@ -19,7 +19,7 @@ export default function ProjectDisplay({ projects, ids }: ProjectDisplayProps) {
                 className="text-lg tracking-wider text-blue-500 uppercase dark:text-blue-400 "
                 key={index}
               >
-                {project.headline}
+                {project.type}
               </p>
               <Link
                 className="mt-2 text-2xl font-semibold text-gray-800 capitalize dark:text-white"
