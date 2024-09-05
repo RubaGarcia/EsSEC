@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 // import axios from "axios";
 
 export default function Footer() {
-  let footerObject: Entry<FooterFields> | null = null; // Inicialización segura
   const [email, setEmail] = useState<string>("");
 
   const [localFooter, setLocalFooter] = useState<string | null>(
@@ -26,12 +25,16 @@ export default function Footer() {
     enabled: localFooter === null,
   });
 
+  let footerObject: Entry<FooterFields> | null = null; // Inicialización segura
+
   useEffect(() => {
     if (localFooter === null && data) {
       // Asegurarse de que data tiene la estructura correcta
-      footerObject = data.fields.footer;
-      sessionStorage.setItem("Footer", JSON.stringify(footerObject));
-      setLocalFooter(JSON.stringify(footerObject));
+      if (data.fields?.footer) {
+        footerObject = data.fields.footer;
+        sessionStorage.setItem("Footer", JSON.stringify(footerObject));
+        setLocalFooter(JSON.stringify(footerObject));
+      }
     } else if (localFooter) {
       try {
         footerObject = JSON.parse(localFooter);
@@ -114,7 +117,6 @@ export default function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-                // placeholder="Email Address"
               />
 
               <button
