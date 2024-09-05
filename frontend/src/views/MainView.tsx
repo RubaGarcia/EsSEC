@@ -14,11 +14,12 @@ export default function MainView() {
       queryKey: ["HomePage"],
       queryFn: getPage,
     });
+  
 
   if (isLoading) return <p>Loading...</p>;
 
   const elements = data?.fields?.sections;
-
+  console.log(data)
   const characteristics = elements?.find(
     (element: Entry<Cartridge> | Entry<Blurb>) =>
       element.fields?.internalTitle === "characteristics",
