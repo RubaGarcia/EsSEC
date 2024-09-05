@@ -34,6 +34,7 @@ switch (contentType){
 }
 
 
+console.log(url)
 
   return (
     <div className="lg:flex">
