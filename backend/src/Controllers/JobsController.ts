@@ -10,7 +10,7 @@ interface MulterRequest extends Request {
 export class JobsController {
   static getGeneral = async (req: Request, res: Response) => {
     try {
-      res.json(await getEntries("landingPage", "jobs"));
+      res.json(await getEntries("landingPage", "jobWebPage"));
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
