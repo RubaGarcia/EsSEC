@@ -199,7 +199,7 @@ export default function Footer() {
           <a href="#">
             <img
               className="w-auto h-7"
-              // src={footerObject.fields.logo.fields.file.url}
+              src={footerObject?.fields?.logo?.fields?.file?.url ?? ""}
               alt=""
             />
           </a>
