@@ -12,5 +12,5 @@
         "declaration": true,
         "allowSyntheticDefaultImports": true,
     },
-    "include": ["src/**/*.ts", "../frontend/src/types/AutoGenTypes.d.ts"]
+    "include": ["src/**/*.ts", "../frontend/src/types/AutoGenTypes.d.ts", "localization/**/*.ts"]
 }

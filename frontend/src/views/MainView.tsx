@@ -14,12 +14,11 @@ export default function MainView() {
       queryKey: ["HomePage"],
       queryFn: getPage,
     });
-  
 
   if (isLoading) return <p>Loading...</p>;
 
   const elements = data?.fields?.sections;
-  console.log(data)
+  console.log(data);
   const characteristics = elements?.find(
     (element: Entry<Cartridge> | Entry<Blurb>) =>
       element.fields?.internalTitle === "characteristics",
@@ -68,7 +67,7 @@ export default function MainView() {
 
   const portFolioElements: Entry<ValuePropositionFields>[] =
     (valuePropList.fields?.items as Entry<ValuePropositionFields>[]) ?? [];
-    console.log(portFolioElements.length)
+  console.log(portFolioElements.length);
 
   reviewer && listReview?.push(reviewer);
 
@@ -102,25 +101,6 @@ export default function MainView() {
                 </p>
               </div>
             ))}
-
-            {/* <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
-              <form
-                className="flex flex-col lg:flex-row"
-                //TODO: onSubmit={}
-              >
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="flex-1 h-10 px-4 py-2 m-1 text-gray-700 placeholder-gray-400 bg-transparent border-none appearance-none dark:text-gray-200 focus:outline-none focus:placeholder-transparent focus:ring-0"
-                />
-                <button
-                  type="button"
-                  className="h-10 px-4 py-2 m-1 text-white transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400"
-                >
-                  Contact Us
-                </button>
-              </form>
-            </div> */}
           </div>
         </div>
 

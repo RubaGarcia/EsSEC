@@ -56,7 +56,7 @@ export default function Footer() {
       alert("Email enviado con éxito. Gracias por unirte a nosotros.");
     },
   });
-  console.log(mutation); //TODO
+  // console.log(mutation); 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     // const elem =event.currentTarget

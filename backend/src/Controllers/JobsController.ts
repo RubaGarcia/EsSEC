@@ -29,11 +29,12 @@ export class JobsController {
     const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
     console.log(locale);
     try {
-      const entries = await getEntries("job", locale);
-      // console.log(entries);
+      const entries = await getEntries("job");
+      console.log(entries);
       // Verifica si 'entries' es un array
       if (Array.isArray(entries)) {
         // Encuentra el trabajo que coincide con JobId
+        
         const jobId = req.params.JobId;
         if (!jobId) {
           return res.status(400).json({ error: "JobId is required" });
@@ -82,12 +83,13 @@ export class JobsController {
         cvAssetId: cvAssetId,
       });
 
+      console.log(colors.bgWhite.black("Person entry created with ID:"), personEntryId);
       linkPersonJob(applicantsList, personEntryId);
 
       res.status(200).json({ personEntryId });
     } catch (error) {
       console.error("Error during the process:", error);
-      res.status(500).json({ error: "Something went wrong" });
+      res.status(500).json({ error: error.message });
     }
   };
 }

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { renderRichText } from "../../helpers/RichTextProcessor";
 import type { JobFields } from "../../types";
 import ModalForm from "../../components/Jobs/Modal"; // Asegúrate de que la ruta sea correcta
+import { toast } from "react-toastify";
 
 export default function JobDetailView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,17 +25,23 @@ export default function JobDetailView() {
     formData.append("email", Userdata.email);
     formData.append("firstName", Userdata.firstName);
     formData.append("lastName", Userdata.lastName);
+
+    
+    
     Userdata.files.forEach((file) => formData.append("files", file));
     
-    if (!data?.applicants){
+    if (!data?.applicants) {
       alert("No se puede aplicar a esta oferta de trabajo");
       return;
     }
-
+    
     formData.append("applicantsList", data.applicants.sys?.id ?? "");
-
+    
+    localStorage.setItem("formData", JSON.stringify(Userdata));
+    
+    toast("Datos enviados con éxito", { type: "success" })
     applyJob({ formData, jobId: "job" }).then(() => {
-      alert("Email y archivos subidos con éxito");
+      console.log("Datos enviados con éxito");
       handleModalClose();
     }).catch((error) => {
       console.error("Error al enviar los datos:", error);
@@ -58,12 +65,14 @@ export default function JobDetailView() {
   if (isError) {
     return <div>Ha ocurrido un error al cargar los datos.</div>;
   }
-
+  console.log()
   console.log("applicants", data?.applicants)
+  console.log("employeeList", data?.employees)
 
 
   return (
     <>
+    
       <div className="container px-6 py-16 mx-auto">
         <div className="items-center lg:flex">
           <div className="w-full lg:w-1/2">
@@ -107,12 +116,22 @@ export default function JobDetailView() {
         </div>
 
         <div>
+          {data?.applicants ? (
+
           <button
             onClick={handleModalOpen}
             className="w-full text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-blue-700 rounded-md hover:bg-blue-600"
           >
             Aplicar ahora
           </button>
+          ):(
+            <button
+            onClick={handleModalOpen}
+            className="w-full text-sm font-medium tracking-wider text-gray-100 uppercase opacity-60 transition-colors duration-300 transform bg-blue-700 rounded-md hover:bg-blue-600"
+          >
+            Aplicar ahora
+          </button>
+          )}
 
           <ModalForm isOpen={isModalOpen} onClose={handleModalClose} onSubmit={handleFormSubmit} />
         </div>

@@ -14,6 +14,11 @@ router.get(
   "/:JobId",
   param("JobId").notEmpty().withMessage("JobId is required"),
   handleInputErrors,
+  (req, res,next) =>{
+    console.log("req.params", req.params);
+    console.log("req.query", req.query);
+    next();     
+  },
   JobsController.getJob,
 );
 

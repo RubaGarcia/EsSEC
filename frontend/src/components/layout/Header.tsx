@@ -16,21 +16,22 @@ export default function Header() {
     queryKey: ["elements"],
     queryFn: getElements,
   });
-
+  console.log(data);
   if (isLoading) return <p>Loading...</p>;
-
+  
   if (error) return <p>Error: {error.message}</p>;
-
-  if (localHeader === null) {
+  
+  if (localHeader === null || data.sys.locale !== JSON.parse(localHeader)?.sys?.locale) {
     if (data && data.fields) {
       headerObject = data.fields.header;
-
+      
       sessionStorage.setItem("header", JSON.stringify(headerObject));
     }
   } else {
     headerObject = JSON.parse(localHeader);
   }
 
+  
   if (!headerObject || !headerObject.fields) {
     return <p>Error: Header data is missing.</p>;
   }
