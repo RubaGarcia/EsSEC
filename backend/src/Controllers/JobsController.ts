@@ -18,7 +18,7 @@ export class JobsController {
       console.log(req.query); // Imprimir los parámetros de consulta (query params)
       const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
       console.log(locale);
-      res.json(await getEntries("landingPage", "jobWebPage", locale));
+      res.json(await getEntries("landingPage", "jobs", locale));
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
