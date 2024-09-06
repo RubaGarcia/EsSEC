@@ -216,8 +216,8 @@ export async function createPersonEntry({
 
 export async function linkPersonJob(applicantsList, personEntryId) {
   try {
-    const space = await managementClient.getSpace("k9voop8uf94b");
-    const environment = await space.getEnvironment("master");
+    const space = await managementClient.getSpace(contentful_space);
+    const environment = await space.getEnvironment(contentful_environment);
     let cartridge = await environment.getEntry(applicantsList);
 
     if (!cartridge.fields.items) {
