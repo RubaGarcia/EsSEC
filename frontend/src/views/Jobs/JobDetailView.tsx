@@ -133,14 +133,14 @@ export default function JobDetailView() {
         <div>
           {data?.applicants ? (
             <button
-              // onClick={handleModalOpen}
+              onClick={handleModalOpen}
               className="w-full text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-blue-700 rounded-md hover:bg-blue-600 py-4"
             >
               Aplicar ahora
             </button>
           ) : (
             <button
-              onClick={handleModalOpen}
+              // onClick={handleModalOpen}
               className="w-full text-sm font-medium tracking-wider text-gray-100 uppercase opacity-60 transition-colors duration-300 transform bg-blue-700 rounded-md hover:bg-blue-600 py-4"
             >
               Aplicar ahora
