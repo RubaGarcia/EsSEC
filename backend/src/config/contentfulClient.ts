@@ -111,10 +111,30 @@ export async function createAsset({
       },
     });
 
-    const processedAsset = await asset.processForAllLocales();
-    const publishedAsset = await processedAsset.publish();
+    /* const processedAsset = await asset.processForAllLocales({
+      processingCheckRetries:20,
+      processingCheckWait:200,
+    });
+    const publishedAsset = await processedAsset.publish(); */
+    try {
+      const processedAsset = await asset.processForAllLocales({
+        processingCheckRetries: 20,
+        processingCheckWait: 200,
+      });
+    
+      console.log("El asset es: ", processedAsset);
+    
+      if (processedAsset) {
+        const publishedAsset = await processedAsset.publish();
+        console.log("Asset publicado: ", publishedAsset);
+        return publishedAsset.sys.id;
+      } else {
+        console.error("El asset no se procesó correctamente.");
+      }
+    } catch (error) {
+      console.error("Error procesando o publicando el asset:", error);
+    }
 
-    return publishedAsset.sys.id;
   } catch (error) {
     console.error("Error creando asset:", error);
     throw new Error("Error al crear el asset");
