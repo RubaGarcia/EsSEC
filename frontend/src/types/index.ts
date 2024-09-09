@@ -207,7 +207,7 @@ export type ReviewFields = {
 export type Blurb = {
   internalTitle: string;
   title: string;
-  textBlurb: string;
+  textBlurb: RichText;
   list: string[]
 }
 
