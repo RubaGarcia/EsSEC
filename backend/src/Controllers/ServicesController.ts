@@ -1,6 +1,8 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
 import { createPersonEntry } from "../config/contentfulClient";
+import { addPerson, getView } from "../entity/services";
+import { get } from "http";
 
 export class ServicesController {
   static index = async (req: Request, res: Response) => {
@@ -69,19 +71,16 @@ export class ServicesController {
     }
   };
 
-  static postDigitalKit = async (req: Request, res: Response) => {
+  static postDigitalKit = async (req: Request, res: Response, next:NextFunction) => {
     try {
       // console.log(req.body)
-      const id = await createPersonEntry({
-        //   internalName: "John Doe 5",
-        //fullName: "John Doe",
-        email: req.body.email,
-        // cvAssetId: "cvAssetId123", // Opcional
-        // jobEntryId: "jobEntryId123", // Opcional
-        // imageEntryId: "imageEntryId123", // Opcional
-        // reviewEntryId: "reviewEntryId123", // Opcional
-      });
-      res.send("Persona creada: " + id);
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+      }
+      res.status(200).json({ message: "Digital Kit email logged" });
+      await addPerson(email);
+      next()
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

@@ -78,16 +78,21 @@ export async function createAsset({
   filePath: string;
 }) {
   try {
-    const space = await managementClient.getSpace(contentful_space);
+    const inicio = Date.now();
+    const [space, fileContent] = await Promise.all([
+      managementClient.getSpace(contentful_space),
+      fs.promises.readFile(filePath), // Asíncrono y no bloqueante
+    ]);
+    const file = Date.now()
     const environment = await space.getEnvironment(contentful_environment);
 
-    const fileContent = fs.readFileSync(filePath);
-
-    console.log(fileName, "\n", fileContentType, "\n", filePath);
+    // Crear el upload de manera asíncrona
 
     const upload = await environment.createUpload({
       file: fileContent,
     });
+
+    const uploadTime = Date.now()
 
     const asset = await environment.createAsset({
       fields: {
@@ -110,6 +115,32 @@ export async function createAsset({
         description: {},
       },
     });
+    const assetTime = Date.now()
+    /* const processedAsset = await asset.processForAllLocales({
+      processingCheckRetries:20,
+      processingCheckWait:200,
+      });
+      const publishedAsset = await processedAsset.publish(); */
+      try {
+        const processedAsset = await asset.processForAllLocales({
+          processingCheckRetries: 20,
+          processingCheckWait: 200,
+        });
+        const processedAssetTime = Date.now()
+        
+      console.log("El asset es: ", processedAsset);
+
+      if (processedAsset) {
+        const publishedAsset = await processedAsset.publish();
+        console.log("Asset publicado: ", publishedAsset);
+        console.log(file-inicio, uploadTime-file, assetTime-uploadTime, processedAssetTime-assetTime, Date.now()-processedAssetTime)
+        return publishedAsset.sys.id;
+      } else {
+        console.error("El asset no se procesó correctamente.");
+      }
+    } catch (error) {
+      console.error("Error procesando o publicando el asset:", error);
+    }
 
     /* const processedAsset = await asset.processForAllLocales({
       processingCheckRetries:20,
@@ -135,6 +166,7 @@ export async function createAsset({
       console.error("Error procesando o publicando el asset:", error);
     }
 
+
   } catch (error) {
     console.error("Error creando asset:", error);
     throw new Error("Error al crear el asset");
@@ -159,6 +191,10 @@ export async function createPersonEntry({
   reviewEntryId?: string;
 }) {
   try {
+
+
+
+    
     const space = await managementClient.getSpace(contentful_space);
     const environment = await space.getEnvironment(contentful_environment);
 
