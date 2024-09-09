@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ProjectDisplay from "../../components/Proyects/ProjectDisplay";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "../../api/ProjectsAPI";
-import { ApiRequest, Cartridge, Entry, ValuePropositionFields } from "../../types";
+import { ApiRequest, Blurb, Cartridge, Entry, ValuePropositionFields } from "../../types";
 
 
 // Filtra los proyectos por tipo
@@ -88,11 +88,13 @@ export default function ProjectsGeneralView() {
     setTypeShowing(field);
   }
 
+  const blurbProjects : Entry<Blurb> = data?.fields?.sections?.[1] as Entry<Blurb>
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-10 mx-auto">
         <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl dark:text-white">
-          Latest Work
+          {blurbProjects?.fields?.title}
         </h1>
 
         <div className="flex py-4 mt-4 overflow-x-auto overflow-y-hidden md:justify-center dark:border-gray-700">
