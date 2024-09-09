@@ -41,7 +41,7 @@ export async function getAuditories(){
 export async function getProducts(){
     try {
         const response = await api.get('/services/products', { params });
-        //console.log(response.data);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

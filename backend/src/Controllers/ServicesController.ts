@@ -32,7 +32,9 @@ export class ServicesController {
     const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
     console.log(locale);
     try {
-      res.json(await getEntries("landingPage", "productWebPage, locale"));
+      const page = await getEntries("landingPage", "productWebPage", locale)
+      console.log(page)
+      res.json(page);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
