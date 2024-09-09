@@ -27,8 +27,8 @@ export default function Footer() {
   });
 
   useEffect(() => {
-    if (localFooter === null && data) {
-      if (data.fields && data.fields.footer) {
+    if (localFooter === null || data?.sys?.locale !== JSON.parse(localFooter)?.sys?.locale && data) {
+      if (data?.fields && data.fields.footer) {
         footerObject = data.fields.footer;
         sessionStorage.setItem("Footer", JSON.stringify(footerObject));
         setLocalFooter(JSON.stringify(footerObject));
