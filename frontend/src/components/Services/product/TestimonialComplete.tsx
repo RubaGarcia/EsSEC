@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Testimonial from "./Testimonial";
-import { Entry, PersonFields } from "../../../types";
+import { Blurb, Entry, PersonFields } from "../../../types";
 
 type TestimonialProps = {
+  blurb: Entry<Blurb>
   personReviews: Entry<PersonFields>[];
 };
 
-export default function TestimonialComplete({
+export default function TestimonialComplete({blurb,
   personReviews,
 }: TestimonialProps) {
   const [currentIndex, setCurrentIndex] = useState(0); 
@@ -35,7 +36,7 @@ export default function TestimonialComplete({
         <div className="mt-6 md:flex md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
-              What our clients are saying
+              {blurb.fields?.title}
             </h1>
 
             <div className="flex mx-auto mt-6">

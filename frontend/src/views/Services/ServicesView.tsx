@@ -93,7 +93,7 @@ export default function ServicesView() {
       <section className="bg-white dark:bg-gray-900 justify-center">
         <div className="container px-6 py-10 mx-auto">
           <h1 className="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
-            {servicesBlurb?.fields?.title.substring(0,16) ?? "Loading"} <br /> {servicesBlurb?.fields?.title.substring(17,servicesBlurb?.fields?.title.length-(data?.fields?.pageTitle?.length!-3))?? "Loading"}{" "}
+            {/*FIXME*/servicesBlurb?.fields?.title.substring(0,16) ?? "Loading"} <br /> {servicesBlurb?.fields?.title.substring(17,servicesBlurb?.fields?.title.length-(data?.fields?.pageTitle?.length!-3))?? "Loading"}{" "}
             <span className="underline decoration-blue-500">
               {data?.fields?.pageTitle?.substring(3)?? "Loading"}
             </span>
