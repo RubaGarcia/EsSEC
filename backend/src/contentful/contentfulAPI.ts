@@ -19,7 +19,7 @@ export async function getEntries(contentType: string, internalTitle?: string, lo
   if (locale !== "en-US" && locale !== "es") {
     locale = "en-US";
   }
-  console.log(locale)
+  console.log("El local en la api es: " +locale)
   try {
     const entries = await client.getEntries({
       content_type: contentType,

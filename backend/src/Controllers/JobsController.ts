@@ -27,9 +27,9 @@ export class JobsController {
   static getJob = async (req: Request, res: Response) => {
     console.log(req.query); // Imprimir los parámetros de consulta (query params)
     const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
-    console.log(locale);
+    console.log("El local en el controller es:" +locale);
     try {
-      const entries = await getEntries("job");
+      const entries = await getEntries("job", /* FIXME: locale */);
       console.log(entries);
       // Verifica si 'entries' es un array
       if (Array.isArray(entries)) {

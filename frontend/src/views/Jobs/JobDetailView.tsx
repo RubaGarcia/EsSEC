@@ -81,6 +81,7 @@ export default function JobDetailView() {
   console.log();
   console.log("applicants", data?.applicants);
   console.log("employeeList", data?.employees);
+  console.log(JSON.stringify(data))
 
   return (
     <>

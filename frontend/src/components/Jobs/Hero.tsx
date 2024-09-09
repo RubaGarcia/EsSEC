@@ -20,7 +20,7 @@ export default function Hero({ hero }: HeroProps) {
           {
 
             <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 lg:text-base">
-              <p>{hero.body && "Content before the rich text, if needed"}</p>
+             
               {hero.body && (
                 <div
                   dangerouslySetInnerHTML={{

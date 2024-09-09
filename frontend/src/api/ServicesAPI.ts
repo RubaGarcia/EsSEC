@@ -2,7 +2,7 @@ import { formDataToJSON } from "../helpers/formDataToJSON";
 import api from "../lib/axios";
 import { isAxiosError } from "axios";
 
-const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+const locale = localStorage.getItem('locale') || 'en-US'; // Default locale
 const params = { locale }; // Parámetro para la consulta GET
 
 export async function getServices(){

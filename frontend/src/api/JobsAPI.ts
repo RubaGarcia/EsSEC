@@ -26,7 +26,7 @@ export async function applyJob({formData, jobId}: JobAPIType){
 
 
 export async function getJobs() {
-    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const locale = localStorage.getItem('locale') || 'en-US'; // Default locale
     const params = { locale }; // Parámetro para la consulta GET
     try {
         const url = 'jobs';
@@ -43,7 +43,7 @@ export async function getJobs() {
 
 
 export async function getJobById({JobId}: {JobId: string}){
-    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const locale = localStorage.getItem('locale') || 'en-US'; // Default locale
     const params = { locale }; // Parámetro para la consulta GET
     try {
         const response = await api.get(`/jobs/${JobId}`,{params});
