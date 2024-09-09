@@ -66,6 +66,8 @@ export interface FooterFields {
   newlesterCartridge?: Entry<NewlesterCartridgeFields>;
   logo?: Entry<Asset>;
   logoUrl?: string;
+  buttonNames?: string[]
+  newsletterTexts?: string[]
 }
 
 export interface NewlesterCartridgeFields {

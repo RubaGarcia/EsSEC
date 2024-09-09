@@ -106,13 +106,15 @@ export default function Footer() {
     console.error("Error parsing localFooter:", error);
     return null;
   }
+
+  
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-12 mx-auto">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
           <div className="sm:col-span-2">
             <h1 className="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">
-              Subscribe our newsletter to get update.
+              {footerObject.fields?.newsletterTexts?.[0] ?? "Nothing"}
             </h1>
 
             <form
@@ -122,7 +124,7 @@ export default function Footer() {
               <input
                 type="email"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder={footerObject.fields?.newsletterTexts?.[1] ?? "Nothing"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
@@ -133,14 +135,14 @@ export default function Footer() {
                 type="submit"
                 className="w-full px-6 py-2.5 text-sm font-medium tracking-wider text-white transition-colors duration-300 transform md:w-auto md:mx-4 focus:outline-none bg-gray-800 rounded-lg hover:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
               >
-                Subscribe
+                {footerObject.fields?.newsletterTexts?.[2] ?? "Nothing found"}
               </button>
             </form>
           </div>
 
           <div>
             <p className="font-semibold text-gray-800 dark:text-white">
-              Quick Link
+            {footerObject.fields?.buttonNames?.[0] ?? "Nothing found"}
             </p>
 
             <div className="flex flex-col items-start mt-5 space-y-2">
@@ -148,26 +150,26 @@ export default function Footer() {
                 href="/"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Home
+                {footerObject.fields?.buttonNames?.[1] ?? "Nothing  found"}
               </a>
               <a
                 href="/contact"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Who We Are
+                {footerObject.fields?.buttonNames?.[2] ?? "Nothing  found"}
               </a>
               <a
                 href="/projects"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Our Projects
+                {footerObject.fields?.buttonNames?.[3] ?? "Nothing found"}
               </a>
             </div>
           </div>
 
           <div>
             <p className="font-semibold text-gray-800 dark:text-white">
-              Miscellaneous
+            {footerObject.fields?.buttonNames?.[4] ?? "Nothing found"}
             </p>
 
             <div className="flex flex-col items-start mt-5 space-y-2">
@@ -175,19 +177,19 @@ export default function Footer() {
                 href="/resources"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                News
+                {footerObject.fields?.buttonNames?.[5] ?? "Nothing found"}
               </a>
               <a
                 href="/jobs"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Employment
+                {footerObject.fields?.buttonNames?.[6] ?? "Nothing found"}
               </a>
               <a
                 href="/services/manteinance"
                 className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
               >
-                Manteinance
+                {footerObject.fields?.buttonNames?.[7] ?? "Nothing found"}
               </a>
             </div>
           </div>
