@@ -3,7 +3,7 @@ import { getEntries } from "../../contentful/contentfulAPI";
 import app from "../../server";
 import { createPersonEntry } from "../../config/contentfulClient";
 import { LayoutController } from "../LayoutController";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ServicesController } from "../ServicesController";
 
 // Mock de las funciones para el test
@@ -74,6 +74,7 @@ describe("Controllers", () => {
     describe("POST /", () => {
       let req: Partial<Request>;
       let res: Partial<Response>;
+      let next: NextFunction;
       let jsonMock: jest.Mock;
       let statusMock: jest.Mock;
       let sendMock: jest.Mock;
@@ -87,7 +88,7 @@ describe("Controllers", () => {
         const mockId = "mocked id";
         (createPersonEntry as jest.Mock).mockResolvedValueOnce(mockId);
 
-        await LayoutController.postLayout(req as Request, res as Response);
+        await LayoutController.postLayout(req as Request, res as Response, next as NextFunction);
 
         expect(createPersonEntry).toHaveBeenCalledWith({ email: "test@example.com" });
         expect(res.send).toHaveBeenCalledWith("Persona creada: mocked id");
@@ -97,7 +98,7 @@ describe("Controllers", () => {
         const error = new Error("Test error");
         (createPersonEntry as jest.Mock).mockRejectedValueOnce(error);
 
-        await LayoutController.postLayout(req as Request, res as Response);
+        await LayoutController.postLayout(req as Request, res as Response, next as NextFunction);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.status(500).json).toHaveBeenCalledWith({ error: "Test error" });
@@ -162,6 +163,7 @@ describe("Controllers", () => {
     describe("postDigital", () => {
       let req: Partial<Request>;
       let res: Partial<Response>;
+      let next: NextFunction;
       let jsonMock: jest.Mock;
       let statusMock: jest.Mock;
       let sendMock: jest.Mock;
@@ -175,7 +177,7 @@ describe("Controllers", () => {
         const mockId = "mocked id";
         (createPersonEntry as jest.Mock).mockResolvedValueOnce(mockId);
 
-        await ServicesController.postDigitalKit(req as Request, res as Response);
+        await ServicesController.postDigitalKit(req as Request, res as Response, next as NextFunction);
 
         expect(createPersonEntry).toHaveBeenCalledWith({ email: "test@example.com" });
         expect(res.send).toHaveBeenCalledWith("Persona creada: mocked id");
@@ -185,7 +187,7 @@ describe("Controllers", () => {
         const error = new Error("Test error");
         (createPersonEntry as jest.Mock).mockRejectedValueOnce(error);
 
-        await ServicesController.postDigitalKit(req as Request, res as Response);
+        await ServicesController.postDigitalKit(req as Request, res as Response, next as NextFunction);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.status(500).json).toHaveBeenCalledWith({ error: "Test error" });
