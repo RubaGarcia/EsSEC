@@ -1,12 +1,7 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
-import {
-  createAsset,
-  createPersonEntry,
-  linkPersonJob,
-  managementClient,
-} from "../config/contentfulClient";
 import colors from "colors"; // Import the 'colors' module
+import { auxiliarAsset, getJobs } from "../entity/job";
 
 interface MulterRequest extends Request {
   file: Express.Multer.File; // Multer agrega la propiedad `file` aquí
@@ -29,35 +24,15 @@ export class JobsController {
     const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
     console.log(locale);
     try {
-      const entries = await getEntries("job");
-      console.log(entries);
-      // Verifica si 'entries' es un array
-      if (Array.isArray(entries)) {
-        // Encuentra el trabajo que coincide con JobId
-        
-        const jobId = req.params.JobId;
-        if (!jobId) {
-          return res.status(400).json({ error: "JobId is required" });
-        }
+      const jobId = req.params.JobId;
 
-        const job = entries.find((entry) => entry.sys.id === jobId);
-
-        if (!job) {
-          return res.status(404).json({ error: "Job not found" });
-        }
-
-        return res.json(job.fields);
-      } else {
-        // Manejo del caso en el que 'entries' no es un array
-        return res.status(500).json({ error: "Unexpected response format" });
-      }
+      res.json(await getJobs(jobId))
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   };
 
-  static obtainEmail = async (req: MulterRequest, res: Response) => {
-    const start = Date.now();
+  static obtainEmail = async (req: MulterRequest, res: Response, next:NextFunction) => {
     try {
       const { email, firstName, lastName, applicantsList } = req.body;
 
@@ -69,37 +44,13 @@ export class JobsController {
 
       const file = req.file;
       console.log("File uploaded:", file);
+      if(email || firstName || lastName || applicantsList || file) {
+        res.status(200).json({ message: "Datos recibidos" });
+      }
+      auxiliarAsset(email, firstName, lastName, applicantsList, file)
+      next()
 
-      // if(email || firstName || lastName || applicantsList || file) {
-      //   return res.status(200).json({ message: "Datos recibidos" });
-      // }
 
-
-
-      const cvAssetId = await createAsset({
-        fileName: file.originalname,
-        fileContentType: file.mimetype,
-        filePath: file.path,
-      });
-      const asset = Date.now()
-
-      console.log("CV Asset created with ID:", cvAssetId);
-
-      const personEntryId = await createPersonEntry({
-        fullName: `${firstName} ${lastName}`,
-        email: email,
-        cvAssetId: cvAssetId,
-      });
-
-      const person = Date.now()
-
-      console.log(colors.bgWhite.black("Person entry created with ID:"), personEntryId);
-      linkPersonJob(applicantsList, personEntryId);
-
-      const end = Date.now();
-
-      console.log(asset-start, person-asset, end-person, end-start);
-      res.status(200).json({ personEntryId });
     } catch (error) {
       console.error("Error during the process:", error);
       res.status(500).json({ error: error.message });
@@ -109,6 +60,3 @@ export class JobsController {
 
 
 
-async function auxiliarAsset(){
-
-}
