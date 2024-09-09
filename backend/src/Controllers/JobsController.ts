@@ -57,10 +57,11 @@ export class JobsController {
   };
 
   static obtainEmail = async (req: MulterRequest, res: Response) => {
+    const start = Date.now();
     try {
       const { email, firstName, lastName, applicantsList } = req.body;
 
-      console.log(req.body);
+      // console.log(req.body);
 
       if (!req.file) {
         return res.status(400).json({ error: "File is required" });
@@ -69,11 +70,18 @@ export class JobsController {
       const file = req.file;
       console.log("File uploaded:", file);
 
+      // if(email || firstName || lastName || applicantsList || file) {
+      //   return res.status(200).json({ message: "Datos recibidos" });
+      // }
+
+
+
       const cvAssetId = await createAsset({
         fileName: file.originalname,
         fileContentType: file.mimetype,
         filePath: file.path,
       });
+      const asset = Date.now()
 
       console.log("CV Asset created with ID:", cvAssetId);
 
@@ -83,13 +91,24 @@ export class JobsController {
         cvAssetId: cvAssetId,
       });
 
+      const person = Date.now()
+
       console.log(colors.bgWhite.black("Person entry created with ID:"), personEntryId);
       linkPersonJob(applicantsList, personEntryId);
 
+      const end = Date.now();
+
+      console.log(asset-start, person-asset, end-person, end-start);
       res.status(200).json({ personEntryId });
     } catch (error) {
       console.error("Error during the process:", error);
       res.status(500).json({ error: error.message });
     }
   };
+}
+
+
+
+async function auxiliarAsset(){
+
 }
