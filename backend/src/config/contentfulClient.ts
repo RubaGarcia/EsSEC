@@ -116,11 +116,7 @@ export async function createAsset({
       },
     });
     const assetTime = Date.now()
-    /* const processedAsset = await asset.processForAllLocales({
-      processingCheckRetries:20,
-      processingCheckWait:200,
-      });
-      const publishedAsset = await processedAsset.publish(); */
+    
       try {
         const processedAsset = await asset.processForAllLocales({
           processingCheckRetries: 20,
@@ -142,11 +138,7 @@ export async function createAsset({
       console.error("Error procesando o publicando el asset:", error);
     }
 
-    /* const processedAsset = await asset.processForAllLocales({
-      processingCheckRetries:20,
-      processingCheckWait:200,
-    });
-    const publishedAsset = await processedAsset.publish(); */
+    
     try {
       const processedAsset = await asset.processForAllLocales({
         processingCheckRetries: 20,
