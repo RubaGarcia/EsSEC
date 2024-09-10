@@ -35,7 +35,7 @@ export default function Router() {
           <Route path="/jobs/:jobId" element={<JobDetailView />} />
 
           {/* Spanish Routes */}
-          <Route path="/" element={<Navigate to="/home" />} />
+          {/* <Route path="/" element={<Navigate to="/home" />} /> */}
           <Route path="/inicio" element={<MainView />} />
           <Route path="/recursos" element={<ResourcesView />} />
           <Route path="/proyectos" element={<ProyectsGeneralView />} />
