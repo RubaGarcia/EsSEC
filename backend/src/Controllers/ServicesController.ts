@@ -1,8 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
-import { createPersonEntry } from "../config/contentfulClient";
-import { addPerson, getView } from "../entity/services";
-import { get } from "http";
+import { addPerson } from "../entity/services";
 
 export class ServicesController {
   static index = async (req: Request, res: Response) => {

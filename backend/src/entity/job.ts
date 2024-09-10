@@ -6,7 +6,7 @@ import {
 import colors from "colors"; // Import the 'colors' module
 import { getEntries } from "../contentful/contentfulAPI";
 
-export async function getJobs(jobId: string) {
+export async function getJobs(jobId: string, locale: string) {
   const entries = await getEntries("job");
   console.log(entries);
   // Verifica si 'entries' es un array

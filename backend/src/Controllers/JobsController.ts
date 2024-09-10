@@ -1,6 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
 import { getEntries } from "../contentful/contentfulAPI";
-import colors from "colors"; // Import the 'colors' module
 import { auxiliarAsset, getJobs } from "../entity/job";
 
 interface MulterRequest extends Request {
@@ -26,7 +25,7 @@ export class JobsController {
     try {
       const jobId = req.params.JobId;
 
-      res.json(await getJobs(jobId))
+      res.json(await getJobs(jobId, locale))
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -36,7 +35,7 @@ export class JobsController {
     try {
       const { email, firstName, lastName, applicantsList } = req.body;
 
-      // console.log(req.body);
+
 
       if (!req.file) {
         return res.status(400).json({ error: "File is required" });
