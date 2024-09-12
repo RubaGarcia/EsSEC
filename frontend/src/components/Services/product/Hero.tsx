@@ -11,7 +11,7 @@ type HeroProps = {
 export default function Hero({hero}:HeroProps) {
 
   const heroImg= hero.icon?.fields?.asset?.fields?.file?.url;
-  console.log(JSON.stringify(hero))
+  //console.log(JSON.stringify(hero))
   return (
     <div className="container px-6 py-16 mx-auto">
           <div className="items-center lg:flex">

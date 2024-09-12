@@ -24,7 +24,7 @@ export default function JobDetailView() {
     email: string;
     files: File[];
   }) {
-    console.log("Datos enviados:", Userdata);
+    //console.log("Datos enviados:", Userdata);
 
     const formData = new FormData();
     formData.append("email", Userdata.email);
@@ -78,10 +78,10 @@ export default function JobDetailView() {
   if (isError) {
     return <div>Ha ocurrido un error al cargar los datos.</div>;
   }
-  console.log();
-  console.log("applicants", data?.applicants);
-  console.log("employeeList", data?.employees);
-  console.log(JSON.stringify(data))
+  //console.log();
+  //console.log("applicants", data?.applicants);
+  //console.log("employeeList", data?.employees);
+  //console.log(JSON.stringify(data))
 
   return (
     <>

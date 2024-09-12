@@ -7,7 +7,7 @@ export async function getResources(){
     const params = { locale }; // Parámetro para la consulta GET
     try {
         const response = await api.get('/resources',{params});
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

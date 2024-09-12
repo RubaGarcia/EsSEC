@@ -61,7 +61,7 @@ export default function MainView() {
 
   const portFolioElements: Entry<ValuePropositionFields>[] =
     (valuePropList.fields?.items as Entry<ValuePropositionFields>[]) ?? [];
-  console.log(portFolioElements.length);
+  //console.log(portFolioElements.length);
 
   reviewer && listReview?.push(reviewer);
 

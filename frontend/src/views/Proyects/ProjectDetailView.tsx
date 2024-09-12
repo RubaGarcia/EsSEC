@@ -17,7 +17,7 @@ export default function ProyectDetailView() {
 
 
 
-    console.log(data);
+    //console.log(data);
 
     // if (isLoading) {
     //   return <LoadingSpinner />;
