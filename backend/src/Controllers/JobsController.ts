@@ -26,15 +26,17 @@ export class JobsController {
     try {
 
       const jobId = req.params.JobId;
+      if (!jobId) {
+        return res.status(400).json({ error: "JobId is required" });
+      }
+
       const entries = await getJobs(jobId, locale);
       //console.log(entries);
       // Verifica si 'entries' es un array
       if (entries) {
         // Encuentra el trabajo que coincide con JobId
         
-        if (!jobId) {
-          return res.status(400).json({ error: "JobId is required" });
-        }
+
         
         res.json(entries)
       }else{
