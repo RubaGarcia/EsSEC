@@ -83,6 +83,67 @@ export default function JobDetailView() {
   //console.log("employeeList", data?.employees);
   //console.log(JSON.stringify(data))
 
+
+  //--------------------------------------- MANUAL LOCALES ---------------------------------------------------//
+  function textWork(locale:string){
+    switch (locale){
+      case 'es':
+        return "Trabaja con";
+      case 'en-US':
+        return "Work with"
+      default:
+        return "Locale error"
+    }
+  }
+  function textUs(locale:string){
+    switch (locale){
+      case 'es':
+        return "Nosotros";
+      case 'en-US':
+        return "Us"
+      default:
+        return "Locale error"
+    }
+  }
+
+  function textOffer(locale:string){
+    switch (locale){
+      case 'es':
+        return "Oferta de trabajo";
+      case 'en-US':
+        return "Job offers"
+      default:
+        return "Locale error"
+    }
+  }
+  
+
+  function textApply(locale:string){
+    switch (locale){
+      case 'es':
+        return "Aplicar ahora";
+      case 'en-US':
+        return "Apply now"
+      default:
+        return "Locale error"
+    }
+  }
+
+  function textLoadDescription(locale:string){
+    switch (locale){
+      case 'es':
+        return "Cargando Descripción";
+      case 'en-US':
+        return "Loading Description..."
+      default:
+        return "Locale error"
+    }
+  }
+
+  
+  //--------------------------------------- MANUAL LOCALES (END) ---------------------------------------------------//
+
+
   return (
     <>
       <div className="container px-6 py-16 mx-auto">
@@ -90,11 +151,10 @@ export default function JobDetailView() {
           <div className="w-full lg:w-1/2">
             <div className="lg:max-w-lg">
               <h1 className="text-3xl font-semibold text-gray-800 dark:text-white lg:text-4xl">
-                Trabaja con <span className="text-blue-500">Nosotros</span>
+                {textWork(localStorage.getItem('locale')?? "Locale error")} <span className="text-blue-500">{textUs(localStorage.getItem('locale') ?? "Locale error")}</span>
               </h1>
               <p className="mt-3 text-gray-600 dark:text-gray-400">
-                Oferta de{" "}
-                <span className="font-medium text-blue-500">trabajo</span>
+              {textOffer(localStorage.getItem('locale')?? "Locale error")}{" "}
               </p>
             </div>
           </div>
@@ -127,7 +187,7 @@ export default function JobDetailView() {
               }}
             />
           ) : (
-            <p>Cargando descripción...</p>
+            <p>{textLoadDescription(localStorage.getItem('locale')?? "Locale error")}</p>
           )}
         </div>
 
@@ -137,14 +197,14 @@ export default function JobDetailView() {
               onClick={handleModalOpen}
               className="w-full text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-blue-700 rounded-md hover:bg-blue-600 py-4"
             >
-              Aplicar ahora
+              {textApply(localStorage.getItem('locale')?? "Locale error")}
             </button>
           ) : (
             <button
               // onClick={handleModalOpen}
               className="w-full text-sm font-medium tracking-wider text-gray-100 uppercase opacity-60 transition-colors duration-300 transform bg-blue-700 rounded-md hover:bg-blue-600 py-4"
             >
-              Aplicar ahora
+              {textApply(localStorage.getItem('locale')?? "Locale error")}
             </button>
           )}
 

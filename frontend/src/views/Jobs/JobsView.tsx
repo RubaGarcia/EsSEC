@@ -43,6 +43,9 @@ export default function JobsView() {
     headline: valueProp0.fields?.headline ?? "",
     icon: valueProp0.fields?.icon,
     title: valueProp0.fields?.title ?? "",
+    url: valueProp0.fields?.url ?? "",
+    type: valueProp0.fields?.type ?? "",
+
   };
 
   const jobs: Entry<JobFields>[] = [];
@@ -73,7 +76,7 @@ export default function JobsView() {
       <div className="space-y-3 mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col space-y-10">
           {jobs.map((job: Entry<JobFields>) => (
-            <JobItem key={job.sys?.id} job={job} />
+            <JobItem key={job.sys?.id} job={job} hero={hero} />
           ))}
           {/* <JobItem /> */}
         </div>
