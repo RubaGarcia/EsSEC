@@ -8,7 +8,7 @@ type HeroProps = {
 export default function Hero({ hero }: HeroProps) {
   const heroImgUrl = hero.icon?.fields?.asset?.fields?.file?.url;
 
-  console.log(heroImgUrl);
+  //console.log(heroImgUrl);
   return (
     <div className="lg:flex">
       <div className="flex items-center justify-center w-full px-6 py-8 lg:h-[32rem] lg:w-1/2">
@@ -20,7 +20,7 @@ export default function Hero({ hero }: HeroProps) {
           {
 
             <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 lg:text-base">
-              <p>{hero.body && "Content before the rich text, if needed"}</p>
+             
               {hero.body && (
                 <div
                   dangerouslySetInnerHTML={{

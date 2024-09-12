@@ -23,30 +23,32 @@ export default function Router() {
           <Route path="/home" element={<MainView />} />
           <Route path="/resources" element={<ResourcesView />} />
           <Route path="/projects" element={<ProyectsGeneralView />} />
-
           <Route path="/projects/:projectId" element={<ProjectDetailView />} />
-
           <Route path="/services" element={<ServicesView />} />
-          <Route
-            path="/services/auditories"
-            element={<AuditoryServiceView />}
-          />
+          <Route path="/services/auditories" element={<AuditoryServiceView />} />
           <Route path="/services/product" element={<ProductServiceView />} />
-          <Route
-            path="/services/manteinance"
-            element={<ManteinanceServiceView />}
-          />
-          <Route
-            path="/services/improvement-plans"
-            element={<ImprovementPlansView />}
-          />
-
+          <Route path="/services/manteinance" element={<ManteinanceServiceView />} />
+          <Route path="/services/improvement-plans" element={<ImprovementPlansView />} />
           <Route path="/services/digital-kit" element={<DKServiceView />} />
           <Route path="/contact" element={<ContactView />} />
-
           <Route path="/jobs" element={<JobsView />} />
-
           <Route path="/jobs/:jobId" element={<JobDetailView />} />
+
+          {/* Spanish Routes */}
+          {/* <Route path="/" element={<Navigate to="/home" />} /> */}
+          <Route path="/inicio" element={<MainView />} />
+          <Route path="/recursos" element={<ResourcesView />} />
+          <Route path="/proyectos" element={<ProyectsGeneralView />} />
+          <Route path="/proyectos/:projectId" element={<ProjectDetailView />} />
+          <Route path="/servicios" element={<ServicesView />} />
+          <Route path="/servicios/auditorias" element={<AuditoryServiceView />} />
+          <Route path="/servicios/producto" element={<ProductServiceView />} />
+          <Route path="/servicios/mantenimiento" element={<ManteinanceServiceView />} />
+          <Route path="/servicios/planes-de-mejora" element={<ImprovementPlansView />} />
+          <Route path="/servicios/kit-digital" element={<DKServiceView />} />
+          <Route path="/contacto" element={<ContactView />} />
+          <Route path="/empleos" element={<JobsView />} />
+          <Route path="/empleos/:jobId" element={<JobDetailView />} />
         </Route>
       </Routes>
     </BrowserRouter>

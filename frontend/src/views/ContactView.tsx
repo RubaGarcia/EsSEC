@@ -2,7 +2,8 @@ import { useState } from "react";
 import PersonalDisplay from "../components/Personal/PersonalDisplay";
 import { getContact } from "../api/ContactAPI";
 import { useQuery } from "@tanstack/react-query";
-import { PersonFields, ApiRequest, Cartridge, Entry } from "../types";
+import { PersonFields, ApiRequest, Cartridge, Entry, Blurb } from "../types";
+import { renderRichText } from "../helpers/RichTextProcessor";
 
 export default function ContactView() {
   const { data, isError, isLoading } : {data: undefined | ApiRequest, isError: null | boolean, isLoading: boolean}= useQuery({
@@ -21,7 +22,7 @@ export default function ContactView() {
   const personCartridge: Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>;
   const people : Entry<PersonFields>[]= personCartridge?.fields?.items as Entry<PersonFields>[];
 
-  console.log(JSON.stringify(people));
+  //console.log(JSON.stringify(people));
 
   function extractTeam(people: Entry<PersonFields>[]) {
     let team = ["All"];
@@ -30,12 +31,12 @@ export default function ContactView() {
         team.push(person.fields?.team);
       }
     });
-    console.log(team);
+    //console.log(team);
     return Array.from(new Set(team));
   }
 
   const teams = extractTeam(people);
-  console.log(teams);
+  //console.log(teams);
 
   // Mostrar todas las personas cuando el equipo seleccionado es "All"
   function extractPeople(people: Entry<PersonFields>[], team: string) {
@@ -45,17 +46,18 @@ export default function ContactView() {
 
   const peopleTeams = extractPeople(people, selectedTeam);
 
+  const blurbContact : Entry<Blurb> = data?.fields?.sections?.[1] as Entry<Blurb>
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-10 mx-auto">
         <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl dark:text-white">
-          our team
+          {blurbContact?.fields?.title}
         </h1>
 
         <p className="max-w-2xl mx-auto my-6 text-center text-gray-500 dark:text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo incidunt
-          ex placeat modi magni quia error alias, adipisci rem similique, at
-          omnis eligendi optio eos harum.
+        {blurbContact.fields?.textBlurb && <div dangerouslySetInnerHTML={{ __html: renderRichText(blurbContact.fields?.textBlurb) }} />}
+
         </p>
 
         <div className="flex items-center justify-center">

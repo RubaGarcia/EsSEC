@@ -17,7 +17,7 @@ export default function ProyectDetailView() {
 
 
 
-    console.log(data);
+    //console.log(data);
 
     // if (isLoading) {
     //   return <LoadingSpinner />;
@@ -27,6 +27,11 @@ export default function ProyectDetailView() {
       return <div>Error loading project details.</div>;
     }
   
+    function word(string: string, index:number){
+      return string.split(':')?.[index] 
+      ? string.split(':')?.[index]
+      : " "
+    }
     
 
 
@@ -49,24 +54,26 @@ return (
               </p>
               <div className="grid gap-6 mt-8 sm:grid-cols-2">
                 <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200 font-bold">
-                  Año:
-                  <span className="mx-3 text-blue-600 font-sans">1983</span>
+                  {data?.propertiesList?.[0] ? word(data?.propertiesList?.[0], 0) : ""}
+                  <span className="mx-3 text-blue-600 font-sans">
+                    {data?.propertiesList?.[0] ? word(data?.propertiesList?.[0], 1) : ""}
+                    </span>
                 </div>
 
                 <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200 font-bold">
-                  Industria:
+                {data?.propertiesList?.[1] ? word(data?.propertiesList?.[1], 0) : ""}
 
-                  <span className="mx-3 text-blue-600 font-sans">Utilities</span>
+                  <span className="mx-3 text-blue-600 font-sans">{data?.propertiesList?.[1] ? word(data?.propertiesList?.[1], 1) : ""}</span>
                 </div>
 
                 <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200 font-bold">
-                  Servicio: 
-                  <span className="mx-3  text-blue-600 font-sans">Auditoría</span>
+                {data?.propertiesList?.[2] ? word(data?.propertiesList?.[2], 0) : ""}
+                  <span className="mx-3  text-blue-600 font-sans">{data?.propertiesList?.[2] ? word(data?.propertiesList?.[2], 1) : ""}</span>
                 </div>
 
                 <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200 font-bold">
-                  Satisfacción: 
-                  <span className="mx-3  text-blue-600 font-sans">Muy alta</span>
+                {data?.propertiesList?.[2] ? word(data?.propertiesList?.[3], 0) : ""}
+                  <span className="mx-3  text-blue-600 font-sans">{data?.propertiesList?.[2] ? word(data?.propertiesList?.[3], 1) : ""}</span>
                 </div>
 
                 

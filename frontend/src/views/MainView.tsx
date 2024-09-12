@@ -3,7 +3,7 @@ import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
 import { PersonFields, ValuePropositionFields, Cartridge } from "../types";
-import type { ApiRequest, Entry, Blurb } from "../types";
+import type { ApiRequest, Blurb, Entry} from "../types";
 
 export default function MainView() {
   const {
@@ -17,20 +17,14 @@ export default function MainView() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const elements = data?.fields?.sections;
   console.log(data);
-  const characteristics = elements?.find(
-    (element: Entry<Cartridge> | Entry<Blurb>) =>
-      element.fields?.internalTitle === "characteristics",
-  );
-
-  const aux = characteristics as Entry<Blurb>;
 
   const heroCartridge: Entry<Cartridge> = data?.fields
     ?.sections?.[0] as Entry<Cartridge>;
+  
   const heroValueProp: Entry<ValuePropositionFields> = heroCartridge?.fields
     ?.items?.[0] as Entry<ValuePropositionFields>;
-  const texts: string[] = aux.fields?.list!;
+  const texts: string[] = heroValueProp.fields?.propertiesList!;
 
   const valuePropList: Entry<Cartridge> = data?.fields
     ?.sections?.[1] as Entry<Cartridge>;
@@ -67,9 +61,14 @@ export default function MainView() {
 
   const portFolioElements: Entry<ValuePropositionFields>[] =
     (valuePropList.fields?.items as Entry<ValuePropositionFields>[]) ?? [];
-  console.log(portFolioElements.length);
+  //console.log(portFolioElements.length);
 
   reviewer && listReview?.push(reviewer);
+
+  const blurb: Entry<Blurb> = data?.fields
+    ?.sections?.[3] as Entry<Blurb>;
+
+
 
   return (
     <>
@@ -77,7 +76,7 @@ export default function MainView() {
         <div className="w-full lg:w-1/2">
           <div className="lg:max-w-lg">
             <h1 className="text-3xl font-semibold tracking-wide text-gray-800 dark:text-white lg:text-4xl">
-              Easiest way to create your website
+              {heroValueProp.fields?.title}
             </h1>
 
             {texts.map((text: string, index: number) => (
@@ -118,7 +117,9 @@ export default function MainView() {
         elements={portFolioElements ? portFolioElements : []}
       />
 
-      <ReviewSlider reviewer={listReview} />
+      <ReviewSlider
+        blurb={blurb}
+        reviewer={listReview} />
     </>
   );
 }

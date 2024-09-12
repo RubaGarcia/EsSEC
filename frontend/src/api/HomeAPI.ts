@@ -3,7 +3,7 @@ import { isAxiosError } from "axios";
 
 export async function getPage() {
     
-    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const locale = localStorage.getItem('locale') || 'en-US'; // Default locale
     const params = { locale }; // Parámetro para la consulta GET
     
     try {

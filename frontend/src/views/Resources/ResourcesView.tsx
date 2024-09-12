@@ -16,7 +16,7 @@ export default function ResourcesView() {
 
   const cartridgeResources : Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>
   const resources  = cartridgeResources.fields?.items;
-  console.log(resources)
+  //console.log(resources)
 
   const resourcesTyped = resources?.map((resource) => {
   
@@ -29,7 +29,7 @@ export default function ResourcesView() {
     <section className="bg-white dark:bg-gray-900">
       <div className="container px-6 py-10 mx-auto">
         <h1 className="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
-          From the blog
+          {data.fields?.pageTitle?.substring(3)}
         </h1>
         <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
           {resourcesTyped?.map((resource, index) => (

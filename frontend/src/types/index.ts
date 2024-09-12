@@ -66,6 +66,8 @@ export interface FooterFields {
   newlesterCartridge?: Entry<NewlesterCartridgeFields>;
   logo?: Entry<Asset>;
   logoUrl?: string;
+  buttonNames?: string[]
+  newsletterTexts?: string[]
 }
 
 export interface NewlesterCartridgeFields {
@@ -207,7 +209,7 @@ export type ReviewFields = {
 export type Blurb = {
   internalTitle: string;
   title: string;
-  textBlurb: string;
+  textBlurb: RichText;
   list: string[]
 }
 

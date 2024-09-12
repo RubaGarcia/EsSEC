@@ -2,7 +2,7 @@ import { isAxiosError } from "axios";
 import api from "../lib/axios";
 
 export async function getContact() {
-    const locale = localStorage.getItem('locale') || 'en-ES'; // Default locale
+    const locale = localStorage.getItem('locale') || 'en-US'; // Default locale
     const params = { locale }; // Parámetro para la consulta GET
     try {
         const url = 'contact';

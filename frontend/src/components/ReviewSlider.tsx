@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { PersonFields, Entry } from "../types";
+import { PersonFields, Entry, Blurb } from "../types";
+import {renderRichText} from "../helpers/RichTextProcessor";
 
 type ReviewSliderProps = {
+  blurb:Entry<Blurb>,
   reviewer: Entry<PersonFields>[];
 };
 
-export default function ReviewSlider({ reviewer }: ReviewSliderProps) {
+export default function ReviewSlider({ blurb, reviewer }: ReviewSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const showPreviousReview = () => {
@@ -24,10 +26,15 @@ export default function ReviewSlider({ reviewer }: ReviewSliderProps) {
 
   return (
     <section className="bg-white dark:bg-gray-900">
-      <div className="container px-6 py-10 mx-auto">
+      <div className="container px-6 py-10 mx-auto space-y-10">
         <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl dark:text-white">
-          What clients are saying
+          {blurb.fields?.title}
         </h1>
+
+        <h2 className="text-lg text-center text-gray-200 ">
+          {blurb.fields?.textBlurb && <div dangerouslySetInnerHTML={{ __html: renderRichText(blurb.fields?.textBlurb) }} />}
+        </h2>
+      
 
         <div className="flex justify-center mx-auto mt-6">
           <span className="inline-block w-40 h-1 bg-blue-500 rounded-full"></span>

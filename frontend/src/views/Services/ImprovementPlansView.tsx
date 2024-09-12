@@ -22,7 +22,7 @@ export default function ImprovementPlansView() {
 
   const hero :Entry<ValuePropositionFields>=elements[0] as Entry<ValuePropositionFields>;
 
-  console.log(valuePropCartridge);
+  //console.log(valuePropCartridge);
   return (
     <>
         

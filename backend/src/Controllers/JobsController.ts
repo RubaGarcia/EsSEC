@@ -22,9 +22,20 @@ export class JobsController {
   static getJob = async (req: Request, res: Response) => {
     console.log(req.query); // Imprimir los parámetros de consulta (query params)
     const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
-    console.log(locale);
+    console.log("El local en el controller es:" +locale);
     try {
-      const jobId = req.params.JobId;
+
+      const entries = await getEntries("job", /* FIXME: locale */);
+      console.log(entries);
+      // Verifica si 'entries' es un array
+      if (Array.isArray(entries)) {
+        // Encuentra el trabajo que coincide con JobId
+        
+        const jobId = req.params.JobId;
+        if (!jobId) {
+          return res.status(400).json({ error: "JobId is required" });
+        }
+
 
       res.json(await getJobs(jobId))
     } catch (error) {
