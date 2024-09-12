@@ -35,10 +35,13 @@ export class JobsController {
         if (!jobId) {
           return res.status(400).json({ error: "JobId is required" });
         }
-
-
-      res.json(await getJobs(jobId))
-    } catch (error) {
+        
+        res.json(await getJobs(jobId))
+      }else{
+        res.status(404).json({ error: "Job not found" });
+      }
+      
+      } catch (error) {
       res.status(500).json({ error: error.message });
     }
   };
