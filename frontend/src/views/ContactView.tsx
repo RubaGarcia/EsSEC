@@ -22,7 +22,7 @@ export default function ContactView() {
   const personCartridge: Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>;
   const people : Entry<PersonFields>[]= personCartridge?.fields?.items as Entry<PersonFields>[];
 
-  console.log(JSON.stringify(people));
+  //console.log(JSON.stringify(people));
 
   function extractTeam(people: Entry<PersonFields>[]) {
     let team = ["All"];
@@ -31,12 +31,12 @@ export default function ContactView() {
         team.push(person.fields?.team);
       }
     });
-    console.log(team);
+    //console.log(team);
     return Array.from(new Set(team));
   }
 
   const teams = extractTeam(people);
-  console.log(teams);
+  //console.log(teams);
 
   // Mostrar todas las personas cuando el equipo seleccionado es "All"
   function extractPeople(people: Entry<PersonFields>[], team: string) {

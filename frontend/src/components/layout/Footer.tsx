@@ -28,7 +28,7 @@ export default function Footer() {
 
   useEffect(() => {
     if (localFooter === null || data?.sys?.locale !== JSON.parse(localFooter)?.sys?.locale && data) {
-      if (data?.fields && data.fields.footer) {
+      if (data?.fields && data?.fields.footer) {
         footerObject = data.fields.footer;
         sessionStorage.setItem("Footer", JSON.stringify(footerObject));
         setLocalFooter(JSON.stringify(footerObject));
@@ -83,7 +83,7 @@ export default function Footer() {
 
     // mutation(formData);
     const result = await mutation.mutateAsync(formData);
-    console.log(result);
+    console.log("El resultado de la mutación del footer es: " +result);
   }
 
   function validateEmail(email: string) {

@@ -28,7 +28,7 @@ export default function JobsView() {
   if(!data){
     console.log("data is null")
   }
-  console.log(data);
+  //console.log(data);
   if (isLoading) return <p>Loading...</p>;
   if (isError || !data) return <p>Error loading data...</p>;
 
@@ -62,7 +62,7 @@ export default function JobsView() {
         // applicants: element?.fields?.applicants,
       },
     };
-    console.log(job);
+    //console.log(job);
     jobs.push(job);
   });
 

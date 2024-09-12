@@ -16,7 +16,7 @@ export default function ResourcesView() {
 
   const cartridgeResources : Entry<Cartridge> = data?.fields?.sections?.[0] as Entry<Cartridge>
   const resources  = cartridgeResources.fields?.items;
-  console.log(resources)
+  //console.log(resources)
 
   const resourcesTyped = resources?.map((resource) => {
   

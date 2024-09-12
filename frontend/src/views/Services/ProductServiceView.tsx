@@ -28,7 +28,7 @@ export default function ProductServiceView() {
 
   const valuePropCartridge: Entry<Cartridge>= data?.fields?.sections?.[0] as Entry<Cartridge>;
 
-  console.log(JSON.stringify(data))
+  //console.log(JSON.stringify(data))
 
   const hero: ValuePropositionFields = valuePropCartridge?.fields?.items?.[0].fields as ValuePropositionFields; 
 
