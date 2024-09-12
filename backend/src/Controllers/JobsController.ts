@@ -25,18 +25,18 @@ export class JobsController {
     console.log("El local en el controller es:" +locale);
     try {
 
-      const entries = await getEntries("job", /* FIXME: locale */);
-      console.log(entries);
+      const jobId = req.params.JobId;
+      const entries = await getJobs(jobId, locale);
+      //console.log(entries);
       // Verifica si 'entries' es un array
-      if (Array.isArray(entries)) {
+      if (entries) {
         // Encuentra el trabajo que coincide con JobId
         
-        const jobId = req.params.JobId;
         if (!jobId) {
           return res.status(400).json({ error: "JobId is required" });
         }
         
-        res.json(await getJobs(jobId))
+        res.json(entries)
       }else{
         res.status(404).json({ error: "Job not found" });
       }
