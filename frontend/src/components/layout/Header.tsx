@@ -43,7 +43,7 @@ export default function Header() {
 
   const handleLanguageChange = (language: string) => {
     // console.log(language);
-    //console.log(selectedLanguage)
+    console.log("El lenguaje seleccionado en el header es :" + selectedLanguage)
     let idioma="es"
     if(language === "Spanish"){
       idioma="es"

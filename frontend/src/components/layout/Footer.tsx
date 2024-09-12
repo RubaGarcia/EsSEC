@@ -83,7 +83,7 @@ export default function Footer() {
 
     // mutation(formData);
     const result = await mutation.mutateAsync(formData);
-    //console.log(result);
+    console.log("El resultado de la mutación del footer es: " +result);
   }
 
   function validateEmail(email: string) {
