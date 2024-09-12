@@ -92,7 +92,7 @@ export default function JobDetailView() {
       case 'en-US':
         return "Work with"
       default:
-        return "Locale error"
+        return "Work with"
     }
   }
   function textUs(locale:string){
@@ -102,7 +102,7 @@ export default function JobDetailView() {
       case 'en-US':
         return "Us"
       default:
-        return "Locale error"
+        return "Us"
     }
   }
 
@@ -113,7 +113,7 @@ export default function JobDetailView() {
       case 'en-US':
         return "Job offers"
       default:
-        return "Locale error"
+        return "Job offers"
     }
   }
   
@@ -125,7 +125,7 @@ export default function JobDetailView() {
       case 'en-US':
         return "Apply now"
       default:
-        return "Locale error"
+        return "Apply now"
     }
   }
 
@@ -136,7 +136,7 @@ export default function JobDetailView() {
       case 'en-US':
         return "Loading Description..."
       default:
-        return "Locale error"
+        return "Loading Description..."
     }
   }
 
