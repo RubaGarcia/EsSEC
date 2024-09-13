@@ -19,13 +19,7 @@ const getProjectsByType = (data: ApiRequest | undefined, type: string) => {
         );
 
         filteredItems.forEach((item) => {
-          const element: ValuePropositionFields = {
-            internalTitle: "",
-            title: item.fields?.title || "",
-            type: item.fields?.type,
-            headline: item.fields?.headline || "",
-            icon: item.fields?.icon!,
-          };
+          const element: ValuePropositionFields = item.fields!
 
           if (item.sys) {
             ids.push(item?.sys?.id!);

@@ -1,4 +1,5 @@
 import { Resource, ValuePropositionFields, Entry, ProductServiceTileFields } from "../../types";
+import { renderRichText } from "../../helpers/RichTextProcessor";
 
 export default function ResourceElement(data:Resource) {
 
@@ -11,6 +12,7 @@ let imageIcon;
 let url;
 let title;
 let date;
+let body;
 
 //Asina los valores a usar accediendo a ellos según el tipo del elemento
 switch (contentType){
@@ -20,6 +22,7 @@ switch (contentType){
     url= valueProp.fields?.url ?? "/resources";
     title= valueProp.fields?.title;
     date= valueProp.fields?.date ? new Date(valueProp.fields?.date).toLocaleDateString() : "";
+    body= valueProp?.fields?.body;
     break;
   case "productTile":
     const productTile : Entry<ProductServiceTileFields>= data.element as Entry<ProductServiceTileFields>
@@ -27,6 +30,7 @@ switch (contentType){
     url= productTile.fields?.url ?? "/resources" ;
     title= productTile.fields?.title;
     date= productTile.fields?.date ? new Date(productTile.fields?.date).toLocaleDateString() : "";
+    body= productTile.fields?.ctaText;
     break;
   default:
     console.log("Error, el valor introducido por el switch fue: "+ contentType)
@@ -53,7 +57,21 @@ switch (contentType){
         {title}
         </a>
 
-        <span className="text-sm text-gray-500 dark:text-gray-300">
+        
+
+        <span className="text-sm text-gray-500 dark:text-gray-300 line-clamp-5">
+        <div>
+        {body && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: renderRichText(body),
+                  }}
+                />
+              )}
+        </div>
+        </span>
+
+        <span className="text-sm text-gray-500 dark:text-blue-300">
           {date}
         </span>
       </div>
