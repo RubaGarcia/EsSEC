@@ -20,20 +20,16 @@ export default function AuditoryServiceView() {
   const hero: Entry<ValuePropositionFields> = cartridgeHero.fields?.items?.[0] as Entry<ValuePropositionFields>;
 
 
-  const reviews:  Entry<PersonFields>[] = []
 
   const cartridgeServices: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
   const productos : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
   
 
-  productos.forEach((item: Entry<PersonFields>) => {
-
-    item.metadata?.tags?.forEach((tag: EntryLink<PersonFields>) =>{
-      if(tag.sys.id ==='client'){
-        reviews.push(item);
-      }
-    })
-  })
+  const reviews:  Entry<PersonFields>[] = productos.filter((item: Entry<PersonFields>) => 
+    item.metadata?.tags?.find((tag: EntryLink<PersonFields>) => tag.sys.id === 'client')
+  );
+  
+  
 
 
 
