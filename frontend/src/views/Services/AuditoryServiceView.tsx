@@ -22,10 +22,10 @@ export default function AuditoryServiceView() {
 
 
   const cartridgeServices: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
-  const productos : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
+  const personas : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
   
 
-  const reviews:  Entry<PersonFields>[] = productos.filter((item: Entry<PersonFields>) => 
+  const reviews:  Entry<PersonFields>[] = personas.filter((item: Entry<PersonFields>) => 
     item.metadata?.tags?.find((tag: EntryLink<PersonFields>) => tag.sys.id === 'client')
   );
   

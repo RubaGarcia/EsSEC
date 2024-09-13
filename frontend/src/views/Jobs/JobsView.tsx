@@ -4,11 +4,15 @@ import Hero from "../../components/Jobs/Hero";
 import JobItem from "../../components/Jobs/JobItem";
 import type {
   ApiRequest,
+  EntryLink,
+  PersonFields,
   Entry,
   Cartridge,
   ValuePropositionFields,
   JobFields,
 } from "../../types";
+
+import TestimonialJobs from "../../components/Jobs/TestimonialJobs";
 
 export default function JobsView() {
   const {
@@ -69,6 +73,14 @@ export default function JobsView() {
     jobs.push(job);
   });
 
+  const cartridgePersonas: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
+  const personas : Entry<PersonFields>[] = cartridgePersonas?.fields?.items as Entry<PersonFields>[];
+  
+
+  const reviews:  Entry<PersonFields>[] = personas.filter((item: Entry<PersonFields>) => 
+    item.metadata?.tags?.find((tag: EntryLink<PersonFields>) => tag.sys.id === 'worker')
+  );
+
   return (
     <>
       <Hero hero={hero} />
@@ -80,6 +92,7 @@ export default function JobsView() {
           ))}
           {/* <JobItem /> */}
         </div>
+        <TestimonialJobs reviews={reviews}/>
       </div>
     </>
   );
