@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAuditories } from "../../api/ServicesAPI";
 import HeroAuditories from "../../components/Services/auditories/HeroAuditories";
 import TestimonialAuditories from "../../components/Services/auditories/TestimonialAuditories";
-import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, PersonFields, Blurb} from "../../types";
+import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, PersonFields, Blurb, EntryLink} from "../../types";
 import { renderRichText } from "../../helpers/RichTextProcessor";
 
 export default function AuditoryServiceView() {
@@ -28,8 +28,11 @@ export default function AuditoryServiceView() {
 
   productos.forEach((item: Entry<PersonFields>) => {
 
-
-    reviews.push(item);
+    item.metadata?.tags?.forEach((tag: EntryLink<PersonFields>) =>{
+      if(tag.sys.id ==='client'){
+        reviews.push(item);
+      }
+    })
   })
 
 

@@ -108,14 +108,14 @@ interface Link<T> {
 
 export interface Entry<T> {
   metadata?: {
-    tags?: Array<any>;
+    tags?: EntryLink<T>[];
   };
   sys?: Sys;
   fields?: T;
 }
 
 //interface EntryLink<T> extends Link<T> { }
-interface EntryLink<T> {
+export interface EntryLink<T> {
   sys: Link<T>
  }
 
