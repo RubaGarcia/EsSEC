@@ -234,124 +234,13 @@ export type Resource = {
 
 
 
-//----------------------- Possibly unnecesary -----------------
+//----------------------- Localization -----------------
 
-/* export type Job = {
-  sys: sys;
-  fields: JobFields;
-};
-
-export type Person =  {
-  sys: sys;
-  fields: PersonFields;
-};
-
-export type Review = {
-  sys: sys;
-  fields: ReviewFields;
-};
-
-export type PersonReview = {
-  sys?: sys;
-  fields: PersonFieldsReview;
-};
-
-
-export type heroElement={
-  body?:RichText
-  headline?:string
-  icon?:string
-  title:string
+export interface Dictionary<T> {
+  [Key: string]: T;
 }
 
-export type ResourceFields = {
-  body: RichText;
-  headline: string;
-  icon: string ;
-  title: string ;
-  type: string ;
-  date: string;
-  url: string;
-};
-
-export type servicePreview = {
-  sys: sys;
-  fields: servicePreviewFields;
+export type URLtranslation ={
+  enUS: string;
+  es: string;
 }
-
-export type servicePreviewFields = {
-  title: string;
-  ctaText: string;
-  internalTitle: string;
-  url: string;
-  date?: string;
-}
-
-
-export type PropertiesCardType = {
-  body:RichText,
-  headline:string,
-  title:string
-}
-
-export type contactPersonElement = {
-  sys: sys;
-  fields: contactPersonFields;
-}
-
-export type contactPersonFields = {
-  image?: string;
-  name: string;
-  email?: string;
-  review?:Entry<ReviewFields>;
-  job:Job;
-  team: string;
-}
-
-
-
-export type PersonFieldsReview = {
-  image?: string; 
-  name: string;
-  email?: string;
-  review: Entry<ReviewFields>;
-  job?: Job;
-};
-
-export type PortfolioElement = {
-  sys: sys;
-  fields: PortfolioFieldElement;
-};
-export type PortfolioFieldElement = {
-  internalTitle: string;
-  body?: RichText;
-  title: string;
-  headline: string;
-  type?: string;
-  icon: string;
-};
-
-export type sys = {
-  contentType: {
-    sys: {
-      id: string;
-      linkType: string;
-      type: string;
-    };
-  };
-
-  id: string;
-  locale: string;
-  revision: number;
-  // contentType:EntryLink<ContentType>
-};
-
-export type ContentNodeRT = {
-  data: Record<string, any>;
-  content?: ContentNodeRT[];
-  marks?: any[];
-  value?: string;
-  nodeType: string;
-};
-
- */
