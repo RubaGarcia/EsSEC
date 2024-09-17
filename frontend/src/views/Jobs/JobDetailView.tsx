@@ -40,7 +40,7 @@ export default function JobDetailView() {
 
     formData.append("applicantsList", data.applicants.sys?.id ?? "");
 
-    localStorage.setItem("formData", JSON.stringify(Userdata));
+    // localStorage.setItem("formData", JSON.stringify(Userdata));
 
     toast("Datos enviados con éxito", { type: "success" });
     applyJob({ formData, jobId: "job" })
@@ -57,6 +57,9 @@ export default function JobDetailView() {
   const params = useParams();
   const jobId = params.jobId!;
 
+  // const locale = localStorage.getItem("locale") || "en-US";
+
+
   const {
     data,
     isError,
@@ -67,7 +70,7 @@ export default function JobDetailView() {
     isLoading: boolean;
   } = useQuery({
     queryKey: ["JobDetailPage", jobId],
-    queryFn: () => getJobById({ JobId: jobId }),
+    queryFn: () => getJobById({ JobId: jobId}),
     retry: 10,
   });
 

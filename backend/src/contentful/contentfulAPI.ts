@@ -1,5 +1,5 @@
 import { deliveryClient as client } from "../config/contentfulClient";
-
+import colors from "colors" 
 // Obtener un espacio
 export async function getSpace() {
   const space = await client.getSpace();
@@ -14,18 +14,29 @@ export async function getSpace() {
  * valores permitidos: los retornados por getContentTypes, internalTitle es opcional
  * @returns la entry de contentful
  */
-export async function getEntries(contentType: string, internalTitle?: string, locale: string = "en-US")  {
-  
+export async function getEntries(contentType: string, internalTitle?: string, locale: string = "es" )  {
+
+  console.log(colors.bgRed(locale))
+
   if (locale !== "en-US" && locale !== "es") {
     locale = "en-US";
   }
-  console.log("El local en la api es: " +locale)
+  console.log("El local en la api es: " + locale)
   try {
-    const entries = await client.getEntries({
-      content_type: contentType,
-      include: 10,
-      locale: locale
-    });
+    
+    
+      const entries = await client.getEntries({
+        content_type: contentType,
+        include: 10,
+        locale: locale
+      });
+    
+      if (entries.items.length === 0 && locale ==="es") {
+        console.log("NO HAY COSAS EN ESPAÑOL")
+      }
+
+    
+    // console.log(entries.items);
     return internalTitle
       ? entries.items.find(
           (entry) => entry.fields.internalTitle === internalTitle,

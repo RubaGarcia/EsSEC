@@ -24,22 +24,21 @@ export class JobsController {
     const locale = (req.query.locale as string) || "en-US"; // Obtener el parámetro 'locale' desde req.query
     console.log("El local en el controller es:" +locale);
     try {
-
-      const entries = await getEntries("job", /* FIXME: locale */);
-      console.log(entries);
-      // Verifica si 'entries' es un array
-      if (Array.isArray(entries)) {
-        // Encuentra el trabajo que coincide con JobId
-        
+      
+        // Encuentra el trabajo que coincide con JobI
         const jobId = req.params.JobId;
         if (!jobId) {
-          return res.status(400).json({ error: "JobId is required" });
+          throw new Error("JobId is required");
         }
+        const job = await getJobs(jobId, locale);
+        if (job === undefined) {
+          console.log("No hay trabajo")
+        } else if(locale === undefined){
+          console.log("No hay local")
+        }
+        // console.log(job)
+        res.json(job)
         
-        res.json(await getJobs(jobId))
-      }else{
-        res.status(404).json({ error: "Job not found" });
-      }
       
       } catch (error) {
       res.status(500).json({ error: error.message });

@@ -8,7 +8,7 @@ services:
     networks:
       - app-network
     environment:
-      - FRONTEND_URL=http://frontend:5173
+      - FRONTEND_URL=http://localhost:5173
       - SPACE=k9voop8uf94b
       - ENVIRONMENT=dev-1
       - CDA_TOKEN=dVkwzvA0LUKDn83NgGkvwo_HMf9rV8TzfWjpd6nJizI
@@ -22,7 +22,7 @@ services:
     networks:
       - app-network
     environment:
-      - VITE_API_URL=http://backend:4000/api # Asegúrate de que esto coincida con el puerto en el backend
+      - VITE_API_URL=http://localhost:6123/api # Asegúrate de que esto coincida con el puerto en el backend
 
 networks:
   app-network:
