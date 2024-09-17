@@ -244,3 +244,7 @@ export type URLtranslation ={
   enUS: string;
   es: string;
 }
+
+export interface localeProp {
+  locale: string; // O el tipo que necesites
+}

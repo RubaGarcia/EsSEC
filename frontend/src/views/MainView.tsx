@@ -3,9 +3,11 @@ import PortfolioDisplay from "../components/PortfolioDisplay";
 import ReviewSlider from "../components/ReviewSlider";
 import { getPage } from "../api/HomeAPI";
 import { PersonFields, ValuePropositionFields, Cartridge } from "../types";
-import type { ApiRequest, Blurb, Entry} from "../types";
+import type { ApiRequest, Blurb, Entry, localeProp} from "../types";
 
-export default function MainView() {
+
+
+export default function MainView(locale:localeProp) {
   const {
     data /* ,error */,
     isLoading,
