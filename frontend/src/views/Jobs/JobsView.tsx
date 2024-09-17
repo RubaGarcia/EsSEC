@@ -4,11 +4,15 @@ import Hero from "../../components/Jobs/Hero";
 import JobItem from "../../components/Jobs/JobItem";
 import type {
   ApiRequest,
+  EntryLink,
+  PersonFields,
   Entry,
   Cartridge,
   ValuePropositionFields,
   JobFields,
 } from "../../types";
+
+import TestimonialJobs from "../../components/Jobs/TestimonialJobs";
 
 export default function JobsView() {
   const {
@@ -43,6 +47,9 @@ export default function JobsView() {
     headline: valueProp0.fields?.headline ?? "",
     icon: valueProp0.fields?.icon,
     title: valueProp0.fields?.title ?? "",
+    url: valueProp0.fields?.url ?? "",
+    type: valueProp0.fields?.type ?? "",
+
   };
 
   const jobs: Entry<JobFields>[] = [];
@@ -66,6 +73,14 @@ export default function JobsView() {
     jobs.push(job);
   });
 
+  const cartridgePersonas: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
+  const personas : Entry<PersonFields>[] = cartridgePersonas?.fields?.items as Entry<PersonFields>[];
+  
+
+  const reviews:  Entry<PersonFields>[] = personas.filter((item: Entry<PersonFields>) => 
+    item.metadata?.tags?.find((tag: EntryLink<PersonFields>) => tag.sys.id === 'worker')
+  );
+
   return (
     <>
       <Hero hero={hero} />
@@ -73,10 +88,11 @@ export default function JobsView() {
       <div className="space-y-3 mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col space-y-10">
           {jobs.map((job: Entry<JobFields>) => (
-            <JobItem key={job.sys?.id} job={job} />
+            <JobItem key={job.sys?.id} job={job} hero={hero} />
           ))}
           {/* <JobItem /> */}
         </div>
+        <TestimonialJobs reviews={reviews}/>
       </div>
     </>
   );

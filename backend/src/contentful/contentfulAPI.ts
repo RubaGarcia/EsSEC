@@ -48,7 +48,7 @@ export async function getEntries(contentType: string, internalTitle?: string, lo
   }
   
 }
-
+/* 
 async function getContentTypes() {
   const contentTypes = await client.getContentTypes();
   return contentTypes.items.map((type) => type.sys.id);
@@ -60,3 +60,4 @@ async function getLocales(){
   .catch(console.error)
   return locales
 }
+ */

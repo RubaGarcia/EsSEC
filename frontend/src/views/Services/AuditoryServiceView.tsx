@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAuditories } from "../../api/ServicesAPI";
 import HeroAuditories from "../../components/Services/auditories/HeroAuditories";
 import TestimonialAuditories from "../../components/Services/auditories/TestimonialAuditories";
-import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, PersonFields, Blurb} from "../../types";
+import type { ApiRequest, Cartridge, Entry, ValuePropositionFields, PersonFields, Blurb, EntryLink} from "../../types";
 import { renderRichText } from "../../helpers/RichTextProcessor";
 
 export default function AuditoryServiceView() {
@@ -20,17 +20,16 @@ export default function AuditoryServiceView() {
   const hero: Entry<ValuePropositionFields> = cartridgeHero.fields?.items?.[0] as Entry<ValuePropositionFields>;
 
 
-  const reviews:  Entry<PersonFields>[] = []
 
   const cartridgeServices: Entry<Cartridge>= data?.fields?.sections?.[1] as Entry<Cartridge>;
-  const productos : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
+  const personas : Entry<PersonFields>[] = cartridgeServices?.fields?.items as Entry<PersonFields>[];
   
 
-  productos.forEach((item: Entry<PersonFields>) => {
-
-
-    reviews.push(item);
-  })
+  const reviews:  Entry<PersonFields>[] = personas.filter((item: Entry<PersonFields>) => 
+    item.metadata?.tags?.find((tag: EntryLink<PersonFields>) => tag.sys.id === 'client')
+  );
+  
+  
 
 
 

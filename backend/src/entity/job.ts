@@ -6,13 +6,9 @@ import {
 import colors from "colors"; // Import the 'colors' module
 import { getEntries } from "../contentful/contentfulAPI";
 
-export async function getJobs(jobId: string, locale?: string) {
-  if (locale === undefined){
-    console.log ("No hay local")
-  }
-  console.log(locale)
-  const entries = await getEntries("job", locale);
-  // console.log(entries);
+export async function getJobs(jobId: string, locale: string) {
+  const entries = await getEntries("job", undefined, locale);
+  
   // Verifica si 'entries' es un array
   
   if (Array.isArray(entries)) {
@@ -20,7 +16,10 @@ export async function getJobs(jobId: string, locale?: string) {
       throw new Error("JobId is required");
     }
 
+    //console.log(entries);
     const job = entries.find((entry) => entry.sys.id === jobId);
+
+    console.log(job)
 
     if (!job) {
       throw new Error("Job not found");
