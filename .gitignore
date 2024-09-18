@@ -1,5 +1,9 @@
+#python
+.venv/
+!llamada_periodica.py
+
 #docker compose
-docker-compose.yml
+#docker-compose.yml
 
 #folder with pdfs
 uploads/
