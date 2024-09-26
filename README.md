@@ -1,49 +1,5 @@
 # EsSEC
 
-EsSec es un proyecto orientado a la búsqueda de soluciones de ciberseguridad, realizaremos una página utilizando contentful como principal gestor de contenidos.
+El trabajo se enmarca en unas prácticas externas extra-curriculares en la empresa Incentro, y consistirá en el desarrollo de una página de contacto para una empresa emulada. El objetivo de la página será centralizar la entrada de nuevos clientes y dar a conocer la empresa para promover su crecimiento. El proyecto abordará el diseño desde cero, trabajando en tres capas principales: Frontend, Backend y Base de Datos. El Frontend gestionará las vistas y secciones solicitadas por el cliente, mientras que el Backend y la Base de Datos se actualizarán para soportar las funcionalidades y almacenar tanto los datos ingresados por los usuarios como la configuración del Frontend. Se utilizará la metodología Agile para el desarrollo, con reuniones periódicas para asegurar que la funcionalidad entregada cumpla con las expectativas del cliente.
 
-## Índice
-
-## Estructura de la página
-### Header
-
-#### Recursos
-
-Lista con los diversos items de la página, con una imagen, un título, un indicador de que servicio es y un resumen
-
-#### Proyectos
-
-Una lista de casos de éxito, teniendo una descripción, una review y un nombre del cliente
-
-#### Servicios
-
-Resumen de cada servicio que se venda, con entries que den acceso a las views de los diferentes servicios
-
-EN CADA SERVICIO UN BREADCRUMB QUE INDIQUE DONDE SE ESTÁ
-
-
-##### Auditorias
-Elemento en mayor detalle
-##### Producto
-Elemento en mayor detalle
-##### Mantenimiento
-Elemento en mayor detalle
-
-##### Planes de mejora
-
-Elemento en mayor detalle
-#### Nosotros
-
-Una view con imagenes del "equipo" teniendo pequeñas descripciones, comentarios indicando de donde viene l empresa, sus objetivos y como los pretende conseguir
-
-#### Kit digital
-
-Una view indicando los diferentes servicios que existen como bundle con precios y demás
-
-
-#### Jobs
-
-un conjunto de entradas que ofrecen ciertos puestos de trabajajo en la empresa, cada puesto tiene un froms en el que se puede guaardar la entry
-
-### Vistas Principales
-### Footer
+En cuanto a la arquitectura técnica, se implementará una estructura de tres niveles, con el Frontend desarrollado en React y TypeScript, y el Backend también en TypeScript. Además, se hará uso de APIs para la interacción con el sistema de gestión de contenidos (CMS) y se empleará Git para el control de versiones, junto con herramientas como SonarQube y Jest para garantizar la calidad del código. Adicionalmente, tanto el Frontend como el Backend estarán gestionados a través de contenedores Docker, garantizando así un entorno aislado y reproducible para su despliegue y operación.
